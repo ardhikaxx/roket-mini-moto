@@ -5,4 +5,10 @@ class Store extends Model {
     protected $guarded = [];
     public function users() { return $this->belongsToMany(User::class, 'user_stores'); }
     public function salesReports() { return $this->hasMany(SalesReport::class); }
+    public function getKepalaTokoAttribute() {
+        return $this->users()->where('role', 'kepala_toko')->first();
+    }
+    public function getKaryawanCountAttribute() {
+        return $this->users()->where('role', 'karyawan')->count();
+    }
 }
