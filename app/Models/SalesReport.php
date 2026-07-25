@@ -7,4 +7,5 @@ class SalesReport extends Model {
     public function store() { return $this->belongsTo(Store::class); }
     public function items() { return $this->hasMany(SalesReportItem::class); }
     public function images() { return $this->hasMany(SalesReportImage::class); }
+    public function statusHistories() { return $this->hasMany(ReportStatusHistory::class); }
 }
