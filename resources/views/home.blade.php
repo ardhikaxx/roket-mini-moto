@@ -95,97 +95,41 @@
                 
                 <div class="d-flex flex-wrap justify-content-center mt-4">
                     <button class="filter-btn active" data-filter="all">Semua</button>
-                    <button class="filter-btn" data-filter="trail">Mini Trail</button>
-                    <button class="filter-btn" data-filter="mobil">Mobil Aki</button>
-                    <button class="filter-btn" data-filter="atv">ATV Mini</button>
+                    @foreach(\App\Models\Category::all() as $category)
+                        <button class="filter-btn" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
+                    @endforeach
                 </div>
             </div>
 
             <div class="row g-4" id="productGrid">
                 
-                <!-- Product 1 -->
-                <div class="col-12 col-md-4 col-lg-3 product-item" data-category="trail" style="transition: all 0.3s ease;">
+                @forelse($products as $product)
+                <!-- Dynamic Product -->
+                <div class="col-12 col-md-4 col-lg-3 product-item" data-category="{{ $product->category->slug ?? 'umum' }}" style="transition: all 0.3s ease;">
                     <div class="product-card">
                         <div class="product-img-wrap">
-                            <span class="badge-category">Mini Trail</span>
-                            <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" alt="Mini Trail Race Edition" class="img-fluid">
+                            <span class="badge-category">{{ $product->category->name ?? 'Produk' }}</span>
+                            <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/mini-trail-1.jpg') }}" alt="{{ $product->name }}" class="img-fluid">
                         </div>
                         <div class="product-body">
-                            <h3 class="product-title fw-bold">Mini Trail Race Edition</h3>
-                            <p class="product-desc">Desain sporty, mesin bertenaga, sangat cocok untuk pemula yang menyukai tantangan.</p>
+                            <h3 class="product-title fw-bold">{{ $product->name }}</h3>
+                            <p class="product-desc">{{ Str::limit($product->description ?? 'Deskripsi produk belum tersedia.', 80) }}</p>
                             <div class="d-flex align-items-center mb-3 text-success small fw-bold">
                                 <i class="fa-solid fa-check-circle me-1"></i> Full Garansi
                             </div>
+                            <h5 class="fw-bold mb-3" style="color: #000;">Rp {{ number_format($product->price, 0, ',', '.') }}</h5>
                             <div class="d-flex justify-content-between align-items-center">
-                                <a href="https://wa.me/6282335465000?text=Halo%20min,%20saya%20mau%20tanya%20harga%20untuk%20Mini%20Trail%20Race%20Edition" target="_blank" class="btn btn-primary-custom w-100 me-2 py-2" style="font-size: 0.9rem;">Tanya Harga</a>
-                                <a href="{{ route('produk.detail', ['id' => 'mini-trail-50cc']) }}" class="btn btn-outline-custom px-3 py-2 btn-detail" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
+                                <a href="https://wa.me/6282335465000?text=Halo%20min,%20saya%20mau%20tanya%20produk%20{{ rawurlencode($product->name) }}" target="_blank" class="btn btn-primary-custom w-100 me-2 py-2" style="font-size: 0.9rem;">Tanya Stok</a>
+                                <a href="{{ route('produk.detail', ['id' => $product->id]) }}" class="btn btn-outline-custom px-3 py-2 btn-detail" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Product 2 -->
-                <div class="col-12 col-md-4 col-lg-3 product-item" data-category="mobil" style="transition: all 0.3s ease;">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <span class="badge-category">Mobil Aki</span>
-                            <img src="{{ asset('assets/images/mobil-aki-1.jpg') }}" alt="Mobil Aki Off-Road Kids" class="img-fluid">
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title fw-bold">Mobil Aki Off-Road Kids</h3>
-                            <p class="product-desc">Mobil aki berdesain SUV gagah dengan lampu LED, remote control, dan suspensi nyaman.</p>
-                            <div class="d-flex align-items-center mb-3 text-success small fw-bold">
-                                <i class="fa-solid fa-check-circle me-1"></i> Full Garansi
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="https://wa.me/6282335465000?text=Halo%20min,%20saya%20mau%20tanya%20harga%20untuk%20Mobil%20Aki%20Off-Road%20Kids" target="_blank" class="btn btn-primary-custom w-100 me-2 py-2" style="font-size: 0.9rem;">Tanya Harga</a>
-                                <a href="{{ route('produk.detail', ['id' => 'mobil-aki-rubicon']) }}" class="btn btn-outline-custom px-3 py-2 btn-detail" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                @empty
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">Belum ada produk yang tersedia saat ini.</p>
                 </div>
-
-                <!-- Product 3 -->
-                <div class="col-12 col-md-4 col-lg-3 product-item" data-category="atv" style="transition: all 0.3s ease;">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <span class="badge-category">ATV Mini</span>
-                            <img src="{{ asset('assets/images/atv-mini-1.jpg') }}" alt="ATV Mini Adventure" class="img-fluid">
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title fw-bold">ATV Mini Adventure</h3>
-                            <p class="product-desc">Kendaraan roda empat mini yang stabil, aman untuk anak, dan mampu melibas medan ringan.</p>
-                            <div class="d-flex align-items-center mb-3 text-success small fw-bold">
-                                <i class="fa-solid fa-check-circle me-1"></i> Full Garansi
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="https://wa.me/6282335465000?text=Halo%20min,%20saya%20mau%20tanya%20harga%20untuk%20ATV%20Mini%20Adventure" target="_blank" class="btn btn-primary-custom w-100 me-2 py-2" style="font-size: 0.9rem;">Tanya Harga</a>
-                                <a href="{{ route('produk.detail', ['id' => 'atv-mini-110cc']) }}" class="btn btn-outline-custom px-3 py-2 btn-detail" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="col-12 col-md-4 col-lg-3 product-item" data-category="trail" style="transition: all 0.3s ease;">
-                    <div class="product-card">
-                        <div class="product-img-wrap">
-                            <span class="badge-category">Mini Trail</span>
-                            <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" alt="Mini Dirt Bike Pro" class="img-fluid" style="filter: hue-rotate(90deg);">
-                        </div>
-                        <div class="product-body">
-                            <h3 class="product-title fw-bold">Mini Dirt Bike Pro</h3>
-                            <p class="product-desc">Varian profesional dari mini trail dengan shockbreaker premium dan ban pacul berkualitas.</p>
-                            <div class="d-flex align-items-center mb-3 text-success small fw-bold">
-                                <i class="fa-solid fa-check-circle me-1"></i> Full Garansi
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="https://wa.me/6282335465000?text=Halo%20min,%20saya%20mau%20tanya%20harga%20untuk%20Mini%20Dirt%20Bike%20Pro" target="_blank" class="btn btn-primary-custom w-100 me-2 py-2" style="font-size: 0.9rem;">Tanya Harga</a>
-                                <a href="{{ route('produk.detail', ['id' => 'mini-trail-50cc']) }}" class="btn btn-outline-custom px-3 py-2 btn-detail" title="Lihat Detail"><i class="fa-solid fa-eye"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
 
             </div>
         </div>
