@@ -496,7 +496,7 @@
         <div class="container cta-content">
             <h2 class="fw-bold display-5 mb-4">Siap Membawa Pulang Kendaraan Mini Impianmu?</h2>
             <p class="lead mb-5 max-w-700 mx-auto" style="max-width: 700px;">Jangan ragu untuk menghubungi tim kami. Kami siap membantu Anda memilih kendaraan mini yang paling tepat dan sesuai dengan budget Anda.</p>
-            <a href="https://wa.me/628xxxxxxxxxx" class="btn btn-primary-custom btn-lg">
+            <a href="https://wa.me/6282335465000" class="btn btn-primary-custom btn-lg">
                 <i class="fa-brands fa-whatsapp me-2"></i> Konsultasi Sekarang
             </a>
         </div>
@@ -542,7 +542,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <a href="https://wa.me/628xxxxxxxxxx" target="_blank" class="btn w-100 fw-bold py-3 rounded-pill shadow" style="background-color: #25d366; color: white; border: none; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                            <a href="https://wa.me/6282335465000" target="_blank" class="btn w-100 fw-bold py-3 rounded-pill shadow" style="background-color: #25d366; color: white; border: none; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
                                 <i class="fa-brands fa-whatsapp fs-5 me-2 align-middle"></i> <span class="align-middle">Chat via WhatsApp</span>
                             </a>
                         </div>
