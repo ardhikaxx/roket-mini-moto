@@ -1,0 +1,68 @@
+@extends('layouts.admin')
+@section('title', 'Edit Pengguna')
+@section('content')
+<h2 class="fw-bold mb-4">Edit Pengguna: {{ $user->name }}</h2>
+<div class="card shadow-sm p-4 border-0">
+    <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
+        @csrf @method('PUT')
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Nama Lengkap <span class="text-danger">*</span></label>
+                <input type="text" name="name" class="form-control" required value="{{ old('name', $user->name) }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Username <span class="text-danger">*</span></label>
+                <input type="text" name="username" class="form-control" required value="{{ old('username', $user->username) }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>No. Telepon</label>
+                <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label>Role <span class="text-danger">*</span></label>
+                <select name="role" id="roleSelect" class="form-select" required onchange="toggleStore()">
+                    <option value="karyawan" {{ $user->role=='karyawan'?'selected':'' }}>Karyawan</option>
+                    <option value="kepala_toko" {{ $user->role=='kepala_toko'?'selected':'' }}>Kepala Toko</option>
+                    <option value="admin" {{ $user->role=='admin'?'selected':'' }}>Admin / Owner</option>
+                </select>
+            </div>
+            
+            <div class="col-md-12 mb-3" id="storeSelection">
+                <label>Penugasan Toko / Cabang <span class="text-danger">*</span></label>
+                <div class="row mt-2">
+                    @foreach($stores as $s)
+                    <div class="col-md-4">
+                        <div class="form-check">
+                          <input class="form-check-input store-checkbox" type="checkbox" name="store_ids[]" value="{{ $s->id }}" id="store_{{ $s->id }}" {{ $user->stores->contains('id', $s->id) ? 'checked' : '' }}>
+                          <label class="form-check-label" for="store_{{ $s->id }}">{{ $s->name }}</label>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ $user->is_active ? 'checked' : '' }}>
+                  <label class="form-check-label" for="is_active">Aktifkan Akun</label>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Simpan Perubahan</button>
+        <a href="{{ route('admin.users.index') }}" class="btn btn-secondary mt-3">Kembali</a>
+    </form>
+</div>
+<script>
+function toggleStore() {
+    var role = document.getElementById('roleSelect').value;
+    var storeDiv = document.getElementById('storeSelection');
+    if(role === 'admin') {
+        storeDiv.style.display = 'none';
+        document.querySelectorAll('.store-checkbox').forEach(cb => cb.checked = false);
+    } else {
+        storeDiv.style.display = 'block';
+    }
+}
+document.addEventListener('DOMContentLoaded', toggleStore);
+</script>
+@endsection

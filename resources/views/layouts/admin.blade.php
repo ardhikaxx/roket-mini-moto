@@ -37,6 +37,10 @@
         </a>
 
         @if(auth()->user()->isAdmin())
+        <div class="sidebar-heading mt-4 mb-2 text-uppercase text-muted small fw-bold px-3">Master Data</div>
+        <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+            <i class="fa-solid fa-tags me-2"></i> Kategori Produk
+        </a>
         <a href="{{ route('admin.products.index') }}" class="{{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
             <i class="fa-solid fa-box me-2"></i> Manajemen Produk
         </a>
@@ -48,15 +52,20 @@
         </a>
         @endif
 
+        <div class="sidebar-heading mt-4 mb-2 text-uppercase text-muted small fw-bold px-3">Transaksi</div>
+        
         @if(auth()->user()->isAdmin() || auth()->user()->isKepalaToko())
         <a href="{{ route('admin.reports.index') }}" class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
             <i class="fa-solid fa-file-invoice-dollar me-2"></i> Laporan Penjualan
         </a>
         @endif
 
-        @if(auth()->user()->isKaryawan())
+        @if(!auth()->user()->isAdmin() && !auth()->user()->isKepalaToko())
         <a href="{{ route('karyawan.reports.index') }}" class="{{ request()->routeIs('karyawan.reports.*') ? 'active' : '' }}">
             <i class="fa-solid fa-file-invoice-dollar me-2"></i> Laporan Saya
+        </a>
+        <a href="{{ route('karyawan.reports.create') }}" class="{{ request()->routeIs('karyawan.reports.create') ? 'active' : '' }}">
+            <i class="fa-solid fa-plus-circle me-2"></i> Buat Laporan Baru
         </a>
         @endif
 

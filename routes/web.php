@@ -22,19 +22,28 @@ Route::middleware('auth')->group(function () {
     // ADMIN & KEPALA TOKO
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', function() { return view('admin.dashboard'); })->name('dashboard');
-        Route::get('/products', function() { return view('admin.products.index'); })->name('products.index');
-        Route::get('/stores', function() { return view('admin.stores.index'); })->name('stores.index');
-        Route::get('/users', function() { return view('admin.users.index'); })->name('users.index');
-        Route::get('/reports', function() { return view('admin.reports.index'); })->name('reports.index');
+        Route::resource('products', \App\Http\Controllers\ProductController::class);
+        Route::resource('categories', \App\Http\Controllers\CategoryController::class);
+        Route::resource('stores', \App\Http\Controllers\StoreController::class);
+        Route::resource('users', \App\Http\Controllers\UserController::class);
+        Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show');
+        Route::post('/reports/{report}/approve', [\App\Http\Controllers\ReportController::class, 'approve'])->name('reports.approve');
+        Route::post('/reports/{report}/reject', [\App\Http\Controllers\ReportController::class, 'reject'])->name('reports.reject');
     });
 
     // KEPALA TOKO
     Route::prefix('kepalatoko')->name('kepalatoko.')->group(function () {
         Route::get('/dashboard', function() { return view('kepalatoko.dashboard'); })->name('dashboard');
-        Route::get('/reports', function() { return view('admin.reports.index'); })->name('reports.index');
+        Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/{report}', [\App\Http\Controllers\ReportController::class, 'show'])->name('reports.show');
+        Route::post('/reports/{report}/approve', [\App\Http\Controllers\ReportController::class, 'approve'])->name('reports.approve');
+        Route::post('/reports/{report}/reject', [\App\Http\Controllers\ReportController::class, 'reject'])->name('reports.reject');
     });
     Route::prefix('karyawan')->name('karyawan.')->group(function () {
         Route::get('/dashboard', function() { return view('karyawan.dashboard'); })->name('dashboard');
-        Route::get('/reports', function() { return view('karyawan.reports.index'); })->name('reports.index');
+        Route::get('/reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+        Route::get('/reports/create', [\App\Http\Controllers\ReportController::class, 'create'])->name('reports.create');
+        Route::post('/reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store');
     });
 });
