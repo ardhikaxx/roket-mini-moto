@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Services\AuditService;
 class AuthController extends Controller
 {
     public function showLogin()
@@ -23,7 +24,7 @@ class AuthController extends Controller
 
         $credentials = [
             'username' => $request->username,
-            'password' => $request->pin // Laravel uses 'password' key to check getAuthPassword()
+            'password' => $request->pin
         ];
 
         if (Auth::attempt($credentials)) {
@@ -31,9 +32,11 @@ class AuthController extends Controller
                 Auth::logout();
                 return back()->with('error', 'Akun Anda telah dinonaktifkan.');
             }
-            
+
             $request->session()->regenerate();
-            
+            Auth::user()->update(['last_login_at' => now()]);
+            AuditService::log('login', 'Pengguna ' . Auth::user()->name . ' login ke sistem.');
+
             if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             } elseif (Auth::user()->isKepalaToko()) {
@@ -47,9 +50,52 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        AuditService::log('logout', 'Pengguna ' . Auth::user()->name . ' logout dari sistem.');
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
+    }
+
+    public function profile()
+    {
+        return view('profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string',
+            'photo' => 'nullable|image|max:2048',
+        ]);
+
+        $data = $request->only(['name', 'phone', 'address']);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('users', 'public');
+        }
+        $user->update($data);
+        AuditService::log('update_profile', 'Pengguna ' . $user->name . ' memperbarui profil.');
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function changePin(Request $request)
+    {
+        $request->validate([
+            'current_pin' => 'required|digits:4',
+            'new_pin' => 'required|digits:4|different:current_pin',
+            'new_pin_confirmation' => 'required|same:new_pin',
+        ]);
+
+        $user = Auth::user();
+        if (!Hash::check($request->current_pin, $user->pin)) {
+            return back()->with('error', 'PIN saat ini salah.');
+        }
+
+        $user->update(['pin' => Hash::make($request->new_pin)]);
+        AuditService::log('change_pin', 'Pengguna ' . $user->name . ' mengganti PIN.');
+        return back()->with('success', 'PIN berhasil diganti.');
     }
 }
