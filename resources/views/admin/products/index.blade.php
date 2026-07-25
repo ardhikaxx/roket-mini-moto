@@ -1,42 +1,222 @@
 @extends('layouts.admin')
 @section('title', 'Manajemen Produk')
+@section('breadcrumb')
+    <a href="{{ route('admin.dashboard') }}">Dashboard</a><span class="separator"><i class="fa-solid fa-chevron-right"></i></span>
+    <span class="current">Produk</span>
+@endsection
 @section('content')
-<div class="d-flex justify-content-between mb-4">
-    <h2 class="fw-bold">Manajemen Produk</h2>
-    <a href="{{ route('admin.products.create') }}" class="btn btn-primary">+ Tambah Produk</a>
+@php
+    $totalProducts = \App\Models\Product::count();
+    $activeProducts = \App\Models\Product::where('is_active', true)->count();
+    $inactiveProducts = \App\Models\Product::where('is_active', false)->count();
+    $landingProducts = \App\Models\Product::where('show_on_landing', true)->count();
+@endphp
+<div class="page-header">
+    <div class="page-header-row">
+        <div>
+            <h1 class="page-title">Manajemen Produk</h1>
+            <p class="page-subtitle">Kelola seluruh produk bisnis Anda</p>
+        </div>
+        <div class="page-actions d-flex gap-2">
+            <div class="btn-group d-flex" role="group" style="background: var(--neutral-100); padding: 4px; border-radius: var(--radius-md);">
+                <button type="button" class="btn btn-sm" id="btnGridView" onclick="toggleView('grid')" style="border-radius: var(--radius-sm); border: none;"><i class="fa-solid fa-grid-2"></i> Grid</button>
+                <button type="button" class="btn btn-sm" id="btnTableView" onclick="toggleView('table')" style="border-radius: var(--radius-sm); border: none;"><i class="fa-solid fa-table"></i> Table</button>
+            </div>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Tambah Produk</a>
+        </div>
+    </div>
 </div>
-<div class="card shadow-sm p-4 border-0">
-    <table class="table datatable table-bordered">
-        <thead><tr><th>Foto</th><th>SKU</th><th>Nama</th><th>Kategori</th><th>Harga Jual</th><th>Stok</th><th>Status</th><th>Landing Page</th><th>Aksi</th></tr></thead>
-        <tbody>
-            @foreach($products as $p)
-            <tr>
-                <td><img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" width="50" height="50" class="rounded object-fit-cover"></td>
-                <td>{{ $p->sku }}</td>
-                <td>{{ $p->name }}</td>
-                <td>{{ $p->category?->name ?? '-' }}</td>
-                <td>Rp {{ number_format($p->price,0,',','.') }}</td>
-                <td>{{ $p->stock }} {{ $p->unit }}</td>
-                <td><span class="badge {{ $p->is_active ? 'bg-success' : 'bg-danger' }}">{{ $p->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
-                <td><span class="badge {{ $p->show_on_landing ? 'bg-info' : 'bg-secondary' }}">{{ $p->show_on_landing ? 'Tampil' : 'Sembunyi' }}</span></td>
-                <td>
-                    <a href="{{ route('admin.products.edit', $p->id) }}" class="btn btn-sm btn-info text-white">Edit</a>
-                    <form action="{{ route('admin.products.destroy', $p->id) }}" method="POST" class="d-inline" id="form-delete-{{ $p->id }}">
-                        @csrf @method('DELETE')
-                        <button type="button" class="btn btn-sm btn-danger" onclick="deleteConfirm({{ $p->id }})">Nonaktifkan</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+
+<div class="row mb-4 stagger-1">
+    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Total Produk</div><div class="stat-value" style="font-size:22px;">{{ $totalProducts }}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Aktif</div><div class="stat-value" style="font-size:22px;color:var(--success);">{{ $activeProducts }}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Nonaktif</div><div class="stat-value" style="font-size:22px;color:var(--danger);">{{ $inactiveProducts }}</div></div></div>
+    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Tampil di Landing</div><div class="stat-value" style="font-size:22px;color:var(--info);">{{ $landingProducts }}</div></div></div>
 </div>
+
+@if($products->isEmpty())
+<div class="card empty-state shadow-sm border-0">
+    <div class="card-body text-center p-5">
+        <div class="empty-state-icon mb-3" style="font-size: 3rem; color: var(--text-muted);"><i class="fa-solid fa-box-open"></i></div>
+        <h4 class="fw-bold">Belum ada Produk</h4>
+        <p class="text-secondary">Mulai tambahkan produk pertama Anda untuk dijual.</p>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary mt-2"><i class="fa-solid fa-plus"></i> Tambah Produk</a>
+    </div>
+</div>
+@else
+<!-- Grid View -->
+<div id="gridView" class="stagger-1">
+    <div class="row g-4">
+        @foreach($products as $p)
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="card h-100 border-0 shadow-sm product-card" style="overflow: hidden; border-radius: var(--radius-md);">
+                <div class="position-relative" style="height: 200px; background: var(--neutral-100);">
+                    <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" alt="{{ $p->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div class="position-absolute top-0 end-0 p-2">
+                        <span class="badge {{ $p->is_active ? 'badge-success' : 'badge-danger' }} shadow-sm rounded-pill">{{ $p->is_active ? 'Aktif' : 'Nonaktif' }}</span>
+                    </div>
+                </div>
+                <div class="card-body p-3 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <span class="badge badge-neutral bg-light text-dark border" style="font-size: 0.7rem;">{{ $p->category->name ?? 'Tanpa Kategori' }}</span>
+                        <span class="text-secondary font-monospace" style="font-size: 0.75rem;">{{ $p->sku }}</span>
+                    </div>
+                    <h5 class="fw-bold mb-1" style="font-size: 1.1rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;"><a href="{{ route('admin.products.show', $p->id) }}" style="color: var(--text); text-decoration: none;">{{ $p->name }}</a></h5>
+                    <div class="mb-3">
+                        <span class="fw-bold" style="color: var(--primary); font-size: 1.15rem;">Rp {{ number_format($p->price,0,',','.') }}</span>
+                    </div>
+                    <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            <i class="fa-solid fa-box text-muted me-1"></i> Stok: <span class="fw-semibold text-dark {{ $p->stock < 10 ? 'text-danger' : '' }}">{{ $p->stock }} {{ $p->unit }}</span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-light btn-icon-sm rounded-circle" data-bs-toggle="dropdown" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                            <div class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                                <a href="{{ route('admin.products.show', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-eye"></i> Detail</a>
+                                <a href="{{ route('admin.products.edit', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                                <div class="dropdown-divider"></div>
+                                @if($p->is_active)
+                                <form action="{{ route('admin.products.destroy', $p->id) }}" method="POST" id="form-delete-{{ $p->id }}">@csrf @method('DELETE')
+                                    <button type="button" class="dropdown-item text-danger" onclick="confirmDelete({{ $p->id }}, '{{ $p->name }}')"><i class="fa-regular fa-circle-xmark"></i> Nonaktifkan</button>
+                                </form>
+                                @else
+                                <form action="{{ route('admin.products.activate', $p->id) }}" method="POST" id="form-activate-{{ $p->id }}">@csrf
+                                    <button type="button" class="dropdown-item text-success" onclick="confirmActivate({{ $p->id }}, '{{ $p->name }}')"><i class="fa-regular fa-circle-check"></i> Aktifkan</button>
+                                </form>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+
+<!-- Table View -->
+<div id="tableView" class="card d-none stagger-1 shadow-sm border-0">
+    <div class="card-body p-0">
+        <div class="table-container">
+            <table class="table datatable" style="margin:0;">
+                <thead style="background: var(--neutral-50);">
+                    <tr>
+                        <th style="width:60px;">Foto</th>
+                        <th>Nama Produk</th>
+                        <th>SKU</th>
+                        <th>Kategori</th>
+                        <th>Harga Jual</th>
+                        <th>Stok</th>
+                        <th>Status</th>
+                        <th>Landing</th>
+                        <th>Dibuat</th>
+                        <th class="cell-action text-end">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($products as $p)
+                    <tr class="align-middle">
+                        <td>
+                            <div style="width:48px;height:48px;border-radius:var(--radius-sm);background:var(--neutral-100);overflow:hidden;box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.products.show', $p->id) }}" class="fw-semibold d-block" style="color:var(--text);text-decoration:none;font-size:0.95rem;">{{ $p->name }}</a>
+                            <span class="text-muted" style="font-size:0.8rem;">ID: {{ $p->id }}</span>
+                        </td>
+                        <td style="color:var(--text-secondary);font-size:13px;font-family:monospace;background:var(--neutral-50);padding:4px 8px;border-radius:4px;">{{ $p->sku }}</td>
+                        <td><span class="badge badge-neutral bg-light text-dark border">{{ $p->category->name ?? '-' }}</span></td>
+                        <td class="fw-semibold text-primary">Rp {{ number_format($p->price,0,',','.') }}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="progress" style="height: 6px; width: 50px; background-color: var(--neutral-200);">
+                                    <div class="progress-bar {{ $p->stock < 10 ? 'bg-danger' : 'bg-success' }}" role="progressbar" style="width: {{ min(100, $p->stock) }}%"></div>
+                                </div>
+                                <span style="font-size:0.85rem;" class="{{ $p->stock < 10 ? 'text-danger fw-bold' : '' }}">{{ $p->stock }} {{ $p->unit }}</span>
+                            </div>
+                        </td>
+                        <td><span class="badge {{ $p->is_active ? 'badge-success' : 'badge-danger' }} rounded-pill">{{ $p->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
+                        <td><span class="badge {{ $p->show_on_landing ? 'badge-info' : 'badge-neutral' }} rounded-pill">{{ $p->show_on_landing ? 'Tampil' : 'Sembunyi' }}</span></td>
+                        <td style="font-size:13px;color:var(--text-secondary);">{{ $p->created_at->format('d/m/Y') }}</td>
+                        <td class="cell-action text-end">
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-icon-sm rounded-circle" data-bs-toggle="dropdown" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <div class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+                                    <a href="{{ route('admin.products.show', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-eye"></i> Detail</a>
+                                    <a href="{{ route('admin.products.edit', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
+                                    <div class="dropdown-divider"></div>
+                                    @if($p->is_active)
+                                    <form action="{{ route('admin.products.destroy', $p->id) }}" method="POST" id="form-delete-{{ $p->id }}-table">@csrf @method('DELETE')
+                                        <button type="button" class="dropdown-item text-danger" onclick="confirmDelete({{ $p->id }}, '{{ $p->name }}')"><i class="fa-regular fa-circle-xmark"></i> Nonaktifkan</button>
+                                    </form>
+                                    @else
+                                    <form action="{{ route('admin.products.activate', $p->id) }}" method="POST" id="form-activate-{{ $p->id }}-table">@csrf
+                                        <button type="button" class="dropdown-item text-success" onclick="confirmActivate({{ $p->id }}, '{{ $p->name }}')"><i class="fa-regular fa-circle-check"></i> Aktifkan</button>
+                                    </form>
+                                    @endif
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endif
+
 <script>
-function deleteConfirm(id) {
-    Swal.fire({
-        title: 'Nonaktifkan produk?', text: "Produk akan disembunyikan dari sistem (Soft Delete).", icon: 'warning',
-        showCancelButton: true, confirmButtonColor: '#d33', confirmButtonText: 'Ya!'
-    }).then((r) => { if (r.isConfirmed) document.getElementById('form-delete-'+id).submit(); })
+function toggleView(view) {
+    const gridView = document.getElementById('gridView');
+    const tableView = document.getElementById('tableView');
+    const btnGrid = document.getElementById('btnGridView');
+    const btnTable = document.getElementById('btnTableView');
+
+    if (!gridView || !tableView) return;
+
+    if (view === 'grid') {
+        gridView.classList.remove('d-none');
+        tableView.classList.add('d-none');
+        btnGrid.classList.add('bg-white', 'shadow-sm', 'fw-bold', 'text-primary');
+        btnTable.classList.remove('bg-white', 'shadow-sm', 'fw-bold', 'text-primary');
+        localStorage.setItem('productViewPreference', 'grid');
+    } else {
+        gridView.classList.add('d-none');
+        tableView.classList.remove('d-none');
+        btnTable.classList.add('bg-white', 'shadow-sm', 'fw-bold', 'text-primary');
+        btnGrid.classList.remove('bg-white', 'shadow-sm', 'fw-bold', 'text-primary');
+        localStorage.setItem('productViewPreference', 'table');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const pref = localStorage.getItem('productViewPreference') || 'grid';
+    toggleView(pref);
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+                menu.classList.remove('show');
+            });
+        }
+    });
+});
+
+function confirmDelete(id, name) {
+    Swal.fire({title:'Nonaktifkan Produk',text:name+' akan dinonaktifkan. Histori transaksi tetap aman.',icon:'warning',showCancelButton:true,confirmButtonColor:'#dc2626',confirmButtonText:'Ya, Nonaktifkan',cancelButtonText:'Batal',customClass:{popup:'rounded-4'}})
+    .then((r) => { if(r.isConfirmed) document.getElementById('form-delete-'+id).submit(); });
+}
+function confirmActivate(id, name) {
+    Swal.fire({title:'Aktifkan Produk',text:name+' akan diaktifkan kembali.',icon:'question',showCancelButton:true,confirmButtonColor:'#16a34a',confirmButtonText:'Ya, Aktifkan',cancelButtonText:'Batal',customClass:{popup:'rounded-4'}})
+    .then((r) => { if(r.isConfirmed) document.getElementById('form-activate-'+id).submit(); });
 }
 </script>
+<style>
+    /* Card hover effect */
+    .product-card { transition: all 0.3s ease; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important; }
+</style>
 @endsection
