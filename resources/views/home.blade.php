@@ -538,7 +538,7 @@
                                     </div>
                                     <div>
                                         <strong class="d-block mb-1 text-primary-custom">Jam Operasional</strong>
-                                        <span class="small" style="color: rgba(255,255,255,0.85);">Setiap Hari: 08.00 - 20.00 WIB</span>
+                                        <span class="small" style="color: rgba(255,255,255,0.85);">Senin - Sabtu: 08.00 - 22.00 WIB<br>Minggu: 08.00 - 21.00 WIB</span>
                                     </div>
                                 </li>
                             </ul>
