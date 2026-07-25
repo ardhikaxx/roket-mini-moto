@@ -32,7 +32,7 @@
             <div class="small text-muted mt-1">{{ strtoupper(auth()->user()->role) }}</div>
         </div>
 
-        <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('kepalatoko.dashboard') : route('karyawan.dashboard')) }}" class="{{ request()->routeIs('*.dashboard') ? 'active' : '' }}">
             <i class="fa-solid fa-gauge me-2"></i> Dashboard
         </a>
 

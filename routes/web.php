@@ -28,7 +28,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/reports', function() { return view('admin.reports.index'); })->name('reports.index');
     });
 
-    // KARYAWAN
+    // KEPALA TOKO
+    Route::prefix('kepalatoko')->name('kepalatoko.')->group(function () {
+        Route::get('/dashboard', function() { return view('kepalatoko.dashboard'); })->name('dashboard');
+        Route::get('/reports', function() { return view('admin.reports.index'); })->name('reports.index');
+    });
     Route::prefix('karyawan')->name('karyawan.')->group(function () {
         Route::get('/dashboard', function() { return view('karyawan.dashboard'); })->name('dashboard');
         Route::get('/reports', function() { return view('karyawan.reports.index'); })->name('reports.index');

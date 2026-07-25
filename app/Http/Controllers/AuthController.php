@@ -34,8 +34,10 @@ class AuthController extends Controller
             
             $request->session()->regenerate();
             
-            if (Auth::user()->isAdmin() || Auth::user()->isKepalaToko()) {
+            if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
+            } elseif (Auth::user()->isKepalaToko()) {
+                return redirect()->intended(route('kepalatoko.dashboard'));
             }
             return redirect()->intended(route('karyawan.dashboard'));
         }
