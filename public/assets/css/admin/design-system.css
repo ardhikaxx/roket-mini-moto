@@ -21,6 +21,10 @@
   --primary: var(--primary-500);
   --primary-hover: var(--primary-600);
 
+  /* Override Bootstrap 5 Primary Variables */
+  --bs-primary: #e63946;
+  --bs-primary-rgb: 230, 57, 70;
+
   /* Status Colors */
   --success-50: #ecfdf5;
   --success-100: #d1fae5;
