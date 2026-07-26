@@ -82,7 +82,7 @@
                         <td style="font-size:13px;color:var(--text-secondary);">{{ $p->created_at->format('d/m/Y') }}</td>
                         <td class="cell-action text-end">
                             <div class="dropdown">
-                                <button class="btn btn-light btn-icon-sm rounded-circle" data-bs-toggle="dropdown" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <button class="btn btn-light btn-icon-sm rounded-circle" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                                 <div class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                                     <a href="{{ route('admin.products.show', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-eye"></i> Detail</a>
                                     <a href="{{ route('admin.products.edit', $p->id) }}" class="dropdown-item"><i class="fa-regular fa-pen-to-square"></i> Edit</a>

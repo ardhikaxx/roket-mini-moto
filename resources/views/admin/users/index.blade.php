@@ -74,7 +74,7 @@
                         <td><span class="badge {{ $u->is_active ? 'badge-success' : 'badge-danger' }} rounded-pill">{{ $u->is_active ? 'Aktif' : 'Nonaktif' }}</span></td>
                         <td class="cell-action text-end">
                             <div class="dropdown">
-                                <button class="btn btn-light btn-icon-sm rounded-circle" data-bs-toggle="dropdown" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                <button class="btn btn-light btn-icon-sm rounded-circle" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                                 <div class="dropdown-menu dropdown-menu-end shadow-sm border-0">
                                     <a href="{{ route('admin.users.show', $u->id) }}" class="dropdown-item fw-semibold"><i class="fa-regular fa-eye"></i> Detail</a>
                                     <a href="{{ route('admin.users.edit', $u->id) }}" class="dropdown-item fw-semibold"><i class="fa-regular fa-pen-to-square"></i> Edit</a>
