@@ -19,11 +19,11 @@
     </div>
 </div>
 
-<div class="row mb-4 stagger-1">
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Total Produk</div><div class="stat-value" style="font-size:22px;">{{ $totalProducts }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Aktif</div><div class="stat-value" style="font-size:22px;color:var(--success);">{{ $activeProducts }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Nonaktif</div><div class="stat-value" style="font-size:22px;color:var(--danger);">{{ $inactiveProducts }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:default;"><div class="stat-label">Tampil di Landing</div><div class="stat-value" style="font-size:22px;color:var(--info);">{{ $landingProducts }}</div></div></div>
+<div class="row g-4 mb-4 stagger-1">
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:default;"><div class="stat-label text-secondary fw-semibold mb-1">Total Produk</div><div class="stat-value" style="font-size:28px;">{{ $totalProducts }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:default;"><div class="stat-label text-secondary fw-semibold mb-1">Aktif</div><div class="stat-value" style="font-size:28px;color:var(--success);">{{ $activeProducts }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:default;"><div class="stat-label text-secondary fw-semibold mb-1">Nonaktif</div><div class="stat-value" style="font-size:28px;color:var(--danger);">{{ $inactiveProducts }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:default;"><div class="stat-label text-secondary fw-semibold mb-1">Tampil di Landing</div><div class="stat-value" style="font-size:28px;color:var(--info);">{{ $landingProducts }}</div></div></div>
 </div>
 
 @if($products->isEmpty())

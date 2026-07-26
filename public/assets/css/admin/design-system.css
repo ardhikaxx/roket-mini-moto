@@ -124,7 +124,10 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 }
 
 /* --- Typography --- */
-.page-title { font-size: 28px; font-weight: 700; color: var(--neutral-900); margin: 0; letter-spacing: -0.03em; }
+.page-header { margin-bottom: 24px; animation: fadeUpIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.page-header-row { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 16px; }
+@media (min-width: 768px) { .page-header-row { flex-direction: row; align-items: center; } }
+.page-title { font-size: 28px; font-weight: 700; color: var(--neutral-900); margin: 0; letter-spacing: -0.03em; line-height: 1.2; }
 .page-subtitle { font-size: 15px; color: var(--text-secondary); margin: 6px 0 0; }
 
 /* --- Sidebar --- */

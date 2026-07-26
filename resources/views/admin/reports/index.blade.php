@@ -28,11 +28,11 @@
     </div>
 </div>
 
-<div class="row mb-4">
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:pointer;" onclick="filterTable('all')"><div class="stat-label">Semua</div><div class="stat-value" style="font-size:22px;">{{ $allCount }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:pointer;border-color:var(--warning-100);" onclick="filterTable('diproses')"><div class="stat-label">Menunggu</div><div class="stat-value" style="font-size:22px;color:var(--warning);">{{ $pendingCount }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:pointer;border-color:var(--success-100);" onclick="filterTable('disetujui')"><div class="stat-label">Disetujui</div><div class="stat-value" style="font-size:22px;color:var(--success);">{{ $approvedCount }}</div></div></div>
-    <div class="col-6 col-md-3"><div class="stat-card" style="padding:14px 18px;cursor:pointer;border-color:var(--danger-100);" onclick="filterTable('ditolak')"><div class="stat-label">Ditolak</div><div class="stat-value" style="font-size:22px;color:var(--danger);">{{ $rejectedCount }}</div></div></div>
+<div class="row g-4 mb-4 stagger-1">
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:pointer;" onclick="filterTable('all')"><div class="stat-label text-secondary fw-semibold mb-1">Semua</div><div class="stat-value" style="font-size:28px;">{{ $allCount }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:pointer;border-color:var(--warning-100);" onclick="filterTable('diproses')"><div class="stat-label text-secondary fw-semibold mb-1">Menunggu</div><div class="stat-value" style="font-size:28px;color:var(--warning);">{{ $pendingCount }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:pointer;border-color:var(--success-100);" onclick="filterTable('disetujui')"><div class="stat-label text-secondary fw-semibold mb-1">Disetujui</div><div class="stat-value" style="font-size:28px;color:var(--success);">{{ $approvedCount }}</div></div></div>
+    <div class="col-12 col-sm-6 col-lg-3"><div class="stat-card" style="padding:20px;cursor:pointer;border-color:var(--danger-100);" onclick="filterTable('ditolak')"><div class="stat-label text-secondary fw-semibold mb-1">Ditolak</div><div class="stat-value" style="font-size:28px;color:var(--danger);">{{ $rejectedCount }}</div></div></div>
 </div>
 
 <div class="card">
