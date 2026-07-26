@@ -35,15 +35,17 @@
 @endphp
 
 {{-- Page Header --}}
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 stagger-1">
-    <div>
-        <h1 class="page-title">{{ $greeting }}, {{ explode(' ', trim(auth()->user()->name))[0] }}! <span style="font-size: 24px;">👋</span></h1>
-        <p class="page-subtitle">Berikut adalah ringkasan performa bisnis Anda hari ini, {{ $today->translatedFormat('d F Y') }}.</p>
-    </div>
-    <div class="d-flex gap-2 mt-3 mt-md-0">
-        <a href="{{ route('admin.products.create') }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Produk</a>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Karyawan</a>
-        <a href="{{ route('admin.reports.index') }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-invoice"></i> Review Laporan</a>
+<div class="page-header stagger-1">
+    <div class="page-header-row">
+        <div>
+            <h1 class="page-title">{{ $greeting }}, {{ explode(' ', trim(auth()->user()->name))[0] }}! <span style="font-size: 24px;">👋</span></h1>
+            <p class="page-subtitle">Berikut adalah ringkasan performa bisnis Anda hari ini, {{ $today->translatedFormat('d F Y') }}.</p>
+        </div>
+        <div class="page-actions d-flex gap-2">
+            <a href="{{ route('admin.products.create') }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Produk</a>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Karyawan</a>
+            <a href="{{ route('admin.reports.index') }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-invoice"></i> Review Laporan</a>
+        </div>
     </div>
 </div>
 

@@ -46,24 +46,26 @@
 @endphp
 
 {{-- Page Header --}}
-<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 stagger-1">
-    <div>
-        <h1 class="page-title">Halo, {{ explode(' ', trim($user->name))[0] }}!</h1>
-        <p class="page-subtitle">Pantau performa dan operasional toko Anda hari ini.</p>
+<div class="page-header stagger-1">
+    <div class="page-header-row">
+        <div>
+            <h1 class="page-title">Halo, {{ explode(' ', trim($user->name))[0] }}! <span style="font-size: 24px;">👋</span></h1>
+            <p class="page-subtitle">Pantau performa dan operasional toko Anda hari ini.</p>
+        </div>
+        
+        @if($assignedStores->count() > 1)
+        <div class="page-actions">
+            <form id="storeSelectorForm" action="{{ route('kepalatoko.dashboard') }}" method="GET" class="d-flex align-items-center gap-2">
+                <label class="text-sm fw-bold text-muted text-nowrap mb-0"><i class="fa-solid fa-store"></i> Pilih Toko:</label>
+                <select name="store_id" class="form-select form-select-sm" style="min-width: 200px; font-weight:600; border-radius:var(--radius-full);" onchange="document.getElementById('storeSelectorForm').submit()">
+                    @foreach($assignedStores as $store)
+                        <option value="{{ $store->id }}" {{ $selectedStoreId == $store->id ? 'selected' : '' }}>{{ $store->name }}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        @endif
     </div>
-    
-    @if($assignedStores->count() > 1)
-    <div class="mt-3 mt-md-0">
-        <form id="storeSelectorForm" action="{{ route('kepalatoko.dashboard') }}" method="GET" class="d-flex align-items-center gap-2">
-            <label class="text-sm fw-bold text-muted text-nowrap mb-0"><i class="fa-solid fa-store"></i> Pilih Toko:</label>
-            <select name="store_id" class="form-select form-select-sm" style="min-width: 200px; font-weight:600; border-radius:var(--radius-full);" onchange="document.getElementById('storeSelectorForm').submit()">
-                @foreach($assignedStores as $store)
-                    <option value="{{ $store->id }}" {{ $selectedStoreId == $store->id ? 'selected' : '' }}>{{ $store->name }}</option>
-                @endforeach
-            </select>
-        </form>
-    </div>
-    @endif
 </div>
 
 @if(!$selectedStore)

@@ -27,17 +27,19 @@
 @endphp
 
 {{-- Page Header & Primary Action --}}
-<div class="row align-items-center mb-5 stagger-1">
-    <div class="col-12 col-md-8 mb-4 mb-md-0">
-        <h1 class="page-title">{{ $greeting }}, {{ explode(' ', trim($user->name))[0] }}!</h1>
-        <p class="page-subtitle">
-            Hari ini {{ $today->translatedFormat('l, d F Y') }}. Anda ditugaskan di: <strong class="text-primary">{{ $storeNames ?: 'Belum ada toko' }}</strong>
-        </p>
-    </div>
-    <div class="col-12 col-md-4 text-md-end">
-        <a href="{{ route('karyawan.reports.create') }}" class="btn btn-primary btn-lg w-100 w-md-auto" style="border-radius:var(--radius-full); font-weight:700; box-shadow:0 8px 20px rgba(79,70,229,0.3);">
-            <i class="fa-solid fa-plus-circle me-2 fs-5"></i> Buat Laporan Penjualan
-        </a>
+<div class="page-header stagger-1">
+    <div class="page-header-row">
+        <div>
+            <h1 class="page-title">{{ $greeting }}, {{ explode(' ', trim($user->name))[0] }}! <span style="font-size: 24px;">👋</span></h1>
+            <p class="page-subtitle">
+                Hari ini {{ $today->translatedFormat('l, d F Y') }}. Anda ditugaskan di: <strong class="text-primary">{{ $storeNames ?: 'Belum ada toko' }}</strong>
+            </p>
+        </div>
+        <div class="page-actions">
+            <a href="{{ route('karyawan.reports.create') }}" class="btn btn-primary btn-lg w-100 w-md-auto" style="border-radius:var(--radius-full); font-weight:700; box-shadow:0 8px 20px rgba(230, 57, 70, 0.3);">
+                <i class="fa-solid fa-plus-circle me-2 fs-5"></i> Buat Laporan Penjualan
+            </a>
+        </div>
     </div>
 </div>
 
@@ -60,6 +62,7 @@
 <div class="row g-4 mb-4 stagger-2">
     <div class="col-12 col-sm-6 col-lg-3">
         <div class="stat-card">
+            <i class="fa-solid fa-calendar-day stat-card-bg text-primary"></i>
             <div class="stat-card-header">
                 <span class="stat-card-title">Laporan Hari Ini</span>
                 <div class="stat-card-icon icon-primary"><i class="fa-solid fa-calendar-day"></i></div>
@@ -73,7 +76,8 @@
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-3">
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location.href='{{ route('karyawan.reports.index', ['status' => 'diproses']) }}'">
+            <i class="fa-solid fa-clock-rotate-left stat-card-bg text-warning"></i>
             <div class="stat-card-header">
                 <span class="stat-card-title">Sedang Diproses</span>
                 <div class="stat-card-icon icon-warning"><i class="fa-solid fa-clock-rotate-left"></i></div>
@@ -87,7 +91,8 @@
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-3">
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location.href='{{ route('karyawan.reports.index', ['status' => 'disetujui']) }}'">
+            <i class="fa-solid fa-check-circle stat-card-bg text-success"></i>
             <div class="stat-card-header">
                 <span class="stat-card-title">Total Disetujui</span>
                 <div class="stat-card-icon icon-success"><i class="fa-solid fa-check-circle"></i></div>
@@ -101,7 +106,8 @@
         </div>
     </div>
     <div class="col-12 col-sm-6 col-lg-3">
-        <div class="stat-card">
+        <div class="stat-card" onclick="window.location.href='{{ route('karyawan.reports.index', ['status' => 'ditolak']) }}'">
+            <i class="fa-solid fa-xmark-circle stat-card-bg text-danger"></i>
             <div class="stat-card-header">
                 <span class="stat-card-title">Total Ditolak</span>
                 <div class="stat-card-icon icon-danger"><i class="fa-solid fa-xmark-circle"></i></div>
