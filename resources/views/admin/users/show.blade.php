@@ -12,11 +12,11 @@
         <div>
             <div class="d-flex align-items-center gap-2 mb-1">
                 @if($user->isAdmin()) 
-                    <span class="badge bg-danger-50 text-danger-700 border border-danger-100 rounded-pill px-3 py-1" style="font-weight:700; font-size:11px; letter-spacing:0.5px;">ADMINISTRATOR</span>
+                    <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-user-shield me-1"></i> ADMINISTRATOR</span>
                 @elseif($user->isKepalaToko()) 
-                    <span class="badge bg-primary-50 text-primary-700 border border-primary-100 rounded-pill px-3 py-1" style="font-weight:700; font-size:11px; letter-spacing:0.5px;">KEPALA TOKO</span>
+                    <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-user-tie me-1"></i> KEPALA TOKO</span>
                 @else 
-                    <span class="badge bg-light text-dark border rounded-pill px-3 py-1" style="font-weight:700; font-size:11px; letter-spacing:0.5px;">KARYAWAN</span>
+                    <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-cash-register me-1"></i> KARYAWAN</span>
                 @endif
                 <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-danger' }} rounded-pill px-2 py-1" style="font-weight:600; font-size:11px;">
                     <i class="fa-solid {{ $user->is_active ? 'fa-check-circle' : 'fa-circle-xmark' }} me-1"></i> {{ $user->is_active ? 'Akun Aktif' : 'Akses Diblokir' }}

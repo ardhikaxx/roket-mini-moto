@@ -111,11 +111,11 @@
                         </td>
                         <td>
                             @if($u->isAdmin()) 
-                                <span class="badge bg-danger-50 text-danger-700 border border-danger-100 px-3 py-2" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">ADMINISTRATOR</span>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-user-shield me-1"></i> ADMINISTRATOR</span>
                             @elseif($u->isKepalaToko()) 
-                                <span class="badge bg-primary-50 text-primary-700 border border-primary-100 px-3 py-2" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">KEPALA TOKO</span>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-user-tie me-1"></i> KEPALA TOKO</span>
                             @else 
-                                <span class="badge bg-light text-dark border px-3 py-2" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">KARYAWAN</span>
+                                <span class="badge px-3 py-2 rounded-pill shadow-sm" style="background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; font-size:11px; font-weight:700; letter-spacing:0.5px;"><i class="fa-solid fa-cash-register me-1"></i> KARYAWAN</span>
                             @endif
                         </td>
                         <td>
