@@ -67,12 +67,12 @@
                             <i class="fa-brands fa-whatsapp me-1"></i> Hubungi Kami
                         </a>
                         @auth
-                            <a class="btn btn-outline-light btn-sm fw-semibold px-3" href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('admin.reports.index') : route('karyawan.dashboard')) }}">
+                            <a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold" href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('admin.reports.index') : route('karyawan.dashboard')) }}">
                                 <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
                             </a>
                         @else
-                            <a class="btn btn-outline-light btn-sm fw-semibold px-3" href="{{ route('login') }}" style="border-color: rgba(255,255,255,0.35); color: #ffffff;">
-                                <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                            <a class="btn btn-outline-light btn-sm rounded-pill px-3 fw-bold" href="{{ route('login') }}" title="Portal Login Staf & Management" style="border-color: rgba(255,255,255,0.4); color: #ffffff;">
+                                <i class="fa-solid fa-lock me-1"></i> Staff
                             </a>
                         @endauth
                     </li>
