@@ -118,6 +118,11 @@
 </div>
 @endif
 
+<style>
+    .modal-backdrop { z-index: 1050 !important; }
+    .modal { z-index: 1060 !important; }
+</style>
+
 <div class="modal fade" id="addModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
       <form action="{{ route('admin.categories.store') }}" method="POST">
@@ -164,11 +169,29 @@
 </div>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addModal = document.getElementById('addModal');
+    const editModal = document.getElementById('editModal');
+    if (addModal && addModal.parentNode !== document.body) {
+        document.body.appendChild(addModal);
+    }
+    if (editModal && editModal.parentNode !== document.body) {
+        document.body.appendChild(editModal);
+    }
+});
+
 function editCategory(id, name) {
     document.getElementById('editForm').action = '/admin/categories/' + id;
     document.getElementById('editName').value = name;
-    new bootstrap.Modal(document.getElementById('editModal')).show();
+    
+    const modalEl = document.getElementById('editModal');
+    if (modalEl.parentNode !== document.body) {
+        document.body.appendChild(modalEl);
+    }
+    const bsModal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    bsModal.show();
 }
+
 function confirmDelete(id, name) {
     Swal.fire({
         title: 'Hapus Kategori?',
