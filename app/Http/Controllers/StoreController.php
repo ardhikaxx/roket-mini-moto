@@ -22,7 +22,6 @@ class StoreController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'required|string',
             'operational_hours' => 'nullable|string|max:255',
-            'coordinates' => 'nullable|string|max:100',
             'notes' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'is_active' => 'boolean'
@@ -62,7 +61,6 @@ class StoreController extends Controller
             'phone' => 'nullable|string|max:20',
             'address' => 'required|string',
             'operational_hours' => 'nullable|string|max:255',
-            'coordinates' => 'nullable|string|max:100',
             'notes' => 'nullable|string',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);

@@ -129,14 +129,6 @@
                 </div>
                 <div class="card-body p-4">
                     
-                    <div class="form-group mb-4">
-                        <label class="form-label fw-bold" style="font-size:13px;">Koordinat Peta (Opsional)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-map-pin"></i></span>
-                            <input type="text" name="coordinates" class="form-control border-start-0 ps-0" value="{{ old('coordinates', $store->coordinates) }}" placeholder="Contoh: -7.9105, 113.8237">
-                        </div>
-                    </div>
-
                     <div class="p-3 rounded bg-white border border-light mb-4 shadow-sm">
                         <label class="form-label fw-bold d-block mb-2" style="font-size:13px;">Status Visibilitas</label>
                         <label class="form-switch d-flex align-items-center gap-3 m-0 cursor-pointer">
