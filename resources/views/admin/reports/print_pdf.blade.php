@@ -270,8 +270,8 @@
 
     <!-- Action Bar -->
     <div class="action-bar">
-        <button onclick="window.history.back()" class="btn-action btn-close">
-            <i class="fa-solid fa-arrow-left"></i> Kembali
+        <button onclick="goBackOrClose(event)" class="btn-action btn-close">
+            <i class="fa-solid fa-arrow-left"></i> Kembali / Tutup
         </button>
         <div style="display: flex; gap: 10px;">
             <button onclick="window.print()" class="btn-action btn-print">
@@ -381,7 +381,23 @@
     </div>
 
     <script>
-        // Auto trigger print on page load if opened in new tab/window
+        function goBackOrClose(e) {
+            if (e) e.preventDefault();
+            
+            // If opened in new tab or window, close it, else go back in history
+            if (window.opener || window.history.length <= 1) {
+                window.close();
+            } else {
+                window.history.back();
+            }
+
+            // Fallback redirect if tab close is blocked by browser
+            setTimeout(function() {
+                window.location.href = "{{ auth()->user() && auth()->user()->isKaryawan() ? route('karyawan.reports.index') : route('admin.reports.index') }}";
+            }, 250);
+        }
+
+        // Auto trigger print on page load
         window.addEventListener('load', function() {
             setTimeout(function() {
                 window.print();
