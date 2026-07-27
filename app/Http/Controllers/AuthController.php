@@ -67,12 +67,16 @@ class AuthController extends Controller
         $user = Auth::user();
         $request->validate([
             'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|alpha_dash|unique:users,username,'.$user->id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string',
             'photo' => 'nullable|image|max:2048',
+        ], [
+            'username.unique' => 'Username tersebut sudah digunakan oleh pengguna lain.',
+            'username.alpha_dash' => 'Username hanya boleh berisi huruf, angka, strip (-), dan garis bawah (_).',
         ]);
 
-        $data = $request->only(['name', 'phone', 'address']);
+        $data = $request->only(['name', 'username', 'phone', 'address']);
         if ($request->hasFile('photo')) {
             if ($user->photo) \App\Helpers\FileUploadHelper::delete($user->photo);
             $data['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'users');

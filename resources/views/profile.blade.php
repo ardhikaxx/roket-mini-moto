@@ -86,7 +86,8 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label mb-1"><i class="fa-regular fa-circle-user me-1 text-primary"></i> Username</label>
-                            <input type="text" class="form-control" value="{{ $user->username }}" disabled style="background:var(--neutral-50);color:var(--text-secondary);">
+                            <input type="text" name="username" class="form-control" required value="{{ old('username', $user->username) }}" placeholder="Username">
+                            @error('username')<small class="text-danger mt-1 d-block">{{ $message }}</small>@enderror
                         </div>
                         <div class="col-md-6">
                             <label class="form-label mb-1"><i class="fa-solid fa-phone me-1 text-primary"></i> No. Telepon</label>
