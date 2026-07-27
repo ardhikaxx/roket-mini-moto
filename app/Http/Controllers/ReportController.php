@@ -29,48 +29,43 @@ class ReportController extends Controller
 
     public function exportExcel(Request $request) {
         $reports = $this->getFilteredReports($request);
-        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.csv';
+        
+        $selectedStore = null;
+        if ($request->filled('store_id') && $request->store_id !== 'all') {
+            $selectedStore = Store::find($request->store_id);
+        }
 
-        $headers = [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0'
-        ];
+        $period = $request->input('period', 'all');
+        $periodLabel = 'Semua Periode';
+        if ($period === 'today') {
+            $periodLabel = 'Hari Ini (' . \Carbon\Carbon::today()->format('d/m/Y') . ')';
+        } elseif ($period === 'this_week') {
+            $periodLabel = 'Minggu Ini (' . \Carbon\Carbon::now()->startOfWeek()->format('d/m/Y') . ' - ' . \Carbon\Carbon::now()->endOfWeek()->format('d/m/Y') . ')';
+        } elseif ($period === 'this_month') {
+            $periodLabel = 'Bulan Ini (' . \Carbon\Carbon::now()->format('F Y') . ')';
+        } elseif ($period === 'custom') {
+            $start = $request->start_date ? \Carbon\Carbon::parse($request->start_date)->format('d/m/Y') : 'Awal';
+            $end = $request->end_date ? \Carbon\Carbon::parse($request->end_date)->format('d/m/Y') : 'Akhir';
+            $periodLabel = "Rentang Tanggal ($start s/d $end)";
+        }
 
-        $callback = function () use ($reports) {
-            $file = fopen('php://output', 'w');
-            fputs($file, "\xEF\xBB\xBF");
+        $totalOmzet = $reports->where('status', 'disetujui')->sum('total_amount');
+        $totalItems = $reports->sum('total_items');
+        $approvedCount = $reports->where('status', 'disetujui')->count();
 
-            fputcsv($file, [
-                'ID Laporan',
-                'Tanggal Transaksi',
-                'Toko',
-                'Kasir / Karyawan',
-                'Total Item',
-                'Total Omzet (Rp)',
-                'Status',
-                'Catatan'
-            ]);
+        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.xls';
 
-            foreach ($reports as $r) {
-                fputcsv($file, [
-                    '#REP-' . str_pad($r->id, 5, '0', STR_PAD_LEFT),
-                    \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'),
-                    $r->store->name ?? '-',
-                    $r->user->name ?? '-',
-                    $r->total_items,
-                    $r->total_amount,
-                    strtoupper($r->status),
-                    $r->notes ?? '-'
-                ]);
-            }
-
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
+        return response()->view('admin.reports.export_excel', compact(
+            'reports',
+            'selectedStore',
+            'periodLabel',
+            'totalOmzet',
+            'totalItems',
+            'approvedCount'
+        ))->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
+          ->header('Content-Disposition', "attachment; filename=\"{$filename}\"")
+          ->header('Pragma', 'no-cache')
+          ->header('Expires', '0');
     }
 
     public function exportPdf(Request $request) {
