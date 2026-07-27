@@ -53,19 +53,93 @@ class ReportController extends Controller
         $totalItems = $reports->sum('total_items');
         $approvedCount = $reports->where('status', 'disetujui')->count();
 
-        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.xls';
+        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.csv';
 
-        return response()->view('admin.reports.export_excel', compact(
-            'reports',
-            'selectedStore',
-            'periodLabel',
-            'totalOmzet',
-            'totalItems',
-            'approvedCount'
-        ))->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
-          ->header('Content-Disposition', "attachment; filename=\"{$filename}\"")
-          ->header('Pragma', 'no-cache')
-          ->header('Expires', '0');
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function () use ($reports, $selectedStore, $periodLabel, $totalOmzet, $totalItems, $approvedCount) {
+            $file = fopen('php://output', 'w');
+            
+            // UTF-8 BOM for Microsoft Excel compatibility
+            fputs($file, "\xEF\xBB\xBF");
+
+            // Header Banner
+            fputcsv($file, ['ROKET MINI MOTO BONDOWOSO - LAPORAN PENJUALAN OPERASIONAL & OMZET TOKO']);
+            fputcsv($file, []);
+
+            // Meta Info
+            fputcsv($file, ['Cabang Toko:', $selectedStore ? $selectedStore->name : 'Semua Toko Cabang', '', 'Tanggal Ekspor:', date('d/m/Y H:i')]);
+            fputcsv($file, ['Periode Waktu:', $periodLabel, '', 'Diekspor Oleh:', auth()->user()->name . ' (' . auth()->user()->role . ')']);
+            fputcsv($file, []);
+
+            // KPI Summary Row
+            fputcsv($file, ['--- RINGKASAN UTAMA ---']);
+            fputcsv($file, ['TOTAL OMZET DISETUJUI', 'Rp ' . number_format($totalOmzet, 0, ',', '.')]);
+            fputcsv($file, ['TOTAL TRANSAKSI VALID', $approvedCount . ' Transaksi']);
+            fputcsv($file, ['TOTAL BARANG TERJUAL', number_format($totalItems, 0, ',', '.') . ' Pcs']);
+            fputcsv($file, []);
+
+            // Table Headers
+            fputcsv($file, [
+                'No',
+                'ID Laporan',
+                'Tanggal Transaksi',
+                'Cabang Toko',
+                'Kasir / Petugas',
+                'Rincian Produk Terjual',
+                'Total Item (Pcs)',
+                'Total Omzet (Rp)',
+                'Status',
+                'Catatan'
+            ]);
+
+            // Data Rows
+            foreach ($reports as $index => $r) {
+                $itemsSummary = [];
+                foreach ($r->items as $item) {
+                    $itemsSummary[] = $item->quantity . 'x ' . ($item->product_name ?? 'Produk');
+                }
+                $itemsText = implode(' | ', $itemsSummary);
+
+                fputcsv($file, [
+                    $index + 1,
+                    '#REP-' . str_pad($r->id, 5, '0', STR_PAD_LEFT),
+                    \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'),
+                    $r->store->name ?? '-',
+                    $r->user->name ?? '-',
+                    $itemsText ?: '-',
+                    $r->total_items,
+                    'Rp ' . number_format($r->total_amount, 0, ',', '.'),
+                    strtoupper($r->status),
+                    $r->notes ?? '-'
+                ]);
+            }
+
+            // Total Summary Row
+            fputcsv($file, []);
+            fputcsv($file, [
+                'GRAND TOTAL OMZET DISETUJUI',
+                '',
+                '',
+                '',
+                '',
+                '',
+                $totalItems . ' Pcs',
+                'Rp ' . number_format($totalOmzet, 0, ',', '.'),
+                '',
+                ''
+            ]);
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     public function exportPdf(Request $request) {
