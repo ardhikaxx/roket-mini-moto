@@ -10,19 +10,156 @@ use App\Services\NotificationService;
 
 class ReportController extends Controller
 {
-    public function index() {
+    public function index(Request $request) {
         $user = Auth::user();
+        $reports = $this->getFilteredReports($request);
+
         if ($user->isAdmin()) {
-            $reports = SalesReport::with(['store', 'user', 'images'])->latest()->get();
-            return view('admin.reports.index', compact('reports'));
+            $stores = Store::where('is_active', true)->get();
+            return view('admin.reports.index', compact('reports', 'stores'));
         } elseif ($user->isKepalaToko()) {
-            $reports = SalesReport::whereIn('store_id', $user->stores->pluck('id'))->with(['store', 'user', 'images'])->latest()->get();
-            return view('admin.reports.index', compact('reports'));
+            $stores = $user->stores()->where('is_active', true)->get();
+            return view('admin.reports.index', compact('reports', 'stores'));
         } else {
-            $reports = SalesReport::where('user_id', $user->id)->with('store')->latest()->get();
+            $stores = $user->stores;
             $totalApproved = $reports->where('status','disetujui')->sum('total_amount');
-            return view('karyawan.reports.index', compact('reports', 'totalApproved'));
+            return view('karyawan.reports.index', compact('reports', 'stores', 'totalApproved'));
         }
+    }
+
+    public function exportExcel(Request $request) {
+        $reports = $this->getFilteredReports($request);
+        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
+        ];
+
+        $callback = function () use ($reports) {
+            $file = fopen('php://output', 'w');
+            fputs($file, "\xEF\xBB\xBF");
+
+            fputcsv($file, [
+                'ID Laporan',
+                'Tanggal Transaksi',
+                'Toko',
+                'Kasir / Karyawan',
+                'Total Item',
+                'Total Omzet (Rp)',
+                'Status',
+                'Catatan'
+            ]);
+
+            foreach ($reports as $r) {
+                fputcsv($file, [
+                    '#REP-' . str_pad($r->id, 5, '0', STR_PAD_LEFT),
+                    \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'),
+                    $r->store->name ?? '-',
+                    $r->user->name ?? '-',
+                    $r->total_items,
+                    $r->total_amount,
+                    strtoupper($r->status),
+                    $r->notes ?? '-'
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportPdf(Request $request) {
+        $reports = $this->getFilteredReports($request);
+        
+        $selectedStore = null;
+        if ($request->filled('store_id') && $request->store_id !== 'all') {
+            $selectedStore = Store::find($request->store_id);
+        }
+
+        $period = $request->input('period', 'all');
+        $periodLabel = 'Semua Periode';
+        if ($period === 'today') {
+            $periodLabel = 'Hari Ini (' . \Carbon\Carbon::today()->format('d/m/Y') . ')';
+        } elseif ($period === 'this_week') {
+            $periodLabel = 'Minggu Ini (' . \Carbon\Carbon::now()->startOfWeek()->format('d/m/Y') . ' - ' . \Carbon\Carbon::now()->endOfWeek()->format('d/m/Y') . ')';
+        } elseif ($period === 'this_month') {
+            $periodLabel = 'Bulan Ini (' . \Carbon\Carbon::now()->format('F Y') . ')';
+        } elseif ($period === 'custom') {
+            $start = $request->start_date ? \Carbon\Carbon::parse($request->start_date)->format('d/m/Y') : 'Awal';
+            $end = $request->end_date ? \Carbon\Carbon::parse($request->end_date)->format('d/m/Y') : 'Akhir';
+            $periodLabel = "Rentang Tanggal ($start s/d $end)";
+        }
+
+        $totalOmzet = $reports->where('status', 'disetujui')->sum('total_amount');
+        $totalItems = $reports->sum('total_items');
+        $approvedCount = $reports->where('status', 'disetujui')->count();
+
+        return view('admin.reports.print_pdf', compact(
+            'reports',
+            'selectedStore',
+            'periodLabel',
+            'totalOmzet',
+            'totalItems',
+            'approvedCount'
+        ));
+    }
+
+    private function getFilteredReports(Request $request) {
+        $user = Auth::user();
+        $query = SalesReport::with(['store', 'user', 'images', 'items.product'])->latest('transaction_date');
+
+        if ($user->isKepalaToko()) {
+            $query->whereIn('store_id', $user->stores->pluck('id'));
+        } elseif ($user->isKaryawan()) {
+            $query->where('user_id', $user->id);
+        }
+
+        if ($request->filled('store_id') && $request->store_id !== 'all') {
+            $query->where('store_id', $request->store_id);
+        }
+
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $period = $request->input('period', 'all');
+        if ($period === 'today') {
+            $query->whereDate('transaction_date', \Carbon\Carbon::today());
+        } elseif ($period === 'this_week') {
+            $query->whereBetween('transaction_date', [
+                \Carbon\Carbon::now()->startOfWeek(),
+                \Carbon\Carbon::now()->endOfWeek()
+            ]);
+        } elseif ($period === 'this_month') {
+            $query->whereYear('transaction_date', \Carbon\Carbon::now()->year)
+                  ->whereMonth('transaction_date', \Carbon\Carbon::now()->month);
+        } elseif ($period === 'custom') {
+            if ($request->filled('start_date')) {
+                $query->whereDate('transaction_date', '>=', $request->start_date);
+            }
+            if ($request->filled('end_date')) {
+                $query->whereDate('transaction_date', '<=', $request->end_date);
+            }
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->whereHas('user', function($u) use ($search) {
+                    $u->where('name', 'like', "%{$search}%")->orWhere('username', 'like', "%{$search}%");
+                })->orWhereHas('store', function($s) use ($search) {
+                    $s->where('name', 'like', "%{$search}%");
+                })->orWhere('notes', 'like', "%{$search}%")
+                  ->orWhere('id', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->get();
     }
 
     public function create() {

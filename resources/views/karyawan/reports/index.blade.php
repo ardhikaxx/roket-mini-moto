@@ -7,15 +7,123 @@
 @section('content')
 @php
     $user = auth()->user();
-    $reports = \App\Models\SalesReport::where('user_id', $user->id)->with('store')->latest()->get();
-    $totalApproved = $reports->where('status','disetujui')->sum('total_amount');
 @endphp
 <div class="page-header">
-    <div class="page-header-row">
-        <div><h1 class="page-title">Laporan Penjualan Saya</h1><p class="page-subtitle">Total omzet disetujui: Rp {{ number_format($totalApproved,0,',','.') }}</p></div>
-        <div class="page-actions"><a href="{{ route('karyawan.reports.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Buat Laporan Baru</a></div>
+    <div class="page-header-row align-items-center">
+        <div>
+            <h1 class="page-title"><i class="fa-solid fa-file-invoice text-primary me-2"></i>Laporan Penjualan Saya</h1>
+            <p class="page-subtitle">Total omzet disetujui: <strong class="text-success">Rp {{ number_format($totalApproved,0,',','.') }}</strong></p>
+        </div>
+        <div class="page-actions">
+            <a href="{{ route('karyawan.reports.create') }}" class="btn btn-primary px-4 py-2" style="font-weight:600;"><i class="fa-solid fa-plus me-2"></i> Buat Laporan Baru</a>
+        </div>
     </div>
 </div>
+
+{{-- Card Filter & Ekspor Karyawan --}}
+<div class="card shadow-sm border-0 mb-4" style="border-radius:var(--radius-lg);">
+    <div class="card-header bg-white p-4 border-bottom border-light">
+        <h5 class="fw-bold mb-0 text-dark d-flex align-items-center justify-content-between">
+            <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Ekspor Laporan Saya</span>
+            <div class="d-flex gap-2">
+                <button type="button" onclick="exportKaryawanData('excel')" class="btn btn-success btn-sm px-3 fw-bold text-white rounded-3">
+                    <i class="fa-solid fa-file-excel me-1"></i> Cetak Excel
+                </button>
+                <button type="button" onclick="exportKaryawanData('pdf')" class="btn btn-danger btn-sm px-3 fw-bold rounded-3">
+                    <i class="fa-solid fa-file-pdf me-1"></i> Cetak PDF
+                </button>
+            </div>
+        </h5>
+    </div>
+    <div class="card-body p-4 bg-neutral-50">
+        <form method="GET" action="{{ route('karyawan.reports.index') }}" id="karyawanFilterForm">
+            <div class="row g-3 align-items-end">
+                {{-- Filter Toko --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label fw-bold mb-1" style="font-size:12px;"><i class="fa-solid fa-store text-primary me-1"></i> Cabang Toko</label>
+                    <select name="store_id" class="form-select" onchange="this.form.submit()">
+                        <option value="all">-- Semua Toko --</option>
+                        @foreach($stores as $st)
+                            <option value="{{ $st->id }}" {{ request('store_id') == $st->id ? 'selected' : '' }}>{{ $st->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                {{-- Filter Periode Waktu --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label fw-bold mb-1" style="font-size:12px;"><i class="fa-regular fa-calendar-days text-primary me-1"></i> Periode Waktu</label>
+                    <select name="period" id="karyawanPeriodSelect" class="form-select" onchange="handleKaryawanPeriodChange(this.value)">
+                        <option value="all" {{ request('period', 'all') == 'all' ? 'selected' : '' }}>Semua Periode</option>
+                        <option value="today" {{ request('period') == 'today' ? 'selected' : '' }}>Hari Ini</option>
+                        <option value="this_week" {{ request('period') == 'this_week' ? 'selected' : '' }}>Minggu Ini</option>
+                        <option value="this_month" {{ request('period') == 'this_month' ? 'selected' : '' }}>Bulan Ini</option>
+                        <option value="custom" {{ request('period') == 'custom' ? 'selected' : '' }}>Rentang Tanggal Custom</option>
+                    </select>
+                </div>
+
+                {{-- Filter Status --}}
+                <div class="col-12 col-md-6 col-lg-3">
+                    <label class="form-label fw-bold mb-1" style="font-size:12px;"><i class="fa-solid fa-tag text-primary me-1"></i> Status Laporan</label>
+                    <select name="status" class="form-select" onchange="this.form.submit()">
+                        <option value="all" {{ request('status', 'all') == 'all' ? 'selected' : '' }}>Semua Status</option>
+                        <option value="disetujui" {{ request('status') == 'disetujui' ? 'selected' : '' }}>Disetujui</option>
+                        <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
+                        <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                </div>
+
+                {{-- Actions --}}
+                <div class="col-12 col-md-6 col-lg-3 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-fill fw-bold rounded-3"><i class="fa-solid fa-magnifying-glass me-1"></i> Terapkan</button>
+                    <a href="{{ route('karyawan.reports.index') }}" class="btn btn-light border px-3 fw-bold rounded-3" title="Reset Filter"><i class="fa-solid fa-rotate-right"></i></a>
+                </div>
+
+                {{-- Custom Date Row --}}
+                <div class="col-12 mt-3" id="karyawanCustomDateRow" style="display: {{ request('period') == 'custom' ? 'block' : 'none' }};">
+                    <div class="p-3 rounded-3 border bg-white shadow-sm">
+                        <div class="row g-3 align-items-center">
+                            <div class="col-12 col-md-5">
+                                <label class="form-label mb-1 fw-semibold" style="font-size:12px;">Dari Tanggal</label>
+                                <input type="date" name="start_date" class="form-control" value="{{ request('start_date') }}">
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <label class="form-label mb-1 fw-semibold" style="font-size:12px;">Sampai Tanggal</label>
+                                <input type="date" name="end_date" class="form-control" value="{{ request('end_date') }}">
+                            </div>
+                            <div class="col-12 col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-dark w-100 fw-bold mt-4" style="border-radius:8px;">Filter Tanggal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function handleKaryawanPeriodChange(val) {
+        const row = document.getElementById('karyawanCustomDateRow');
+        if (val === 'custom') {
+            if (row) row.style.display = 'block';
+        } else {
+            if (row) row.style.display = 'none';
+            document.getElementById('karyawanFilterForm').submit();
+        }
+    }
+
+    function exportKaryawanData(type) {
+        const form = document.getElementById('karyawanFilterForm');
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData).toString();
+        
+        if (type === 'excel') {
+            window.location.href = "{{ route('karyawan.reports.export-excel') }}?" + params;
+        } else if (type === 'pdf') {
+            window.open("{{ route('karyawan.reports.export-pdf') }}?" + params, '_blank');
+        }
+    }
+</script>
 
 <div class="card">
     <div class="card-body p-0">

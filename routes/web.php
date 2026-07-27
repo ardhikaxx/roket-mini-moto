@@ -111,6 +111,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/users/{user}/reset-pin', [UserController::class, 'resetPin'])->name('users.reset-pin')->middleware('role:admin');
 
         // Reports (admin & kepala_toko)
+        Route::get('/reports/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
+        Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/{report}', [ReportController::class, 'show'])->name('reports.show');
         Route::post('/reports/{report}/approve', [ReportController::class, 'approve'])->name('reports.approve');
@@ -135,6 +137,8 @@ Route::middleware('auth')->group(function () {
     // Karyawan Routes
     Route::prefix('karyawan')->name('karyawan.')->middleware('role:karyawan')->group(function () {
         Route::get('/dashboard', function() { return view('karyawan.dashboard'); })->name('dashboard');
+        Route::get('/reports/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
+        Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
         Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
         Route::get('/reports/create', [ReportController::class, 'create'])->name('reports.create');
         Route::post('/reports', [ReportController::class, 'store'])->name('reports.store');
