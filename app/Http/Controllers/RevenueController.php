@@ -68,7 +68,7 @@ class RevenueController extends Controller
         $pdf = Pdf::loadView('omzet.print_pdf', compact('totalOmzet', 'totalTransactions', 'totalItems', 'avgTransaction', 'storeOmzet', 'catSummary'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream('Analitik_Omzet_' . now()->format('Ymd_His') . '.pdf');
+        return $pdf->download('Analitik_Omzet_' . now()->format('Ymd_His') . '.pdf');
     }
 
     public function exportExcel() {

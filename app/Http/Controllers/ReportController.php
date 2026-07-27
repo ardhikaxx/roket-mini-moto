@@ -267,7 +267,7 @@ class ReportController extends Controller
             'approvedCount'
         ))->setPaper('a4', 'landscape');
 
-        return $pdf->stream('Laporan_Penjualan_' . now()->format('Ymd_His') . '.pdf');
+        return $pdf->download('Laporan_Penjualan_' . now()->format('Ymd_His') . '.pdf');
     }
 
     private function getFilteredReports(Request $request) {
