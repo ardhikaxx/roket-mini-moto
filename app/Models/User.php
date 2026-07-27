@@ -2,10 +2,18 @@
 namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 class User extends Authenticatable {
     use Notifiable;
-    protected $guarded = [];
+
+    protected $fillable = [
+        'name', 'username', 'email', 'pin', 'role',
+        'is_active', 'phone', 'address', 'avatar', 'photo',
+        'last_login_at',
+    ];
+
     protected $hidden = ['pin', 'remember_token'];
+
     public function getAuthPassword() { return $this->pin; }
     public function stores() { return $this->belongsToMany(Store::class, 'user_stores'); }
     public function salesReports() { return $this->hasMany(SalesReport::class); }

@@ -281,7 +281,16 @@ class ReportController extends Controller
         }
 
         if ($request->filled('store_id') && $request->store_id !== 'all') {
-            $query->where('store_id', $request->store_id);
+            // Karyawan: pastikan store_id yang diminta adalah toko yang ditugaskan kepadanya
+            if ($user->isKaryawan()) {
+                $allowedStoreIds = $user->stores->pluck('id');
+                if ($allowedStoreIds->contains($request->store_id)) {
+                    $query->where('store_id', $request->store_id);
+                }
+                // Jika store_id bukan miliknya, abaikan filter (scope user_id sudah berlaku)
+            } else {
+                $query->where('store_id', $request->store_id);
+            }
         }
 
         if ($request->filled('status') && $request->status !== 'all') {
@@ -333,12 +342,16 @@ class ReportController extends Controller
     public function store(Request $request) {
         $request->validate([
             'store_id' => 'required|exists:stores,id',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:1000',
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|exists:products,id',
-            'products.*.qty' => 'required|integer|min:1',
+            'products.*.qty' => 'required|integer|min:1|max:9999',
             'images' => 'required|array|min:1|max:10',
-            'images.*' => 'image|max:2048'
+            'images.*' => 'required|file|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'images.*.mimes' => 'File gambar harus berformat JPG, JPEG, PNG, atau WebP.',
+            'images.*.max' => 'Ukuran setiap gambar maksimal 5 MB.',
+            'images.required' => 'Minimal satu foto bukti laporan harus diunggah.',
         ]);
 
         $user = Auth::user();
@@ -445,12 +458,15 @@ class ReportController extends Controller
 
         $request->validate([
             'store_id' => 'required|exists:stores,id',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string|max:1000',
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|exists:products,id',
-            'products.*.qty' => 'required|integer|min:1',
+            'products.*.qty' => 'required|integer|min:1|max:9999',
             'images' => 'nullable|array|max:10',
-            'images.*' => 'image|max:2048'
+            'images.*' => 'file|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'images.*.mimes' => 'File gambar harus berformat JPG, JPEG, PNG, atau WebP.',
+            'images.*.max' => 'Ukuran setiap gambar maksimal 5 MB.',
         ]);
 
         try {
