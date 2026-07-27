@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RevenueController extends Controller
 {
@@ -64,7 +65,10 @@ class RevenueController extends Controller
         $catSummary = $catSales->groupBy(fn($i) => $i->product->category->name ?? 'Lainnya')
             ->map(fn($items) => ['qty' => $items->sum('total_qty'), 'amount' => $items->sum('total_amount')]);
 
-        return view('omzet.print_pdf', compact('totalOmzet', 'totalTransactions', 'totalItems', 'avgTransaction', 'storeOmzet', 'catSummary'));
+        $pdf = Pdf::loadView('omzet.print_pdf', compact('totalOmzet', 'totalTransactions', 'totalItems', 'avgTransaction', 'storeOmzet', 'catSummary'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Analitik_Omzet_' . now()->format('Ymd_His') . '.pdf');
     }
 
     public function exportExcel() {

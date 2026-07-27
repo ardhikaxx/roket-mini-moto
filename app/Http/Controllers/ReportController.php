@@ -10,6 +10,7 @@ use App\Services\NotificationService;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\{Fill, Border, Alignment, NumberFormat};
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -257,14 +258,16 @@ class ReportController extends Controller
         $totalItems = $reports->sum('total_items');
         $approvedCount = $reports->where('status', 'disetujui')->count();
 
-        return view('admin.reports.print_pdf', compact(
+        $pdf = Pdf::loadView('admin.reports.print_pdf', compact(
             'reports',
             'selectedStore',
             'periodLabel',
             'totalOmzet',
             'totalItems',
             'approvedCount'
-        ));
+        ))->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Laporan_Penjualan_' . now()->format('Ymd_His') . '.pdf');
     }
 
     private function getFilteredReports(Request $request) {
