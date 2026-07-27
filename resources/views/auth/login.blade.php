@@ -378,7 +378,7 @@
             <div class="login-hero-panel">
                 <div>
                     <div class="brand-badge mb-4">
-                        <i class="fa-solid fa-rocket text-warning"></i>
+                        <i class="fa-solid fa-rocket me-1 text-light"></i>
                         <span>ROKET MINI MOTO</span>
                     </div>
                     <h2 class="hero-title">Sistem Manajemen & Operasional</h2>
@@ -389,9 +389,9 @@
 
                 <div>
                     <div class="feature-pills">
-                        <span class="feature-pill"><i class="fa-solid fa-shield-halved me-1 text-warning"></i> Keamanan PIN 4 Digit</span>
-                        <span class="feature-pill"><i class="fa-solid fa-motorcycle me-1 text-danger-subtle"></i> Mini Trail & ATV</span>
-                        <span class="feature-pill"><i class="fa-solid fa-car-side me-1 text-info-subtle"></i> Mobil Aki Anak</span>
+                        <span class="feature-pill"><i class="fa-solid fa-shield-halved me-1 text-light"></i> Keamanan PIN 4 Digit</span>
+                        <span class="feature-pill"><i class="fa-solid fa-motorcycle me-1 text-light"></i> Mini Trail & ATV</span>
+                        <span class="feature-pill"><i class="fa-solid fa-car-side me-1 text-light"></i> Mobil Aki Anak</span>
                     </div>
                     <div class="mt-4 pt-2 text-white-50 small">
                         &copy; {{ date('Y') }} Roket Mini Moto. All rights reserved.
