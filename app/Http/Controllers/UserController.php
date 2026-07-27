@@ -43,7 +43,7 @@ class UserController extends Controller
         ];
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('users', 'public');
+            $data['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'users');
         }
 
         $user = User::create($data);
@@ -91,8 +91,8 @@ class UserController extends Controller
         ];
 
         if ($request->hasFile('photo')) {
-            if ($user->photo) Storage::disk('public')->delete($user->photo);
-            $data['photo'] = $request->file('photo')->store('users', 'public');
+            if ($user->photo) \App\Helpers\FileUploadHelper::delete($user->photo);
+            $data['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'users');
         }
 
         $user->update($data);

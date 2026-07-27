@@ -29,7 +29,7 @@ class StoreController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('stores', 'public');
+            $validated['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'stores');
         }
         $validated['is_active'] = $request->has('is_active');
         $store = Store::create($validated);
@@ -68,8 +68,8 @@ class StoreController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            if ($store->photo) \Storage::disk('public')->delete($store->photo);
-            $validated['photo'] = $request->file('photo')->store('stores', 'public');
+            if ($store->photo) \App\Helpers\FileUploadHelper::delete($store->photo);
+            $validated['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'stores');
         }
         $validated['is_active'] = $request->has('is_active');
         $store->update($validated);

@@ -10,6 +10,55 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RevenueController;
 
+use Illuminate\Support\Facades\File;
+
+// Image Serving Routes (No storage:link required)
+Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
+    $paths = [
+        public_path("uploads/{$folder}/{$filename}"),
+        storage_path("uploads/{$folder}/{$filename}"),
+        public_path("storage/{$folder}/{$filename}"),
+        storage_path("app/public/{$folder}/{$filename}"),
+    ];
+
+    foreach ($paths as $path) {
+        if (File::exists($path) && !File::isDirectory($path)) {
+            $file = File::get($path);
+            $type = File::mimeType($path) ?: 'image/jpeg';
+            return response($file, 200)->header('Content-Type', $type);
+        }
+    }
+
+    $fallback = public_path('assets/images/no-image.png');
+    if (File::exists($fallback)) {
+        return response(File::get($fallback), 200)->header('Content-Type', 'image/png');
+    }
+    abort(404);
+})->where(['folder' => '[a-zA-Z0-9_-]+', 'filename' => '[a-zA-Z0-9_.-]+']);
+
+Route::get('/uploads/{folder}/{filename}', function ($folder, $filename) {
+    $paths = [
+        public_path("uploads/{$folder}/{$filename}"),
+        storage_path("uploads/{$folder}/{$filename}"),
+        public_path("storage/{$folder}/{$filename}"),
+        storage_path("app/public/{$folder}/{$filename}"),
+    ];
+
+    foreach ($paths as $path) {
+        if (File::exists($path) && !File::isDirectory($path)) {
+            $file = File::get($path);
+            $type = File::mimeType($path) ?: 'image/jpeg';
+            return response($file, 200)->header('Content-Type', $type);
+        }
+    }
+
+    $fallback = public_path('assets/images/no-image.png');
+    if (File::exists($fallback)) {
+        return response(File::get($fallback), 200)->header('Content-Type', 'image/png');
+    }
+    abort(404);
+})->where(['folder' => '[a-zA-Z0-9_-]+', 'filename' => '[a-zA-Z0-9_.-]+']);
+
 // Public Routes
 Route::get('/', function () {
     $products = \App\Models\Product::where('is_active', true)->where('show_on_landing', true)->get();
@@ -93,7 +142,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/reports/{report}', [ReportController::class, 'update'])->name('reports.update');
         Route::delete('/reports/images/{image}', function(\App\Models\SalesReportImage $image) {
             if ($image->salesReport->user_id !== auth()->id()) abort(403);
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($image->image_path);
+            \App\Helpers\FileUploadHelper::delete($image->image_path);
             $image->delete();
             return back()->with('success', 'Foto dihapus.');
         })->name('reports.delete-image');

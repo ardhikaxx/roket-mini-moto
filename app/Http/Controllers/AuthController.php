@@ -74,7 +74,8 @@ class AuthController extends Controller
 
         $data = $request->only(['name', 'phone', 'address']);
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('users', 'public');
+            if ($user->photo) \App\Helpers\FileUploadHelper::delete($user->photo);
+            $data['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'users');
         }
         $user->update($data);
         AuditService::log('update_profile', 'Pengguna ' . $user->name . ' memperbarui profil.');

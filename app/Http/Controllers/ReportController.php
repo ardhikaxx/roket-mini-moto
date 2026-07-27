@@ -87,7 +87,7 @@ class ReportController extends Controller
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('reports', 'public');
+                    $path = \App\Helpers\FileUploadHelper::upload($image, 'reports');
                     SalesReportImage::create([
                         'sales_report_id' => $report->id,
                         'image_path' => $path
@@ -182,7 +182,7 @@ class ReportController extends Controller
 
             if ($request->hasFile('images')) {
                 foreach ($request->file('images') as $image) {
-                    $path = $image->store('reports', 'public');
+                    $path = \App\Helpers\FileUploadHelper::upload($image, 'reports');
                     SalesReportImage::create([
                         'sales_report_id' => $report->id,
                         'image_path' => $path
@@ -296,7 +296,7 @@ class ReportController extends Controller
         try {
             DB::beginTransaction();
             foreach ($report->images as $img) {
-                Storage::disk('public')->delete($img->image_path);
+                \App\Helpers\FileUploadHelper::delete($img->image_path);
                 $img->delete();
             }
             $report->items()->delete();

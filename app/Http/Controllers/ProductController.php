@@ -33,7 +33,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('products', 'public');
+            $validated['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'products');
         }
 
         $validated['is_active'] = $request->has('is_active');
@@ -68,8 +68,8 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            if ($product->photo) Storage::disk('public')->delete($product->photo);
-            $validated['photo'] = $request->file('photo')->store('products', 'public');
+            if ($product->photo) \App\Helpers\FileUploadHelper::delete($product->photo);
+            $validated['photo'] = \App\Helpers\FileUploadHelper::upload($request->file('photo'), 'products');
         }
 
         $validated['is_active'] = $request->has('is_active');
