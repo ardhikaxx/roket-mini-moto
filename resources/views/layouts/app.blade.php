@@ -118,8 +118,21 @@
                 </div>
             </div>
             <hr class="border-secondary mt-5 mb-4">
-            <div class="text-start text-lg-center text-white small">
-                &copy; 2026 Roket Mini Moto. All Rights Reserved.
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white small gap-2">
+                <div>
+                    &copy; 2026 Roket Mini Moto. All Rights Reserved.
+                </div>
+                <div>
+                    @auth
+                        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('admin.reports.index') : route('karyawan.dashboard')) }}" class="text-white-50 text-decoration-none fw-semibold">
+                            <i class="fa-solid fa-gauge-high me-1"></i> Masuk Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="text-white-50 text-decoration-none" style="opacity: 0.35; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='0.35'" title="Portal Login Khusus Karyawan & Management">
+                            <i class="fa-solid fa-lock me-1"></i> Portal Staf
+                        </a>
+                    @endauth
+                </div>
             </div>
         </div>
     </footer>
