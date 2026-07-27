@@ -46,10 +46,46 @@ class DatabaseSeeder extends Seeder
 
         // 2. Create Stores
         $stores = [
-            Store::firstOrCreate(['code' => 'SBY-01'], ['name' => 'Roket SBY Pusat', 'address' => 'Jl. Tunjungan No. 1, Surabaya', 'phone' => '031-123456', 'operational_hours' => '08:00 - 21:00', 'is_active' => true]),
-            Store::firstOrCreate(['code' => 'SBY-02'], ['name' => 'Roket SBY Timur', 'address' => 'Jl. Dharmahusada No. 10', 'phone' => '031-654321', 'operational_hours' => '09:00 - 21:00', 'is_active' => true]),
-            Store::firstOrCreate(['code' => 'MLG-01'], ['name' => 'Roket Malang Suhat', 'address' => 'Jl. Soekarno Hatta No. 5, Malang', 'phone' => '0341-112233', 'operational_hours' => '08:00 - 22:00', 'is_active' => true]),
-            Store::firstOrCreate(['code' => 'SDA-01'], ['name' => 'Roket Sidoarjo', 'address' => 'Jl. Pahlawan No. 8, Sidoarjo', 'phone' => '031-998877', 'operational_hours' => '08:00 - 20:00', 'is_active' => true]),
+            Store::updateOrCreate(
+                ['code' => 'BND-01'],
+                [
+                    'name' => 'Roket Mini Moto Bondowoso Pusat',
+                    'address' => 'Utara Hotel Baru, Jln. Kartini No.41, Pegadaian, Blindungan, Kec. Bondowoso, Jawa Timur 68212',
+                    'phone' => '0823-3546-5000',
+                    'operational_hours' => '08:00 - 22:00 WIB',
+                    'is_active' => true
+                ]
+            ),
+            Store::updateOrCreate(
+                ['code' => 'BND-02'],
+                [
+                    'name' => 'Roket Mini Moto Bondowoso Cabang Kota',
+                    'address' => 'Jl. Ahmad Yani No. 88, Nangkaan, Kec. Bondowoso, Jawa Timur 68215',
+                    'phone' => '0823-3546-5001',
+                    'operational_hours' => '08:00 - 21:00 WIB',
+                    'is_active' => true
+                ]
+            ),
+            Store::updateOrCreate(
+                ['code' => 'JBR-01'],
+                [
+                    'name' => 'Roket Mini Moto Jember',
+                    'address' => 'Jl. Gajah Mada No. 120, Kaliwates, Kec. Kaliwates, Jember, Jawa Timur 68131',
+                    'phone' => '0823-3546-5002',
+                    'operational_hours' => '08:00 - 21:00 WIB',
+                    'is_active' => true
+                ]
+            ),
+            Store::updateOrCreate(
+                ['code' => 'BWI-01'],
+                [
+                    'name' => 'Roket Mini Moto Banyuwangi',
+                    'address' => 'Jl. Jendral Sudirman No. 45, Panderejo, Banyuwangi, Jawa Timur 68411',
+                    'phone' => '0823-3546-5003',
+                    'operational_hours' => '08:00 - 21:00 WIB',
+                    'is_active' => true
+                ]
+            ),
         ];
 
         // Assign stores to users
