@@ -198,7 +198,8 @@
                     
                     <div class="p-3 rounded {{ $user->is_active ? 'bg-success-50 border-success-100' : 'bg-danger-50 border-danger-100' }} border mb-4" id="statusContainer">
                         <label class="form-switch d-flex align-items-center gap-3 m-0 cursor-pointer">
-                            <input type="checkbox" name="is_active" {{ $user->is_active ? 'checked' : '' }} style="width:40px; height:24px;" onchange="toggleStatusStyle(this)">
+                            <input type="checkbox" name="is_active" value="1" {{ $user->is_active ? 'checked' : '' }} onchange="toggleStatusStyle(this)">
+                            <span class="switch-track" style="flex-shrink: 0;"></span>
                             <div>
                                 <span class="fw-bold text-dark d-block" style="font-size:14px;" id="statusTitle">Aktifkan Akses Login</span>
                                 <small class="text-muted" style="font-size:11px;" id="statusDesc">Pengguna bisa langsung login.</small>

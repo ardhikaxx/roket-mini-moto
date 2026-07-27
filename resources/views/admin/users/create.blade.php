@@ -202,7 +202,8 @@
                     
                     <div class="p-3 rounded bg-success-50 border border-success-100 mb-4">
                         <label class="form-switch d-flex align-items-center gap-3 m-0 cursor-pointer">
-                            <input type="checkbox" name="is_active" checked style="width:40px; height:24px;">
+                            <input type="checkbox" name="is_active" value="1" checked>
+                            <span class="switch-track" style="flex-shrink: 0;"></span>
                             <div>
                                 <span class="fw-bold text-success-700 d-block" style="font-size:14px;">Aktifkan Akses Login</span>
                                 <small class="text-success" style="font-size:11px;">Pengguna bisa langsung login.</small>

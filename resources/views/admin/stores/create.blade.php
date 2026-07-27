@@ -134,10 +134,11 @@
                         </div>
                     </div>
 
-                    <div class="p-3 rounded bg-neutral-50 border border-light mb-4">
+                    <div class="p-3 rounded bg-white border border-light mb-4 shadow-sm">
                         <label class="form-label fw-bold d-block mb-2" style="font-size:13px;">Status Visibilitas</label>
                         <label class="form-switch d-flex align-items-center gap-3 m-0 cursor-pointer">
-                            <input type="checkbox" name="is_active" checked style="width:40px; height:24px;">
+                            <input type="checkbox" name="is_active" value="1" checked>
+                            <span class="switch-track" style="flex-shrink: 0;"></span>
                             <div>
                                 <span class="fw-bold text-dark d-block" style="font-size:14px;">Aktifkan Cabang Ini</span>
                                 <small class="text-muted" style="font-size:11px;">Jika aktif, toko ini bisa dipilih dalam pembuatan laporan harian.</small>
