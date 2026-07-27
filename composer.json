@@ -34,7 +34,10 @@
             "Barryvdh\\DomPDF\\": "vendor/barryvdh/laravel-dompdf/src/",
             "Sabberworm\\CSS\\": "vendor/sabberworm/php-css-parser/src/",
             "Masterminds\\": "vendor/masterminds/html5/src/"
-        }
+        },
+        "classmap": [
+            "vendor/dompdf/dompdf/lib/Cpdf.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
