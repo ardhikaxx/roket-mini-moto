@@ -284,14 +284,7 @@
     <div class="sheet">
         
         <!-- Header -->
-        <div class="doc-header">
-            <div>
-                <h1 class="brand-title">
-                    <i class="fa-solid fa-rocket"></i> ROKET MINI MOTO
-                </h1>
-                <p class="brand-sub">Toko Mini Trail, Mobil Aki & ATV Terpercaya Bondowoso</p>
-                <p class="brand-sub">Jl. Kartini No.41, Blindungan, Bondowoso | WA: +62 823-3546-5000</p>
-            </div>
+        <div class="doc-header" style="justify-content: flex-end;">
             <div class="doc-meta">
                 <div style="font-weight:700; font-size:14px; color:#0f172a;">DOKUMEN LAPORAN</div>
                 <div>Tanggal Cetak: {{ date('d/m/Y H:i') }}</div>
