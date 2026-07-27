@@ -383,21 +383,7 @@
             </tbody>
         </table>
 
-        <!-- Signatures -->
-        <div class="signature-section">
-            <div class="sig-box">
-                <div>Dibuat Oleh,</div>
-                <div class="sig-space"></div>
-                <div class="sig-name">{{ auth()->user()->name }}</div>
-                <div style="font-size:11px; color:#64748b;">Petugas / Staf</div>
-            </div>
-            <div class="sig-box">
-                <div>Disetujui Oleh,</div>
-                <div class="sig-space"></div>
-                <div class="sig-name">( Management Toko )</div>
-                <div style="font-size:11px; color:#64748b;">Kepala Toko / Admin</div>
-            </div>
-        </div>
+
 
     </div>
 
