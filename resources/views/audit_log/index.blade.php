@@ -35,32 +35,26 @@
     <div class="card-body p-0">
         <div class="table-container border-0">
             <table class="table datatable align-middle table-hover" style="margin:0; min-width:800px;">
-                <thead style="background: var(--neutral-50);">
+                <thead>
                     <tr>
-                        <th style="padding:16px 24px; font-size:12px; text-transform:uppercase; border-bottom:1px solid var(--border-light); width:180px;">Waktu & Tanggal</th>
-                        <th style="padding:16px 24px; font-size:12px; text-transform:uppercase; border-bottom:1px solid var(--border-light); width:250px;">Aktor / Pengguna</th>
-                        <th style="padding:16px 24px; font-size:12px; text-transform:uppercase; border-bottom:1px solid var(--border-light); width:150px;">Tindakan</th>
-                        <th style="padding:16px 24px; font-size:12px; text-transform:uppercase; border-bottom:1px solid var(--border-light);">Detail Catatan</th>
-                        <th class="text-end" style="padding:16px 24px; font-size:12px; text-transform:uppercase; border-bottom:1px solid var(--border-light); width:120px;">Modul Sistem</th>
+                        <th style="width:180px;">Waktu & Tanggal</th>
+                        <th style="width:250px;">Aktor / Pengguna</th>
+                        <th style="width:150px;">Tindakan</th>
+                        <th>Detail Catatan</th>
+                        <th class="text-end" style="width:120px;">Modul Sistem</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($logs as $log)
-                    <tr style="transition:all 0.2s;">
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                    <tr>
+                        <td>
                             <div class="fw-bold text-dark" style="font-size:13px;">{{ $log->created_at->format('d M Y') }}</div>
                             <div class="text-muted font-monospace" style="font-size:11px;"><i class="fa-regular fa-clock me-1"></i>{{ $log->created_at->format('H:i:s') }} WIB</div>
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @if($log->user)
                             <div class="d-flex align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--primary), var(--primary-600)); font-size: 11px; flex-shrink: 0;">
-                                    @if($log->user->photo)
-                                        <img src="{{ asset('storage/'.$log->user->photo) }}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">
-                                    @else
-                                        {{ strtoupper(substr($log->user->name,0,2)) }}
-                                    @endif
-                                </div>
+                                <div class="user-initials-sm">{{ strtoupper(substr($log->user->name,0,2)) }}</div>
                                 <div style="min-width: 0;">
                                     <div class="fw-bold text-dark text-truncate" style="font-size:13px;">{{ $log->user->name }}</div>
                                     <div class="text-muted text-truncate" style="font-size:11px;">{{ str_replace('_', ' ', $log->user->role) }}</div>
@@ -77,7 +71,7 @@
                             </div>
                             @endif
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @php
                                 $color = 'primary';
                                 $icon = 'bolt';
@@ -93,10 +87,10 @@
                                 <i class="fa-solid fa-{{$icon}} me-1"></i> {{ strtoupper(str_replace('_', ' ', $log->action)) }}
                             </span>
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="text-dark" style="font-size:13px; line-height:1.5;">{{ $log->description }}</div>
                         </td>
-                        <td class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td class="text-end">
                             @if($log->model)
                                 <span class="badge bg-neutral-100 text-neutral-600 border px-2 py-1" style="font-family:monospace; font-size:11px;">
                                     {{ class_basename($log->model) }}

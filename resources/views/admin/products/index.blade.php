@@ -86,60 +86,60 @@
 <div class="card shadow-sm border-0 stagger-1 mb-5" style="border-radius:var(--radius-lg); overflow:hidden;">
     <div class="card-body p-0">
         <div class="table-container">
-            <table class="table datatable table-hover align-middle" style="margin:0; border-collapse: separate; border-spacing: 0; min-width: 1000px;">
-                <thead style="background: var(--neutral-50);">
+            <table class="table datatable table-hover align-middle" style="margin:0; min-width:1000px;">
+                <thead>
                     <tr>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:80px;">Produk</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); min-width:240px;">Info Utama</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:150px;">Kategori</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:140px;">Harga Jual</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:140px;">Stok</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:120px;">Visibilitas</th>
-                        <th class="text-end" style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:90px;">Aksi</th>
+                        <th style="width:80px;">Produk</th>
+                        <th style="min-width:240px;">Info Utama</th>
+                        <th style="width:150px;">Kategori</th>
+                        <th style="width:140px;">Harga Jual</th>
+                        <th style="width:140px;">Stok</th>
+                        <th style="width:120px;">Visibilitas</th>
+                        <th class="text-end" style="width:90px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($products as $p)
-                    <tr style="transition: all 0.2s;">
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                    <tr>
+                        <td>
                             <div style="width:56px;height:56px;border-radius:10px;background:var(--neutral-100);overflow:hidden;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);">
                                 <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" style="width:100%;height:100%;object-fit:cover;">
                             </div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="fw-bold text-dark mb-1" style="font-size:15px; line-height:1.2;">
                                 <a href="{{ route('admin.products.show', $p->id) }}" class="text-decoration-none text-dark">{{ $p->name }}</a>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <span style="color:var(--text-secondary);font-size:12px;font-family:monospace;background:var(--neutral-50);padding:2px 6px;border-radius:4px;border:1px solid var(--border-light);">{{ $p->sku }}</span>
+                                <span class="sku-badge">{{ $p->sku }}</span>
                                 <span class="text-muted" style="font-size:11px;">#{{ $p->id }}</span>
                             </div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @if($p->category)
                                 <a href="{{ route('admin.categories.show', $p->category->id) }}" class="badge bg-light text-dark border text-decoration-none" style="font-weight:600;"><i class="fa-solid fa-tag me-1 text-muted"></i>{{ $p->category->name }}</a>
                             @else
                                 <span class="text-muted" style="font-size:13px;font-style:italic;">Tanpa Kategori</span>
                             @endif
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="fw-bold text-primary" style="font-size:15px;">Rp {{ number_format($p->price,0,',','.') }}</div>
                             @if($p->cost_price > 0)
                                 <div class="text-muted" style="font-size:11px;" title="Harga Modal">Modal: Rp {{ number_format($p->cost_price,0,',','.') }}</div>
                             @endif
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="d-flex flex-column gap-1">
                                 <div class="d-flex align-items-center gap-1">
                                     <span class="fw-bold {{ $p->stock <= 5 ? 'text-danger' : 'text-dark' }}" style="font-size:15px;">{{ $p->stock }}</span> 
                                     <span style="font-size:12px; color:var(--text-secondary);">{{ $p->unit }}</span>
                                 </div>
-                                <div class="progress" style="height: 4px; width: 60px; background-color: var(--neutral-100); border-radius:2px;">
+                                <div class="progress" style="height: 4px; width: 60px; background:var(--neutral-100); border-radius:2px;">
                                     <div class="progress-bar {{ $p->stock <= 5 ? 'bg-danger' : 'bg-success' }}" role="progressbar" style="width: {{ min(100, max(5, $p->stock)) }}%"></div>
                                 </div>
                             </div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="d-flex flex-column gap-2 align-items-start">
                                 @if($p->is_active)
                                     <span class="badge badge-success rounded-pill px-2" style="font-weight:600; font-size:11px;"><i class="fa-solid fa-check-circle me-1"></i> Aktif</span>
@@ -152,7 +152,7 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="text-end" style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td class="text-end">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm rounded-3" style="border:1px solid var(--border-light);background:white;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical text-secondary"></i></button>
                                 <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-1" style="min-width: 180px;">
@@ -183,15 +183,6 @@
 @endif
 
 <script>
-// Click outside to close dropdowns
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown')) {
-        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-            menu.classList.remove('show');
-        });
-    }
-});
-
 function confirmDelete(id, name) {
     Swal.fire({
         title: 'Nonaktifkan Produk?',

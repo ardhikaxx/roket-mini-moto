@@ -115,20 +115,20 @@
     <div class="card-body p-0">
         <div class="table-container">
             <table class="table datatable table-hover align-middle" id="reportsTable" style="margin:0; min-width:1000px;">
-                <thead style="background: var(--neutral-50);">
+                <thead>
                     <tr>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:80px;">Bukti</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); min-width:200px;">Informasi Transaksi</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:200px;">Produk Terjual</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:150px;">Total Setoran</th>
-                        <th style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:140px;">Status</th>
-                        <th class="text-end" style="padding:16px 20px; border-bottom:1px solid var(--border-light); width:100px;">Aksi</th>
+                        <th style="width:80px;">Bukti</th>
+                        <th style="min-width:200px;">Informasi Transaksi</th>
+                        <th style="width:200px;">Produk Terjual</th>
+                        <th style="width:150px;">Total Setoran</th>
+                        <th style="width:140px;">Status</th>
+                        <th class="text-end" style="width:100px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($reports as $r)
-                    <tr style="transition: all 0.2s;">
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                    <tr>
+                        <td>
                             @if($r->images->first())
                             <div style="width:48px;height:48px;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);" onclick="openLightbox('{{ asset('storage/'.$r->images->first()->image_path) }}')">
                                 <img src="{{ asset('storage/'.$r->images->first()->image_path) }}" style="width:100%;height:100%;object-fit:cover;">
@@ -137,14 +137,14 @@
                             <div style="width:48px;height:48px;border-radius:10px;background:var(--neutral-100);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:20px;border:1px solid var(--border-light);"><i class="fa-solid fa-image"></i></div>
                             @endif
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="fw-bold text-dark mb-1" style="font-size:15px;">{{ $r->user->name ?? 'User Tidak Diketahui' }}</div>
                             <div class="d-flex flex-wrap gap-2 align-items-center mt-1">
                                 <span class="badge bg-light text-dark border"><i class="fa-solid fa-store text-muted me-1"></i> {{ $r->store->name ?? '-' }}</span>
                                 <span class="text-muted" style="font-size:12px;"><i class="fa-regular fa-calendar me-1"></i> {{ \Carbon\Carbon::parse($r->transaction_date)->format('d M Y') }}</span>
                             </div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="d-flex flex-wrap gap-1">
                                 @php $itemNames = $r->items->pluck('product_name')->take(2); @endphp
                                 @foreach($itemNames as $in)
@@ -158,10 +158,10 @@
                                 @endif
                             </div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="fw-bold text-primary" style="font-size:15px;">Rp {{ number_format($r->total_amount,0,',','.') }}</div>
                         </td>
-                        <td style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @if($r->status == 'diproses') 
                                 <span class="badge badge-warning rounded-pill px-3 py-2" style="font-weight:600; font-size:11px;"><i class="fa-solid fa-clock-rotate-left me-1"></i> DIPROSES</span>
                             @elseif($r->status == 'disetujui') 
@@ -170,7 +170,7 @@
                                 <span class="badge badge-danger rounded-pill px-3 py-2" style="font-weight:600; font-size:11px;"><i class="fa-solid fa-circle-xmark me-1"></i> DITOLAK</span>
                             @endif
                         </td>
-                        <td class="text-end" style="padding:16px 20px; border-bottom:1px solid var(--neutral-100);">
+                        <td class="text-end">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm rounded-3" style="border:1px solid var(--border-light);background:white;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;" onclick="this.nextElementSibling.classList.toggle('show')"><i class="fa-solid fa-ellipsis-vertical text-secondary"></i></button>
                                 <div class="dropdown-menu dropdown-menu-end shadow-sm border-0 rounded-3 mt-1" style="min-width: 180px;">

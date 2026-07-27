@@ -84,21 +84,21 @@
     <div class="card-body p-0">
         <div class="table-container">
             <table class="table datatable table-hover align-middle" style="margin:0; min-width:800px;">
-                <thead style="background: var(--neutral-50);">
+                <thead>
                     <tr>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:300px;">Profil Pengguna</th>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:180px;">Peran Akses</th>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:200px;">Lokasi Tugas</th>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:120px;">Status</th>
-                        <th class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:80px;">Aksi</th>
+                        <th style="width:300px;">Profil Pengguna</th>
+                        <th style="width:180px;">Peran Akses</th>
+                        <th style="width:200px;">Lokasi Tugas</th>
+                        <th style="width:120px;">Status</th>
+                        <th class="text-end" style="width:80px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($users as $u)
-                    <tr style="transition: all 0.2s;">
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                    <tr>
+                        <td>
                             <div class="d-flex align-items-center gap-3">
-                                <div class="d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-600)); font-size: 1.1rem; flex-shrink: 0;">
+                                <div class="user-initials">
                                     {{ strtoupper(substr($u->name,0,2)) }}
                                 </div>
                                 <div style="min-width: 0;">
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @if($u->isAdmin()) 
                                 <span class="badge bg-danger-50 text-danger-700 border border-danger-100 px-3 py-2" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">ADMINISTRATOR</span>
                             @elseif($u->isKepalaToko()) 
@@ -118,7 +118,7 @@
                                 <span class="badge bg-light text-dark border px-3 py-2" style="font-size:11px; font-weight:700; letter-spacing:0.5px;">KARYAWAN</span>
                             @endif
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             <div class="d-flex flex-wrap gap-1">
                                 @if($u->isAdmin()) 
                                     <span class="text-primary fw-semibold" style="font-size:13px;"><i class="fa-solid fa-earth-asia me-1"></i> Seluruh Cabang</span>
@@ -133,14 +133,14 @@
                                 @endif
                             </div>
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td>
                             @if($u->is_active)
                                 <span class="badge badge-success rounded-pill px-2 py-1" style="font-size:11px; font-weight:600;"><i class="fa-solid fa-check-circle me-1"></i> Aktif</span>
                             @else
                                 <span class="badge badge-danger rounded-pill px-2 py-1" style="font-size:11px; font-weight:600;"><i class="fa-solid fa-circle-xmark me-1"></i> Nonaktif</span>
                             @endif
                         </td>
-                        <td class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td class="text-end">
                             <div class="dropdown">
                                 <button class="btn btn-light btn-sm rounded-3" style="border:1px solid var(--border-light);background:white;width:32px;height:32px;padding:0;display:inline-flex;align-items:center;justify-content:center;" onclick="this.nextElementSibling.classList.toggle('show')">
                                     <i class="fa-solid fa-ellipsis-vertical text-secondary"></i>
@@ -168,15 +168,6 @@
 @endif
 
 <script>
-// Menutup dropdown jika klik di luar
-document.addEventListener('click', function(e) {
-    if (!e.target.closest('.dropdown')) {
-        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
-            menu.classList.remove('show');
-        });
-    }
-});
-
 function confirmDelete(id, name) {
     Swal.fire({
         title: 'Blokir Akses?',

@@ -26,21 +26,21 @@ class DatabaseSeeder extends Seeder
             ['username' => 'admin'],
             [
                 'name' => 'Budi Administrator',
-                'pin' => Hash::make('1234'),
+                'pin' => Hash::make('2222'),
                 'role' => 'admin',
                 'phone' => '081234567890',
                 'is_active' => true
             ]
         );
 
-        $kepala1 = User::firstOrCreate(['username' => 'kepala_sby'], ['name' => 'Agus Kepala SBY', 'pin' => Hash::make('1234'), 'role' => 'kepala_toko', 'phone' => '081234567891', 'is_active' => true]);
-        $kepala2 = User::firstOrCreate(['username' => 'kepala_mlg'], ['name' => 'Dewi Kepala MLG', 'pin' => Hash::make('1234'), 'role' => 'kepala_toko', 'phone' => '081234567892', 'is_active' => true]);
+        $kepala1 = User::firstOrCreate(['username' => 'kepala_sby'], ['name' => 'Agus Kepala SBY', 'pin' => Hash::make('2222'), 'role' => 'kepala_toko', 'phone' => '081234567891', 'is_active' => true]);
+        $kepala2 = User::firstOrCreate(['username' => 'kepala_mlg'], ['name' => 'Dewi Kepala MLG', 'pin' => Hash::make('2222'), 'role' => 'kepala_toko', 'phone' => '081234567892', 'is_active' => true]);
 
         $karyawans = [];
         for ($i = 1; $i <= 8; $i++) {
             $karyawans[] = User::firstOrCreate(
                 ['username' => "karyawan$i"],
-                ['name' => "Karyawan Store $i", 'pin' => Hash::make('1234'), 'role' => 'karyawan', 'phone' => "0812000000$i", 'is_active' => true]
+                ['name' => "Karyawan Store $i", 'pin' => Hash::make('2222'), 'role' => 'karyawan', 'phone' => "0812000000$i", 'is_active' => true]
             );
         }
 

@@ -73,34 +73,34 @@
 <div class="card shadow-sm border-0 mb-5" style="border-radius:var(--radius-lg); overflow:hidden;">
     <div class="card-body p-0">
         <div class="table-container">
-            <table class="table datatable table-hover" style="margin:0; border-collapse: separate; border-spacing: 0;">
-                <thead style="background: var(--neutral-50);">
+            <table class="table datatable table-hover" style="margin:0;">
+                <thead>
                     <tr>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light); width:80px;">ID</th>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light);">Kategori & Slug</th>
-                        <th style="padding:16px 24px; border-bottom:1px solid var(--border-light);">Jumlah Produk</th>
-                        <th class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--border-light);">Aksi</th>
+                        <th style="width:80px;">ID</th>
+                        <th>Kategori & Slug</th>
+                        <th>Jumlah Produk</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($categories as $c)
-                    <tr class="align-middle" style="transition: all 0.2s;">
-                        <td style="padding:16px 24px; color:var(--text-secondary); font-size:13px; font-weight:600; border-bottom:1px solid var(--neutral-100);">#{{ $c->id }}</td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                    <tr class="align-middle">
+                        <td><span class="text-secondary fw-semibold">#{{ $c->id }}</span></td>
+                        <td>
                             <div class="d-flex align-items-center gap-3">
-                                <div style="width:40px;height:40px;border-radius:10px;background:var(--primary-50);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:16px;"><i class="fa-solid fa-tag"></i></div>
+                                <div class="cat-icon"><i class="fa-solid fa-tag"></i></div>
                                 <div>
-                                    <div class="fw-bold text-dark" style="font-size:15px;"><a href="{{ route('admin.categories.show', $c->id) }}" class="text-decoration-none text-dark">{{ $c->name }}</a></div>
-                                    <div style="color:var(--text-secondary);font-size:12px;font-family:monospace;margin-top:2px;">{{ $c->slug }}</div>
+                                    <div class="fw-bold" style="font-size:15px;"><a href="{{ route('admin.categories.show', $c->id) }}" class="text-decoration-none text-dark">{{ $c->name }}</a></div>
+                                    <div class="slug-text">{{ $c->slug }}</div>
                                 </div>
                             </div>
                         </td>
-                        <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
-                            <div class="d-inline-flex align-items-center px-3 py-1 rounded-pill" style="background:{{ $c->products_count > 0 ? 'var(--success-50)' : 'var(--neutral-100)' }}; color:{{ $c->products_count > 0 ? 'var(--success-700)' : 'var(--text-secondary)' }}; border:1px solid {{ $c->products_count > 0 ? 'var(--success-200)' : 'var(--border-light)' }}; font-size:13px; font-weight:600;">
+                        <td>
+                            <span class="product-count-pill {{ $c->products_count > 0 ? 'has-products' : 'no-products' }}">
                                 <i class="fa-solid {{ $c->products_count > 0 ? 'fa-box' : 'fa-box-open' }} me-2"></i> {{ $c->products_count }} Produk
-                            </div>
+                            </span>
                         </td>
-                        <td class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                        <td class="text-end">
                             <div class="d-flex justify-content-end gap-2">
                                 <a href="{{ route('admin.categories.show', $c->id) }}" class="btn btn-light btn-sm text-secondary" title="Lihat Produk" style="border:1px solid var(--border-light); font-weight:600; background:white;"><i class="fa-solid fa-eye me-1"></i> Detail</a>
                                 <button class="btn btn-light btn-sm text-primary" onclick="editCategory({{ $c->id }}, '{{ $c->name }}')" title="Edit Kategori" style="border:1px solid var(--border-light); font-weight:600; background:white;"><i class="fa-regular fa-pen-to-square me-1"></i> Edit</button>

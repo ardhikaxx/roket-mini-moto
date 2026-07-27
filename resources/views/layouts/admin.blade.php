@@ -237,10 +237,9 @@
         // Handle dropdowns closing when clicking outside
         document.addEventListener('click', function(e) {
             document.querySelectorAll('.dropdown-menu.show').forEach(m => {
-                const trigger = m.previousElementSibling;
-                if (!m.contains(e.target) && trigger && !trigger.contains(e.target)) {
+                const parent = m.closest('.navbar-user-dropdown, .dropdown');
+                if (!m.contains(e.target) && (!parent || !parent.contains(e.target))) {
                     m.classList.remove('show');
-                    if (trigger.closest('.navbar-user-dropdown')) trigger.closest('.navbar-user-dropdown').classList.remove('show');
                 }
             });
         });
@@ -284,7 +283,7 @@
         }
         document.addEventListener('DOMContentLoaded', animateCountUp);
 
-        // DataTables init
+        // DataTables init with premium defaults
         $(document).ready(function() {
             if ($('.datatable').length) {
                 $('.datatable').each(function() {
@@ -293,7 +292,19 @@
                             language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' },
                             pageLength: 25,
                             lengthMenu: [10, 25, 50, 100],
-                            order: []
+                            order: [],
+                            autoWidth: false,
+                            scrollX: true,
+                            scrollCollapse: true,
+                            drawCallback: function() {
+                                $(this).closest('.dataTables_wrapper').find('.dataTables_filter input').attr('placeholder', 'Cari data...');
+                            },
+                            initComplete: function() {
+                                const wrapper = $(this).closest('.dataTables_wrapper');
+                                wrapper.find('.dataTables_filter input').addClass('form-control-sm');
+                                wrapper.find('.dataTables_length select').addClass('form-select-sm');
+                                wrapper.addClass('dt-premium');
+                            }
                         });
                     }
                 });
