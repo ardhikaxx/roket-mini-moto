@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Services\AuditService;
 use App\Services\NotificationService;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\{Fill, Border, Alignment, NumberFormat};
 
 class ReportController extends Controller
 {
@@ -53,93 +56,179 @@ class ReportController extends Controller
         $totalItems = $reports->sum('total_items');
         $approvedCount = $reports->where('status', 'disetujui')->count();
 
-        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.csv';
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle('Laporan Penjualan');
+        $sheet->setShowGridLines(true);
 
-        $headers = [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0'
-        ];
+        // Title Banners
+        $sheet->mergeCells('A1:I1');
+        $sheet->setCellValue('A1', 'ROKET MINI MOTO BONDOWOSO');
+        $sheet->getStyle('A1')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 16, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E63946']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+        ]);
+        $sheet->getRowDimension(1)->setRowHeight(40);
 
-        $callback = function () use ($reports, $selectedStore, $periodLabel, $totalOmzet, $totalItems, $approvedCount) {
-            $file = fopen('php://output', 'w');
-            
-            // UTF-8 BOM for Microsoft Excel compatibility
-            fputs($file, "\xEF\xBB\xBF");
+        $sheet->mergeCells('A2:I2');
+        $sheet->setCellValue('A2', 'LAPORAN PENJUALAN OPERASIONAL & OMZET TOKO');
+        $sheet->getStyle('A2')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 11, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '1E293B']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+        ]);
+        $sheet->getRowDimension(2)->setRowHeight(25);
 
-            // Header Banner
-            fputcsv($file, ['ROKET MINI MOTO BONDOWOSO - LAPORAN PENJUALAN OPERASIONAL & OMZET TOKO']);
-            fputcsv($file, []);
+        // Meta Info (Row 4 & 5)
+        $sheet->setCellValue('A4', 'Cabang Toko:');
+        $sheet->setCellValue('B4', $selectedStore ? $selectedStore->name : 'Semua Toko Cabang');
+        $sheet->setCellValue('F4', 'Tanggal Ekspor:');
+        $sheet->setCellValue('G4', date('d/m/Y H:i'));
 
-            // Meta Info
-            fputcsv($file, ['Cabang Toko:', $selectedStore ? $selectedStore->name : 'Semua Toko Cabang', '', 'Tanggal Ekspor:', date('d/m/Y H:i')]);
-            fputcsv($file, ['Periode Waktu:', $periodLabel, '', 'Diekspor Oleh:', auth()->user()->name . ' (' . auth()->user()->role . ')']);
-            fputcsv($file, []);
+        $sheet->setCellValue('A5', 'Periode Waktu:');
+        $sheet->setCellValue('B5', $periodLabel);
+        $sheet->setCellValue('F5', 'Diekspor Oleh:');
+        $sheet->setCellValue('G5', auth()->user()->name . ' (' . auth()->user()->role . ')');
 
-            // KPI Summary Row
-            fputcsv($file, ['--- RINGKASAN UTAMA ---']);
-            fputcsv($file, ['TOTAL OMZET DISETUJUI', 'Rp ' . number_format($totalOmzet, 0, ',', '.')]);
-            fputcsv($file, ['TOTAL TRANSAKSI VALID', $approvedCount . ' Transaksi']);
-            fputcsv($file, ['TOTAL BARANG TERJUAL', number_format($totalItems, 0, ',', '.') . ' Pcs']);
-            fputcsv($file, []);
+        $sheet->getStyle('A4:A5')->getFont()->setBold(true);
+        $sheet->getStyle('F4:F5')->getFont()->setBold(true);
 
-            // Table Headers
-            fputcsv($file, [
-                'No',
-                'ID Laporan',
-                'Tanggal Transaksi',
-                'Cabang Toko',
-                'Kasir / Petugas',
-                'Rincian Produk Terjual',
-                'Total Item (Pcs)',
-                'Total Omzet (Rp)',
-                'Status',
-                'Catatan'
+        // KPI Summary Cards (Row 7)
+        $sheet->mergeCells('A7:C7');
+        $sheet->setCellValue('A7', 'TOTAL OMZET DISETUJUI: Rp ' . number_format($totalOmzet, 0, ',', '.'));
+        $sheet->getStyle('A7:C7')->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['rgb' => '15803D']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'DCFCE7']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '86EFAC']]],
+        ]);
+
+        $sheet->mergeCells('D7:F7');
+        $sheet->setCellValue('D7', 'TOTAL TRANSAKSI VALID: ' . $approvedCount . ' Transaksi');
+        $sheet->getStyle('D7:F7')->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['rgb' => '0369A1']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'E0F2FE']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '7DD3FC']]],
+        ]);
+
+        $sheet->mergeCells('G7:I7');
+        $sheet->setCellValue('G7', 'TOTAL BARANG TERJUAL: ' . number_format($totalItems, 0, ',', '.') . ' Pcs');
+        $sheet->getStyle('G7:I7')->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['rgb' => 'B45309']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'FEF3C7']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => 'FDE68A']]],
+        ]);
+        $sheet->getRowDimension(7)->setRowHeight(30);
+
+        // Table Headers (Row 9)
+        $tableHeaders = ['No', 'ID Laporan', 'Tanggal Transaksi', 'Cabang Toko', 'Kasir / Petugas', 'Rincian Produk Terjual', 'Total Item', 'Total Omzet (Rp)', 'Status'];
+        $cols = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'];
+
+        foreach ($tableHeaders as $index => $headerText) {
+            $col = $cols[$index];
+            $sheet->setCellValue($col . '9', $headerText);
+        }
+
+        $sheet->getStyle('A9:I9')->applyFromArray([
+            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0F172A']],
+            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
+            'borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '000000']]],
+        ]);
+        $sheet->getRowDimension(9)->setRowHeight(30);
+
+        // Data Rows (Row 10+)
+        $rowNum = 10;
+        foreach ($reports as $index => $r) {
+            $itemsSummary = [];
+            foreach ($r->items as $item) {
+                $itemsSummary[] = $item->quantity . 'x ' . ($item->product_name ?? 'Produk');
+            }
+            $itemsText = implode(', ', $itemsSummary);
+
+            $sheet->setCellValue('A' . $rowNum, $index + 1);
+            $sheet->setCellValue('B' . $rowNum, '#REP-' . str_pad($r->id, 5, '0', STR_PAD_LEFT));
+            $sheet->setCellValue('C' . $rowNum, \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'));
+            $sheet->setCellValue('D' . $rowNum, $r->store->name ?? '-');
+            $sheet->setCellValue('E' . $rowNum, $r->user->name ?? '-');
+            $sheet->setCellValue('F' . $rowNum, $itemsText ?: '-');
+            $sheet->setCellValue('G' . $rowNum, $r->total_items);
+            $sheet->setCellValue('H' . $rowNum, $r->total_amount);
+            $sheet->setCellValue('I' . $rowNum, strtoupper($r->status));
+
+            // Cell Formatting
+            $sheet->getStyle('A' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('B' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('C' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('G' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle('H' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+            $sheet->getStyle('H' . $rowNum)->getNumberFormat()->setFormatCode('"Rp "#,##0');
+            $sheet->getStyle('I' . $rowNum)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+            // Status Colors
+            $statusUpper = strtoupper($r->status);
+            $statusColor = 'DCFCE7';
+            $textColor = '15803D';
+            if ($statusUpper === 'DIPROSES') {
+                $statusColor = 'FEF9C3';
+                $textColor = 'A16207';
+            } elseif ($statusUpper === 'DITOLAK') {
+                $statusColor = 'FEE2E2';
+                $textColor = 'B91C1C';
+            }
+            $sheet->getStyle('I' . $rowNum)->applyFromArray([
+                'font' => ['bold' => true, 'color' => ['rgb' => $textColor]],
+                'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => $statusColor]],
             ]);
 
-            // Data Rows
-            foreach ($reports as $index => $r) {
-                $itemsSummary = [];
-                foreach ($r->items as $item) {
-                    $itemsSummary[] = $item->quantity . 'x ' . ($item->product_name ?? 'Produk');
-                }
-                $itemsText = implode(' | ', $itemsSummary);
-
-                fputcsv($file, [
-                    $index + 1,
-                    '#REP-' . str_pad($r->id, 5, '0', STR_PAD_LEFT),
-                    \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i'),
-                    $r->store->name ?? '-',
-                    $r->user->name ?? '-',
-                    $itemsText ?: '-',
-                    $r->total_items,
-                    'Rp ' . number_format($r->total_amount, 0, ',', '.'),
-                    strtoupper($r->status),
-                    $r->notes ?? '-'
-                ]);
+            // Alternating Row Background
+            if ($index % 2 == 1) {
+                $sheet->getStyle("A{$rowNum}:H{$rowNum}")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('F8FAFC');
             }
 
-            // Total Summary Row
-            fputcsv($file, []);
-            fputcsv($file, [
-                'GRAND TOTAL OMZET DISETUJUI',
-                '',
-                '',
-                '',
-                '',
-                '',
-                $totalItems . ' Pcs',
-                'Rp ' . number_format($totalOmzet, 0, ',', '.'),
-                '',
-                ''
-            ]);
+            // Row Borders
+            $sheet->getStyle("A{$rowNum}:I{$rowNum}")->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN)->getColor()->setRGB('E2E8F0');
 
-            fclose($file);
-        };
+            $rowNum++;
+        }
 
-        return response()->stream($callback, 200, $headers);
+        // Grand Total Row
+        $sheet->mergeCells("A{$rowNum}:F{$rowNum}");
+        $sheet->setCellValue("A{$rowNum}", 'TOTAL OMZET VALID (DISETUJUI)');
+        $sheet->setCellValue("G{$rowNum}", $totalItems);
+        $sheet->setCellValue("H{$rowNum}", $totalOmzet);
+
+        $sheet->getStyle("A{$rowNum}:I{$rowNum}")->applyFromArray([
+            'font' => ['bold' => true, 'size' => 11],
+            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'DCFCE7']],
+            'borders' => [
+                'top' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['rgb' => '16A34A']],
+                'bottom' => ['borderStyle' => Border::BORDER_DOUBLE, 'color' => ['rgb' => '16A34A']],
+            ],
+        ]);
+        $sheet->getStyle("A{$rowNum}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle("G{$rowNum}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle("H{$rowNum}")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
+        $sheet->getStyle("H{$rowNum}")->getNumberFormat()->setFormatCode('"Rp "#,##0');
+        $sheet->getStyle("H{$rowNum}")->getFont()->setColor(new \PhpOffice\PhpSpreadsheet\Style\Color('15803D'));
+
+        // Auto-size columns for perfect fit
+        foreach ($cols as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $filename = 'Laporan_Penjualan_' . now()->format('Ymd_His') . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+
+        return response()->streamDownload(function() use ($writer) {
+            $writer->save('php://output');
+        }, $filename, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Cache-Control' => 'max-age=0',
+        ]);
     }
 
     public function exportPdf(Request $request) {
