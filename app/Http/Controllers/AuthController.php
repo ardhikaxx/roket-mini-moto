@@ -3,8 +3,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 use App\Models\User;
 use App\Services\AuditService;
+
 class AuthController extends Controller
 {
     public function showLogin()
@@ -22,6 +25,15 @@ class AuthController extends Controller
             'pin' => 'required|string|size:4'
         ]);
 
+        $throttleKey = Str::lower($request->input('username')) . '|' . $request->ip();
+
+        // Rate Limiter: Maksimal 5x gagal dalam 5 menit (300 detik)
+        if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+            $minutes = ceil($seconds / 60);
+            return back()->with('error', "Terlalu banyak percobaan PIN salah. Akun/IP Anda terkunci sementara selama {$seconds} detik ({$minutes} menit). Silakan coba lagi nanti.");
+        }
+
         $credentials = [
             'username' => $request->username,
             'password' => $request->pin
@@ -32,6 +44,9 @@ class AuthController extends Controller
                 Auth::logout();
                 return back()->with('error', 'Akun Anda telah dinonaktifkan.');
             }
+
+            // Bersihkan kunci percobaan gagal jika login berhasil
+            RateLimiter::clear($throttleKey);
 
             $request->session()->regenerate();
             Auth::user()->update(['last_login_at' => now()]);
@@ -45,7 +60,11 @@ class AuthController extends Controller
             return redirect()->intended(route('karyawan.dashboard'));
         }
 
-        return back()->with('error', 'Username atau PIN salah.');
+        // Catat percobaan login gagal
+        RateLimiter::hit($throttleKey, 300);
+        $remaining = RateLimiter::remaining($throttleKey, 5);
+
+        return back()->with('error', "Username atau PIN salah. (Sisa percobaan: {$remaining} kali)");
     }
 
     public function logout(Request $request)

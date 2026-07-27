@@ -523,6 +523,7 @@ class ReportController extends Controller
         try {
             DB::beginTransaction();
             
+            // Pengurangan stok produk otomatis saat laporan disetujui
             foreach($report->items as $item) {
                 if ($item->product) {
                     $item->product->decrement('stock', $item->quantity);
@@ -536,15 +537,15 @@ class ReportController extends Controller
                 'user_id' => Auth::id(),
                 'from_status' => 'diproses',
                 'to_status' => 'disetujui',
-                'notes' => 'Disetujui oleh ' . $user->name
+                'notes' => 'Disetujui oleh ' . $user->name . ' (Stok berkurang otomatis)'
             ]);
 
             DB::commit();
 
-            AuditService::log('approve_report', 'Laporan #'.$report->id.' disetujui oleh '.$user->name, 'SalesReport', $report->id);
-            NotificationService::send($report->user_id, 'report_approved', 'Laporan Disetujui', 'Laporan #'.$report->id.' Anda telah disetujui. Omzet Rp '.number_format($report->total_amount,0,',','.').' telah tercatat.', route('admin.reports.show', $report->id));
+            AuditService::log('approve_report', 'Laporan #'.$report->id.' disetujui oleh '.$user->name.' (Stok terpotong otomatis)', 'SalesReport', $report->id);
+            NotificationService::send($report->user_id, 'report_approved', 'Laporan Disetujui', 'Laporan #'.$report->id.' Anda telah disetujui. Omzet Rp '.number_format($report->total_amount,0,',','.').' telah tercatat dan stok terpotong otomatis.', route('admin.reports.show', $report->id));
 
-            return back()->with('success', 'Laporan berhasil disetujui. Omzet bertambah.');
+            return back()->with('success', 'Laporan berhasil disetujui. Stok produk otomatis berkurang.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menyetujui laporan: ' . $e->getMessage());
@@ -554,12 +555,22 @@ class ReportController extends Controller
     public function reject(Request $request, SalesReport $report) {
         $user = Auth::user();
         if (!$user->isAdmin() && !$user->isKepalaToko()) abort(403);
-        if ($report->status !== 'diproses') return back()->with('error', 'Status laporan tidak dapat diubah.');
 
         $request->validate(['rejection_reason' => 'required|string']);
 
         try {
             DB::beginTransaction();
+
+            $oldStatus = $report->status;
+
+            // Pengembalian stok produk otomatis jika laporan yang sebelumnya disetujui ditolak/dibatalkan
+            if ($oldStatus === 'disetujui') {
+                foreach($report->items as $item) {
+                    if ($item->product) {
+                        $item->product->increment('stock', $item->quantity);
+                    }
+                }
+            }
 
             $report->update([
                 'status' => 'ditolak',
@@ -569,9 +580,9 @@ class ReportController extends Controller
             ReportStatusHistory::create([
                 'sales_report_id' => $report->id,
                 'user_id' => Auth::id(),
-                'from_status' => 'diproses',
+                'from_status' => $oldStatus,
                 'to_status' => 'ditolak',
-                'notes' => 'Alasan: ' . $request->rejection_reason
+                'notes' => 'Alasan: ' . $request->rejection_reason . ($oldStatus === 'disetujui' ? ' (Stok dikembalikan)' : '')
             ]);
 
             DB::commit();
@@ -579,7 +590,7 @@ class ReportController extends Controller
             AuditService::log('reject_report', 'Laporan #'.$report->id.' ditolak oleh '.$user->name.'. Alasan: '.$request->rejection_reason, 'SalesReport', $report->id);
             NotificationService::send($report->user_id, 'report_rejected', 'Laporan Ditolak', 'Laporan #'.$report->id.' Anda ditolak. Alasan: '.$request->rejection_reason, route('karyawan.reports.edit', $report->id));
 
-            return back()->with('success', 'Laporan telah ditolak.');
+            return back()->with('success', 'Laporan telah ditolak' . ($oldStatus === 'disetujui' ? ' dan stok dikembalikan.' : '.'));
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menolak laporan: ' . $e->getMessage());
@@ -590,6 +601,16 @@ class ReportController extends Controller
         if (!Auth::user()->isAdmin()) abort(403);
         try {
             DB::beginTransaction();
+
+            // Kembalikan stok jika laporan yang disetujui dihapus
+            if ($report->status === 'disetujui') {
+                foreach ($report->items as $item) {
+                    if ($item->product) {
+                        $item->product->increment('stock', $item->quantity);
+                    }
+                }
+            }
+
             foreach ($report->images as $img) {
                 \App\Helpers\FileUploadHelper::delete($img->image_path);
                 $img->delete();
@@ -597,6 +618,7 @@ class ReportController extends Controller
             $report->items()->delete();
             $report->statusHistories()->delete();
             $report->delete();
+
             DB::commit();
             AuditService::log('delete_report', 'Laporan #'.$report->id.' dihapus oleh '.Auth::user()->name, 'SalesReport', $report->id);
             return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil dihapus.');

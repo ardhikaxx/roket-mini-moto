@@ -93,8 +93,24 @@
                 <h2 class="fw-bold">Produk Unggulan</h2>
                 <p class="text-muted">Jelajahi koleksi kendaraan mini terbaik kami dengan harga bersahabat dan full garansi.</p>
                 
-                <div class="d-flex flex-wrap justify-content-center mt-4">
-                    <button class="filter-btn active" data-filter="all">Semua</button>
+                <!-- Live Search Bar -->
+                <div class="row justify-content-center mt-4 mb-3">
+                    <div class="col-md-7 col-lg-5">
+                        <div class="input-group shadow-sm" style="border-radius: 50px; overflow: hidden; border: 2px solid var(--primary-color);">
+                            <span class="input-group-text bg-white border-0 ps-3 text-muted">
+                                <i class="fa-solid fa-magnifying-glass" style="color: var(--primary-color);"></i>
+                            </span>
+                            <input type="text" id="productSearchInput" class="form-control border-0 py-2 shadow-none" placeholder="Cari produk (misal: Mini Trail, Mobil Aki, ATV)..." style="font-size: 0.95rem;">
+                            <button class="btn btn-primary-custom px-3 border-0" type="button" id="clearSearchBtn" style="display: none; border-radius: 0;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter Buttons -->
+                <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
+                    <button class="filter-btn active" data-filter="all">Semua Kategori</button>
                     @foreach(\App\Models\Category::all() as $category)
                         <button class="filter-btn" data-filter="{{ $category->slug }}">{{ $category->name }}</button>
                     @endforeach
@@ -130,6 +146,13 @@
                     <p class="text-muted">Belum ada produk yang tersedia saat ini.</p>
                 </div>
                 @endforelse
+
+                <!-- Empty match message for search/filter -->
+                <div class="col-12 text-center py-5" id="noProductMatchMsg" style="display: none;">
+                    <i class="fa-solid fa-magnifying-glass-minus fs-1 text-muted mb-3 d-block"></i>
+                    <h5 class="fw-bold text-dark">Produk Tidak Ditemukan</h5>
+                    <p class="text-muted">Tidak ada produk yang cocok dengan kata kunci pencarian atau kategori yang Anda pilih.</p>
+                </div>
 
             </div>
         </div>

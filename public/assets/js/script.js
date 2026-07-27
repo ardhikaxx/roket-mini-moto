@@ -10,37 +10,70 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 2. Product Filtering
+    // 2. Product Filtering & Live Search
     const filterBtns = document.querySelectorAll('.filter-btn');
     const productItems = document.querySelectorAll('.product-item');
+    const searchInput = document.getElementById('productSearchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    let currentFilter = 'all';
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to clicked button
-            btn.classList.add('active');
+    function filterProducts() {
+        const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
-            const filterValue = btn.getAttribute('data-filter');
+        if (clearSearchBtn) {
+            clearSearchBtn.style.display = query.length > 0 ? 'block' : 'none';
+        }
 
-            productItems.forEach(item => {
-                if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
-                    item.style.display = 'block';
-                    // Optional fade in animation
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300); // match transition duration in CSS
-                }
+        let visibleCount = 0;
+        productItems.forEach(item => {
+            const categoryMatch = (currentFilter === 'all' || item.getAttribute('data-category') === currentFilter);
+            const titleText = item.querySelector('.product-title')?.innerText.toLowerCase() || '';
+            const descText = item.querySelector('.product-desc')?.innerText.toLowerCase() || '';
+            const searchMatch = query === '' || titleText.includes(query) || descText.includes(query);
+
+            if (categoryMatch && searchMatch) {
+                item.style.display = 'block';
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                }, 50);
+                visibleCount++;
+            } else {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Show or hide empty search result notice
+        const noProductMsg = document.getElementById('noProductMatchMsg');
+        if (noProductMsg) {
+            noProductMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+        }
+    }
+
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                filterProducts();
             });
         });
-    });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', filterProducts);
+    }
+    if (clearSearchBtn) {
+        clearSearchBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            filterProducts();
+        });
+    }
 
     // 3. Modal population
     const detailBtns = document.querySelectorAll('.btn-detail');
