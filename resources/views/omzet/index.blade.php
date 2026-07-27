@@ -32,9 +32,12 @@
             <p class="page-subtitle text-muted" style="font-size:13px;">Tinjauan menyeluruh terhadap data penjualan, omzet, dan persebaran produk.</p>
         </div>
         <div class="page-actions d-flex gap-2">
-            <button class="btn btn-outline-secondary px-3 py-2" style="font-weight:600;border:1px solid var(--border-light);" onclick="window.print()">
-                <i class="fa-solid fa-print me-2 text-muted"></i> Cetak Analitik
-            </button>
+            <a href="{{ route('admin.omzet.export-pdf') }}" target="_blank" class="btn btn-outline-danger px-3 py-2 fw-semibold" style="border-radius:10px;">
+                <i class="fa-solid fa-file-pdf me-2"></i> Cetak PDF
+            </a>
+            <a href="{{ route('admin.omzet.export-excel') }}" class="btn btn-outline-success px-3 py-2 fw-semibold" style="border-radius:10px;">
+                <i class="fa-solid fa-file-excel me-2"></i> Cetak Excel
+            </a>
         </div>
     </div>
 </div>

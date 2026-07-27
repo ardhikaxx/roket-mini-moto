@@ -122,6 +122,8 @@ Route::middleware('auth')->group(function () {
         // Omzet (admin only)
         Route::get('/omzet', [RevenueController::class, 'index'])->name('omzet')->middleware('role:admin');
         Route::get('/omzet/chart-data', [RevenueController::class, 'chartData'])->name('omzet.chart')->middleware('role:admin');
+        Route::get('/omzet/export-excel', [RevenueController::class, 'exportExcel'])->name('omzet.export-excel')->middleware('role:admin');
+        Route::get('/omzet/export-pdf', [RevenueController::class, 'exportPdf'])->name('omzet.export-pdf')->middleware('role:admin');
 
         // Audit Log (admin only)
         Route::get('/audit-log', function() {
