@@ -109,7 +109,7 @@
                     <div class="product-card">
                         <div class="product-img-wrap">
                             <span class="badge-category">{{ $product->category->name ?? 'Produk' }}</span>
-                            <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/mini-trail-1.jpg') }}" alt="{{ $product->name }}" class="img-fluid">
+                            <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/no-image.png') }}" alt="{{ $product->name }}" class="img-fluid" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                         </div>
                         <div class="product-body">
                             <h3 class="product-title fw-bold">{{ $product->name }}</h3>

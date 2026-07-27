@@ -131,10 +131,12 @@
                         <td>
                             @if($r->images->first())
                             <div style="width:48px;height:48px;border-radius:10px;overflow:hidden;cursor:pointer;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);" onclick="openLightbox('{{ asset('storage/'.$r->images->first()->image_path) }}')">
-                                <img src="{{ asset('storage/'.$r->images->first()->image_path) }}" style="width:100%;height:100%;object-fit:cover;">
+                                <img src="{{ asset('storage/'.$r->images->first()->image_path) }}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                             </div>
                             @else
-                            <div style="width:48px;height:48px;border-radius:10px;background:var(--neutral-100);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:20px;border:1px solid var(--border-light);"><i class="fa-solid fa-image"></i></div>
+                            <div style="width:48px;height:48px;border-radius:10px;overflow:hidden;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);">
+                                <img src="{{ asset('assets/images/no-image.png') }}" style="width:100%;height:100%;object-fit:cover;">
+                            </div>
                             @endif
                         </td>
                         <td>

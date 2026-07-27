@@ -36,17 +36,9 @@
     {{-- Kolom Kiri: Visual Gambar --}}
     <div class="col-12 col-lg-5">
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
-            @if($product->photo)
-                <div style="width:100%; height:450px; background:var(--neutral-50); position:relative;">
-                    <img src="{{ asset('storage/'.$product->photo) }}" style="width:100%; height:100%; object-fit:contain; padding:20px;">
-                </div>
-            @else
-                <div style="width:100%; height:450px; background:var(--neutral-50); display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text-muted);">
-                    <i class="fa-solid fa-image mb-3" style="font-size:4rem; color:var(--neutral-200);"></i>
-                    <h5 class="fw-bold mb-1">Belum Ada Gambar</h5>
-                    <p style="font-size:13px;">Produk ini belum memiliki visual.</p>
-                </div>
-            @endif
+            <div style="width:100%; height:450px; background:var(--neutral-50); position:relative;">
+                <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/no-image.png') }}" style="width:100%; height:100%; object-fit:contain; padding:20px;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
+            </div>
         </div>
     </div>
 

@@ -30,7 +30,7 @@
             <div class="text-center" style="margin-top:-48px;">
                 <div id="profileAvatarPreview" style="width:96px;height:96px;border-radius:50%;border:4px solid #fff;background:var(--primary-100);display:inline-flex;align-items:center;justify-content:center;font-size:32px;font-weight:700;color:var(--primary-700);overflow:hidden;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
                     @if($user->photo)
-                        <img src="{{ asset('storage/'.$user->photo) }}" style="width:100%;height:100%;object-fit:cover;">
+                        <img src="{{ asset('storage/'.$user->photo) }}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                     @else
                         {{ strtoupper(substr($user->name, 0, 2)) }}
                     @endif

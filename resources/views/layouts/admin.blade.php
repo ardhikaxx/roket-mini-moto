@@ -311,6 +311,17 @@
             }
         });
     </script>
+    <!-- Global Image Error Fallback Script -->
+    <script>
+        document.addEventListener('error', function(event) {
+            if (event.target.tagName === 'IMG') {
+                const fallback = "{{ asset('assets/images/no-image.png') }}";
+                if (event.target.src !== fallback) {
+                    event.target.src = fallback;
+                }
+            }
+        }, true);
+    </script>
     @stack('scripts')
 </body>
 </html>

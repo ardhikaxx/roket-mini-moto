@@ -103,7 +103,7 @@
                     <tr>
                         <td>
                             <div style="width:56px;height:56px;border-radius:10px;background:var(--neutral-100);overflow:hidden;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);">
-                                <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" style="width:100%;height:100%;object-fit:cover;">
+                                <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/no-image.png') }}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                             </div>
                         </td>
                         <td>

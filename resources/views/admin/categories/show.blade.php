@@ -122,7 +122,7 @@
                     <tr class="align-middle" style="transition: all 0.2s;">
                         <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
                             <div style="width:48px;height:48px;border-radius:10px;background:var(--neutral-100);overflow:hidden;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);">
-                                <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/default.jpg') }}" style="width:100%;height:100%;object-fit:cover;">
+                                <img src="{{ $p->photo ? asset('storage/'.$p->photo) : asset('assets/images/no-image.png') }}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                             </div>
                         </td>
                         <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">

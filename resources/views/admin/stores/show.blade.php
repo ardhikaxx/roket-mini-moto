@@ -34,7 +34,7 @@
             {{-- Foto Toko --}}
             @if($store->photo)
                 <div style="width:100%; height:250px; background:var(--neutral-100); position:relative;">
-                    <img src="{{ asset('storage/'.$store->photo) }}" style="width:100%; height:100%; object-fit:cover;">
+                    <img src="{{ asset('storage/'.$store->photo) }}" style="width:100%; height:100%; object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                 </div>
             @else
                 <div style="width:100%; height:200px; background:linear-gradient(135deg, var(--primary), #3b82f6); display:flex; flex-direction:column; align-items:center; justify-content:center; color:white;">

@@ -121,7 +121,7 @@
                 <div class="gallery-grid">
                     @foreach($report->images as $img)
                     <div class="gallery-item bg-white shadow-sm" onclick="openLightbox('{{ asset('storage/'.$img->image_path) }}')">
-                        <img src="{{ asset('storage/'.$img->image_path) }}" alt="Bukti Transaksi">
+                        <img src="{{ asset('storage/'.$img->image_path) }}" alt="Bukti Transaksi" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                     </div>
                     @endforeach
                 </div>

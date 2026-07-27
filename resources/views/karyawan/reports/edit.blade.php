@@ -66,7 +66,7 @@
                     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:16px;">
                         @foreach($report->images as $img)
                         <div style="border-radius:var(--radius-md);overflow:hidden;aspect-ratio:1;background:var(--neutral-100);position:relative;">
-                            <img src="{{ asset('storage/'.$img->image_path) }}" style="width:100%;height:100%;object-fit:cover;">
+                            <img src="{{ asset('storage/'.$img->image_path) }}" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                             <form action="{{ route('karyawan.reports.delete-image', $img->id) }}" method="POST" style="position:absolute;top:4px;right:4px;">@csrf @method('DELETE')
                                 <button type="submit" style="width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,0.6);color:#fff;border:none;font-size:10px;cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
                             </form>
