@@ -22,18 +22,20 @@
 
 {{-- Card Filter & Ekspor Karyawan --}}
 <div class="card shadow-sm border-0 mb-4" style="border-radius:var(--radius-lg);">
-    <div class="card-header bg-white p-4 border-bottom border-light">
-        <h5 class="fw-bold mb-0 text-dark d-flex align-items-center justify-content-between">
-            <span><i class="fa-solid fa-filter text-primary me-2"></i> Filter & Ekspor Laporan Saya</span>
-            <div class="d-flex gap-2">
-                <button type="button" onclick="exportKaryawanData('excel')" class="btn btn-success btn-sm px-3 fw-bold text-white rounded-3">
-                    <i class="fa-solid fa-file-excel me-1"></i> Cetak Excel
-                </button>
-                <button type="button" onclick="exportKaryawanData('pdf')" class="btn btn-danger btn-sm px-3 fw-bold rounded-3">
-                    <i class="fa-solid fa-file-pdf me-1"></i> Cetak PDF
-                </button>
-            </div>
+    <div class="card-header bg-white p-4 border-bottom border-light d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <h5 class="fw-bold mb-0 text-dark d-flex align-items-center">
+            <i class="fa-solid fa-filter text-primary me-2"></i> Filter & Ekspor Laporan Saya
         </h5>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+            <button type="button" onclick="exportKaryawanData('excel')" class="btn btn-success px-3 py-2 fw-bold text-white rounded-3 d-inline-flex align-items-center gap-2" style="font-size:13px; box-shadow:0 4px 10px rgba(40,167,69,0.2);">
+                <i class="fa-solid fa-file-excel"></i>
+                <span>Cetak Excel</span>
+            </button>
+            <button type="button" onclick="exportKaryawanData('pdf')" class="btn btn-danger px-3 py-2 fw-bold rounded-3 d-inline-flex align-items-center gap-2" style="font-size:13px; box-shadow:0 4px 10px rgba(230,57,70,0.2);">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Cetak PDF</span>
+            </button>
+        </div>
     </div>
     <div class="card-body p-4 bg-neutral-50">
         <form method="GET" action="{{ route('karyawan.reports.index') }}" id="karyawanFilterForm">
