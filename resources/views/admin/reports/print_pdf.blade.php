@@ -2,122 +2,267 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Laporan Penjualan Operasional - Roket Mini Moto</title>
+    <title>Laporan Penjualan - Roket Mini Moto</title>
     <style>
-        @page { margin: 25px 30px; }
-        body { font-family: Helvetica, Arial, sans-serif; color: #1e293b; font-size: 10px; margin: 0; padding: 0; }
-        
-        .header-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; border-bottom: 2px solid #e63946; padding-bottom: 8px; }
-        .brand-title { font-size: 16px; font-weight: bold; color: #e63946; text-transform: uppercase; margin: 0; }
-        .brand-sub { font-size: 10px; color: #64748b; margin-top: 2px; }
-        .doc-meta { text-align: right; font-size: 9px; color: #64748b; }
+        @page {
+            size: A4 landscape;
+            margin: 1.5cm;
+        }
 
-        .doc-title { font-size: 14px; font-weight: bold; color: #0f172a; text-transform: uppercase; margin: 0 0 10px 0; letter-spacing: 0.5px; }
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            font-size: 11px;
+        }
 
-        .filter-table { width: 100%; border-collapse: collapse; background-color: #f1f5f9; padding: 8px 12px; border-radius: 4px; margin-bottom: 15px; font-size: 9.5px; }
-        .filter-table td { padding: 4px 8px; }
+        /* Header Document */
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
 
-        .summary-table { width: 100%; border-collapse: separate; border-spacing: 8px; margin-bottom: 15px; }
-        .summary-cell { border: 1px solid #e2e8f0; border-radius: 4px; padding: 8px 12px; background-color: #ffffff; }
-        .summary-label { font-size: 8.5px; font-weight: bold; color: #64748b; text-transform: uppercase; margin-bottom: 2px; }
-        .summary-val { font-size: 14px; font-weight: bold; color: #0f172a; }
+        .brand-title {
+            font-weight: 800;
+            font-size: 18px;
+            color: #e63946;
+            margin: 0 0 2px 0;
+            text-transform: uppercase;
+        }
 
-        .report-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .report-table th { background-color: #0f172a; color: #ffffff; font-weight: bold; font-size: 9px; text-transform: uppercase; padding: 7px 8px; border-bottom: 1px solid #cbd5e1; text-align: left; }
-        .report-table td { padding: 7px 8px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
-        .report-table tr:nth-child(even) td { background-color: #f8fafc; }
+        .brand-sub {
+            color: #64748b;
+            font-size: 10px;
+            margin: 0;
+        }
 
-        .status-badge { display: inline-block; padding: 2px 6px; border-radius: 8px; font-size: 8.5px; font-weight: bold; text-transform: uppercase; }
-        .status-disetujui { background-color: #dcfce7; color: #15803d; }
-        .status-diproses { background-color: #fef9c3; color: #a16207; }
-        .status-ditolak { background-color: #fee2e2; color: #b91c1c; }
+        .doc-meta {
+            text-align: right;
+            font-size: 10px;
+            color: #64748b;
+        }
 
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
+        .doc-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-        .footer-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .sig-box { text-align: center; width: 180px; float: right; }
-        .sig-space { height: 45px; }
+        /* Filter Summary Box */
+        .filter-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 10px;
+        }
+
+        .filter-table td {
+            padding: 4px 8px;
+        }
+
+        /* Summary Metrics Grid */
+        .summary-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 10px 14px;
+            background-color: #ffffff;
+        }
+
+        .summary-box .label {
+            font-size: 9px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .summary-box .val {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        /* Data Table */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .report-table th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-weight: 700;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 8px 10px;
+            border-bottom: 2px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .report-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: middle;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-disetujui {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .status-diproses {
+            background-color: #fef9c3;
+            color: #a16207;
+        }
+
+        .status-ditolak {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* Signature Footer */
+        .footer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
+            page-break-inside: avoid;
+        }
+
+        .sig-box {
+            text-align: center;
+            width: 180px;
+            float: right;
+        }
+
+        .sig-space {
+            height: 50px;
+        }
+
+        .sig-name {
+            font-weight: 700;
+            border-top: 1px solid #94a3b8;
+            padding-top: 4px;
+            color: #0f172a;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <table class="header-table">
         <tr>
             <td>
-                <div class="brand-title">ROKET MINI MOTO BONDOWOSO</div>
-                <div class="brand-sub">Laporan Rekapitulasi Transaksi Penjualan Operasional</div>
+                <div class="brand-title">ROKET MINI MOTO</div>
+                <div class="brand-sub">Sistem Informasi Operasional & Manajemen Cabang</div>
             </td>
             <td class="doc-meta">
-                <strong style="color:#0f172a;">DOKUMEN RESMI LAPORAN</strong><br>
-                Tanggal Cetak: {{ date('d/m/Y H:i') }} WIB<br>
-                Dicetak Oleh: {{ auth()->user()->name ?? 'System' }}
+                <div style="font-weight:700; font-size:11px; color:#0f172a;">DOKUMEN LAPORAN RESMI</div>
+                <div>Tanggal Cetak: {{ date('d/m/Y H:i') }} WIB</div>
+                <div>Dicetak Oleh: {{ auth()->user()->name ?? 'System' }}</div>
             </td>
         </tr>
     </table>
 
-    <div class="doc-title">LAPORAN PENJUALAN OPERASIONAL</div>
+    <div class="doc-title">Laporan Penjualan Operasional</div>
 
-    {{-- Filter Details --}}
+    <!-- Filter Details -->
     <table class="filter-table">
         <tr>
             <td>Toko Cabang: <strong>{{ $selectedStore ? $selectedStore->name : 'Semua Toko Cabang' }}</strong></td>
-            <td>Periode Transaksi: <strong>{{ $periodLabel }}</strong></td>
-            <td style="text-align: right;">Total Data: <strong>{{ $reports->count() }} Berkas Laporan</strong></td>
+            <td>Periode: <strong>{{ $periodLabel }}</strong></td>
+            <td style="text-align: right;">Total Data: <strong>{{ $reports->count() }} Laporan</strong></td>
         </tr>
     </table>
 
-    {{-- Summary Metric Boxes --}}
-    <table class="summary-table" style="margin-left: -8px; margin-right: -8px;">
+    <!-- Summary Metric Boxes -->
+    <table class="summary-table" style="margin-left: -10px; margin-right: -10px;">
         <tr>
-            <td class="summary-cell" style="width: 33%;">
-                <div class="summary-label">TOTAL OMZET DISETUJUI</div>
-                <div class="summary-val" style="color:#16a34a;">Rp {{ number_format($totalOmzet, 0, ',', '.') }}</div>
+            <td style="width: 33%;">
+                <div class="summary-box">
+                    <div class="label">Total Omzet Disetujui</div>
+                    <div class="val" style="color:#16a34a;">Rp {{ number_format($totalOmzet, 0, ',', '.') }}</div>
+                </div>
             </td>
-            <td class="summary-cell" style="width: 33%;">
-                <div class="summary-label">TRANSAKSI VALID</div>
-                <div class="summary-val">{{ $approvedCount }} Transaksi</div>
+            <td style="width: 33%;">
+                <div class="summary-box">
+                    <div class="label">Transaksi Valid</div>
+                    <div class="val">{{ $approvedCount }} Transaksi</div>
+                </div>
             </td>
-            <td class="summary-cell" style="width: 33%;">
-                <div class="summary-label">TOTAL BARANG TERJUAL</div>
-                <div class="summary-val">{{ number_format($totalItems, 0, ',', '.') }} Unit</div>
+            <td style="width: 33%;">
+                <div class="summary-box">
+                    <div class="label">Total Barang Terjual</div>
+                    <div class="val">{{ number_format($totalItems, 0, ',', '.') }} Pcs</div>
+                </div>
             </td>
         </tr>
     </table>
 
-    {{-- Main Data Table --}}
+    <!-- Main Data Table -->
     <table class="report-table">
         <thead>
             <tr>
-                <th style="width: 25px;" class="text-center">No</th>
-                <th style="width: 100px;">Kode / Tgl</th>
+                <th style="width: 30px;">No</th>
+                <th style="width: 120px;">Kode / Tgl</th>
                 <th>Toko Cabang</th>
                 <th>Kasir / Petugas</th>
-                <th class="text-center" style="width: 60px;">Item</th>
-                <th class="text-right" style="width: 110px;">Total Penjualan</th>
-                <th class="text-center" style="width: 80px;">Status</th>
+                <th style="text-align: center; width: 60px;">Item</th>
+                <th style="text-align: right; width: 120px;">Total Penjualan</th>
+                <th style="text-align: center; width: 80px;">Status</th>
             </tr>
         </thead>
         <tbody>
             @forelse($reports as $index => $r)
             <tr>
-                <td class="text-center">{{ $index + 1 }}</td>
+                <td>{{ $index + 1 }}</td>
                 <td>
-                    <div style="font-weight:bold;">#REP-{{ str_pad($r->id, 5, '0', STR_PAD_LEFT) }}</div>
-                    <div style="font-size:8.5px; color:#64748b;">{{ \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i') }}</div>
+                    <div style="font-weight:700;">#REP-{{ str_pad($r->id, 5, '0', STR_PAD_LEFT) }}</div>
+                    <div style="font-size:9px; color:#64748b;">{{ \Carbon\Carbon::parse($r->transaction_date)->format('d/m/Y H:i') }}</div>
                 </td>
-                <td style="font-weight:bold; color:#0f172a;">{{ $r->store->name ?? '-' }}</td>
+                <td>
+                    <div style="font-weight:600; color:#0f172a;">{{ $r->store->name ?? '-' }}</div>
+                </td>
                 <td>
                     <div>{{ $r->user->name ?? '-' }}</div>
-                    <div style="font-size:8.5px; color:#64748b;">@ {{ $r->user->username ?? '' }}</div>
+                    <div style="font-size:9px; color:#64748b;">@ {{ $r->user->username ?? '' }}</div>
                 </td>
-                <td class="text-center" style="font-weight: bold;">
-                    {{ $r->total_items }} Unit
+                <td style="text-align: center; font-weight: 600;">
+                    {{ $r->total_items }} pcs
                 </td>
-                <td class="text-right" style="font-weight: bold; color:#0f172a;">
+                <td style="text-align: right; font-weight: 700; color:#0f172a;">
                     Rp {{ number_format($r->total_amount, 0, ',', '.') }}
                 </td>
-                <td class="text-center">
+                <td style="text-align: center;">
                     <span class="status-badge status-{{ strtolower($r->status) }}">
                         {{ $r->status }}
                     </span>
@@ -125,7 +270,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="7" class="text-center" style="padding: 20px; color:#94a3b8;">
+                <td colspan="7" style="text-align: center; padding: 20px; color:#94a3b8;">
                     Tidak ada data laporan yang sesuai dengan filter.
                 </td>
             </tr>
@@ -133,19 +278,20 @@
         </tbody>
     </table>
 
+    <!-- Signature Footer -->
     <table class="footer-table">
         <tr>
             <td style="vertical-align: bottom;">
-                <div style="color:#64748b; font-size:8.5px;">
-                    Dokumen ini di-generate otomatis oleh Sistem Operasional Roket Mini Moto.<br>
-                    Kantor Pusat: Jln. Kartini No.41, Blindungan, Bondowoso
+                <div style="color:#64748b; font-size:9px;">
+                    Dokumen ini di-generate secara otomatis oleh Sistem Roket Mini Moto.<br>
+                    Bondowoso, Jawa Timur 68212
                 </div>
             </td>
             <td style="text-align: right; vertical-align: bottom;">
                 <div class="sig-box">
-                    <div style="font-weight:bold; color:#0f172a; font-size:9.5px;">Disetujui Oleh,</div>
+                    <div style="font-weight:700; font-size:9.5px; color:#0f172a;">Disetujui Oleh,</div>
                     <div class="sig-space"></div>
-                    <div style="font-weight:bold; color:#0f172a; text-decoration:underline;">( Management / Admin )</div>
+                    <div class="sig-name">( Management / Admin )</div>
                     <div style="color:#64748b; font-size:8.5px;">Roket Mini Moto</div>
                 </div>
             </td>
