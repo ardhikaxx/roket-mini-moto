@@ -28,7 +28,51 @@
     .timeline-dot { position: absolute; left: -24px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--primary); border: 3px solid white; box-shadow: 0 0 0 1px var(--neutral-300); }
     .timeline-dot.success { background: var(--success); }
     .timeline-dot.danger { background: var(--danger); }
-    .timeline-dot.warning { background: var(--warning); }
+    /* Lightbox Modal Overlay */
+    .lightbox {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .lightbox.show {
+        display: flex;
+        opacity: 1;
+    }
+    .lightbox img {
+        max-width: 90vw;
+        max-height: 85vh;
+        border-radius: 16px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        object-fit: contain;
+    }
+    .lightbox-close {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        border: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+    .lightbox-close:hover {
+        background: rgba(230, 57, 70, 0.9);
+    }
 </style>
 
 <div class="page-header">
