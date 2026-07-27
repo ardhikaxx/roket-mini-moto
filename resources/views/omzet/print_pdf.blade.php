@@ -132,24 +132,10 @@
         </tbody>
     </table>
 
-    <table class="footer-table">
-        <tr>
-            <td style="vertical-align: bottom;">
-                <div style="color:#64748b; font-size:10px;">
-                    Dokumen ini dihasilkan secara otomatis oleh Sistem Manajemen Roket Mini Moto.<br>
-                    Bondowoso, Jawa Timur 68212
-                </div>
-            </td>
-            <td style="text-align: right; vertical-align: bottom;">
-                <div class="sig-box">
-                    <div style="font-weight:bold; color:#0f172a; font-size:10px;">Disetujui Oleh,</div>
-                    <div class="sig-space"></div>
-                    <div style="font-weight:bold; color:#0f172a; text-decoration:underline;">( Management / Admin )</div>
-                    <div style="color:#64748b; font-size:9px;">Roket Mini Moto</div>
-                </div>
-            </td>
-        </tr>
-    </table>
+    <!-- Footer Info -->
+    <div style="color:#64748b; font-size:9px; margin-top: 20px;">
+        Dokumen ini dihasilkan secara otomatis oleh Sistem Manajemen Roket Mini Moto. &nbsp;|&nbsp; Bondowoso, Jawa Timur 68212
+    </div>
 
 </body>
 </html>
