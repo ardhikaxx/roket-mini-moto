@@ -62,10 +62,19 @@
                         <a class="nav-link" href="{{ route('home') }}#lokasi">Lokasi</a>
                     </li>
                     <!-- WhatsApp Number Placeholder: 6282335465000 -->
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0 d-flex flex-wrap gap-2 align-items-center">
                         <a class="btn btn-primary-custom btn-sm" href="https://wa.me/6282335465000?text=Halo%20Roket%20Mini%20Moto,%20saya%20ingin%20bertanya%20mengenai%20produk%20kendaraan%20mini." target="_blank">
-                            <i class="fa-brands fa-whatsapp me-2"></i> Hubungi Kami
+                            <i class="fa-brands fa-whatsapp me-1"></i> Hubungi Kami
                         </a>
+                        @auth
+                            <a class="btn btn-outline-light btn-sm fw-semibold px-3" href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('admin.reports.index') : route('karyawan.dashboard')) }}">
+                                <i class="fa-solid fa-gauge-high me-1"></i> Dashboard
+                            </a>
+                        @else
+                            <a class="btn btn-outline-light btn-sm fw-semibold px-3" href="{{ route('login') }}" style="border-color: rgba(255,255,255,0.35); color: #ffffff;">
+                                <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                            </a>
+                        @endauth
                     </li>
                 </ul>
             </div>
@@ -118,21 +127,8 @@
                 </div>
             </div>
             <hr class="border-secondary mt-5 mb-4">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center text-white small gap-2">
-                <div>
-                    &copy; 2026 Roket Mini Moto. All Rights Reserved.
-                </div>
-                <div>
-                    @auth
-                        <a href="{{ auth()->user()->isAdmin() ? route('admin.dashboard') : (auth()->user()->isKepalaToko() ? route('admin.reports.index') : route('karyawan.dashboard')) }}" class="text-white-50 text-decoration-none fw-semibold">
-                            <i class="fa-solid fa-gauge-high me-1"></i> Masuk Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-white-50 text-decoration-none" style="opacity: 0.35; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='0.35'" title="Portal Login Khusus Karyawan & Management">
-                            <i class="fa-solid fa-lock me-1"></i> Portal Staf
-                        </a>
-                    @endauth
-                </div>
+            <div class="text-start text-lg-center text-white small">
+                &copy; 2026 Roket Mini Moto. All Rights Reserved.
             </div>
         </div>
     </footer>
