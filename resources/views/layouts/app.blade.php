@@ -138,9 +138,12 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/6282335465000?text=Halo%20Roket%20Mini%20Moto,%20saya%20ingin%20bertanya%20mengenai%20produk%20kendaraan%20mini%20yang%20tersedia." class="wa-float" target="_blank" title="Chat dengan kami">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <div class="wa-float-container">
+        <div class="wa-float-tooltip">Butuh bantuan? Chat kami!</div>
+        <a href="https://wa.me/6282335465000?text=Halo%20Roket%20Mini%20Moto,%20saya%20ingin%20bertanya%20mengenai%20produk%20kendaraan%20mini%20yang%20tersedia." class="wa-float" target="_blank" title="Chat dengan kami">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </div>
 
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
