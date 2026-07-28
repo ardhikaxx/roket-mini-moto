@@ -1,19 +1,7 @@
 @extends('layouts.app')
 
 @section('title', $product->name . ' - Roket Mini Moto')
-@section('navbar_class', 'navbar-dark navbar-custom sticky-top')
-@section('navbar_style', 'background-color: rgba(26, 26, 26, 0.95); padding: 10px 0;')
 
-@push('styles')
-<style>
-    /* Paksa navbar agar selalu solid (tidak transparan) di halaman Detail */
-    .navbar-custom {
-        background-color: rgba(26, 26, 26, 0.95) !important;
-        padding: 15px 0 !important;
-        box-shadow: var(--shadow-sm);
-    }
-</style>
-@endpush
 
 @section('content')
     <!-- Breadcrumb -->

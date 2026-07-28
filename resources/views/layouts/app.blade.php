@@ -33,7 +33,10 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg @yield('navbar_class', 'navbar-custom')">
+    @php
+        $isHome = request()->routeIs('home');
+    @endphp
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom {{ $isHome ? '' : 'scrolled' }} sticky-top" data-is-home="{{ $isHome ? 'true' : 'false' }}">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('home') }}">
                 <i class="fa-solid fa-motorcycle text-primary-custom fs-3"></i>
