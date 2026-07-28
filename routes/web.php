@@ -72,7 +72,9 @@ Route::get('/produk/{id}', function ($id) {
 
 Route::get('/sitemap.xml', function () {
     $products = \App\Models\Product::where('is_active', true)->get();
-    return response()->view('sitemap', compact('products'))->header('Content-Type', 'text/xml');
+    $xml = '<?xml version="1.0" encoding="UTF-8"?>';
+    $xml .= view('sitemap', compact('products'))->render();
+    return response($xml)->header('Content-Type', 'text/xml');
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');

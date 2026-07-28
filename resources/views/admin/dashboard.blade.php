@@ -174,7 +174,7 @@
 {{-- Top Products & Recent Activity --}}
 <div class="row g-4 mb-5 stagger-3">
     <div class="col-12 col-xl-6">
-        <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
+        <div class="card shadow-sm border-0" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
                     <i class="fa-solid fa-box text-success me-2"></i> 5 Produk Paling Laris
