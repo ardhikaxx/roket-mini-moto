@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Roket Mini Moto | Trail Mini dan Mobil Aki Murah Bondowoso')</title>
-    <meta name="description" content="@yield('meta_description', 'Roket Mini Moto menyediakan mini trail, mobil aki, ATV mini, dan kendaraan mini lainnya dengan harga terjangkau dan full garansi di Bondowoso.')">
-    <meta name="keywords" content="mini trail bondowoso, mobil aki anak, atv mini, motor mini murah, roket mini moto">
+    <!-- SEO Optimization -->
+    <title>@yield('title', 'Toko Sepeda Listrik, Mobil Aki & Trail Mini Bondowoso | Roket Mini Moto')</title>
+    <meta name="description" content="@yield('meta_description', 'Mencari Sepeda Listrik atau Mobil Aki di Bondowoso? Roket Mini Moto adalah pusat grosir sepeda listrik semua tipe/merk (Exotic, Uwinfly, dll), mobil aki anak, trail mini, dan ATV termurah di Bondowoso, Situbondo, dan Jember. Bergaransi resmi & harga pabrik!')">
+    <meta name="keywords" content="sepeda listrik bondowoso, toko sepeda listrik bondowoso, jual sepeda listrik bondowoso, harga sepeda listrik bondowoso, sepeda listrik uwinfly bondowoso, sepeda listrik exotic bondowoso, sepeda listrik pacific, sepeda listrik goda, sepeda listrik viar, sepeda listrik genio, sepeda listrik ouo, grosir sepeda listrik jawa timur, sepeda listrik situbondo, sepeda listrik jember, sepeda listrik banyuwangi, sepeda listrik lumajang, sepeda listrik probolinggo, sepeda listrik murah, diskon sepeda listrik, promo sepeda listrik, service sepeda listrik bondowoso, bengkel sepeda listrik, sparepart sepeda listrik, baterai sepeda listrik, aki sepeda listrik, charger sepeda listrik, dinamo sepeda listrik, ban sepeda listrik, selis bondowoso, e-bike bondowoso, moped listrik, skuter listrik anak, otoped listrik, sepeda anak roda dua, sepeda bmx anak, mobil aki bondowoso, toko mobil aki anak bondowoso, jual mobil aki bondowoso, mobil aki murah bondowoso, trail mini bondowoso, motor mini bondowoso, motor aki anak, atv bondowoso, atv mini anak, atv 50cc, atv 110cc, atv 125cc, atv bensin, gokart bondowoso, mobil mainan anak bisa dinaiki, motor mainan anak charge, toko mainan bondowoso, toko mainan jember, toko mainan situbondo, roket mini moto, grosir mobil aki jawa timur, trail mini murah, motorcross mini anak, pocket bike, harga mobil aki anak, hadiah ulang tahun anak laki-laki, kado ulang tahun anak perempuan, kado mainan cowok, mobil remote control besar, rc car, kendaraan mini anak, agen mobil aki, jual atv murah, mainan outdoor anak, wahana mainan anak, distributor mobil aki, mobil aki pmb, mobil aki pliko, mobil aki volta, mobil aki yukita, aki mainan anak 6v, aki mainan anak 12v, sepeda roda tiga anak, stroller sepeda anak">
+    <meta name="author" content="Roket Mini Moto">
+    <meta name="robots" content="index, follow">
     
     <!-- Open Graph Metadata -->
-    <meta property="og:title" content="Roket Mini Moto | Trail Mini dan Mobil Aki Murah Bondowoso">
-    <meta property="og:description" content="Toko kendaraan mini anak dan remaja termurah di Bondowoso. Full Garansi!">
+    <meta property="og:title" content="Toko Sepeda Listrik, Mobil Aki & Trail Mini Bondowoso | Roket Mini Moto">
+    <meta property="og:description" content="Pusat penjualan sepeda listrik semua merk, mobil aki anak, trail mini, dan ATV termurah di Bondowoso. Kualitas terbaik dan full garansi!">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">

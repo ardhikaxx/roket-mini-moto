@@ -9,8 +9,8 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="hero-content">
-                        <h1>Trail Mini dan Mobil Aki Paling Murah Pertama di Bondowoso</h1>
-                        <p>Roket Mini Moto menyediakan mini trail, mobil aki, ATV mini, dan berbagai kendaraan mini lainnya dengan harga terjangkau serta full garansi di Bondowoso.</p>
+                        <h1>Pusat Grosir Sepeda Listrik, Trail Mini & Mobil Aki Termurah di Bondowoso</h1>
+                        <p>Roket Mini Moto adalah dealer dan pusat penjualan <strong>sepeda listrik</strong> (Uwinfly, Exotic, dll), <strong>mobil aki anak</strong>, <strong>trail mini</strong>, dan <strong>ATV</strong> dengan harga pabrik dan full garansi di Bondowoso, Situbondo, dan Jember.</p>
                         
                         <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
                             <a href="#produk" class="btn btn-primary-custom">Lihat Katalog</a>
@@ -74,6 +74,15 @@
                     </div>
                 </div>
                 <div class="col-6 col-md-4 col-lg-3">
+                    <div class="category-card" onclick="document.querySelector('[data-filter=\'sepeda-listrik\']').click(); window.location.href='#produk';">
+                        <div class="category-icon">
+                            <i class="fa-solid fa-bicycle"></i>
+                        </div>
+                        <h5 class="fw-bold mb-1">Sepeda Listrik</h5>
+                        <p class="text-muted small mb-0">E-Bike & Moped</p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-4 col-lg-2">
                     <div class="category-card" onclick="document.querySelector('[data-filter=\'lainnya\']').click(); window.location.href='#produk';">
                         <div class="category-icon">
                             <i class="fa-solid fa-boxes-stacked"></i>
@@ -125,7 +134,7 @@
                     <div class="product-card">
                         <div class="product-img-wrap">
                             <span class="badge-category">{{ $product->category->name ?? 'Produk' }}</span>
-                            <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/no-image.png') }}" alt="{{ $product->name }}" class="img-fluid" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
+                            <img src="{{ $product->photo ? asset('storage/'.$product->photo) : asset('assets/images/no-image.png') }}" alt="{{ $product->name }}" class="img-fluid" loading="lazy" onerror="this.onerror=null;this.src='{{ asset('assets/images/no-image.png') }}';">
                         </div>
                         <div class="product-body">
                             <h3 class="product-title fw-bold">{{ $product->name }}</h3>
@@ -244,10 +253,10 @@
                 <div class="col-lg-6 mt-5 mt-lg-0">
                     <div class="row g-3">
                         <div class="col-6">
-                            <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" alt="Tentang Roket Mini Moto 1" class="about-img mb-3">
+                            <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" alt="Tentang Roket Mini Moto 1" class="about-img mb-3" loading="lazy">
                         </div>
                         <div class="col-6 mt-4">
-                            <img src="{{ asset('assets/images/mobil-aki-1.jpg') }}" alt="Tentang Roket Mini Moto 2" class="about-img">
+                            <img src="{{ asset('assets/images/mobil-aki-1.jpg') }}" alt="Tentang Roket Mini Moto 2" class="about-img" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -524,3 +533,49 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+<script type="application/ld+json">
+{
+  "@@context": "https://schema.org",
+  "@@type": "LocalBusiness",
+  "name": "Roket Mini Moto",
+  "image": "{{ asset('assets/images/mobil-aki-1.jpg') }}",
+  "@@id": "{{ url('/') }}",
+  "url": "{{ url('/') }}",
+  "telephone": "+6282335465000",
+  "address": {
+    "@@type": "PostalAddress",
+    "streetAddress": "Utara Hotel Baru, Jln. Kartini No.41, Pegadaian, Blindungan",
+    "addressLocality": "Bondowoso",
+    "addressRegion": "Jawa Timur",
+    "postalCode": "68212",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@@type": "GeoCoordinates",
+    "latitude": -7.9158,
+    "longitude": 113.8222
+  },
+  "openingHoursSpecification": {
+    "@@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "opens": "08:00",
+    "closes": "20:00"
+  },
+  "sameAs": [
+    "https://www.instagram.com/roket_mini_moto/",
+    "https://www.tiktok.com/@trailminianak"
+  ],
+  "description": "Roket Mini Moto adalah pusat penjualan dan grosir sepeda listrik, mobil aki anak, trail mini, dan ATV termurah di Bondowoso, Situbondo, dan Jember."
+}
+</script>
+@endpush

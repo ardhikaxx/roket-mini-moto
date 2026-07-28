@@ -25,7 +25,7 @@
                 <!-- Product Image -->
                 <div class="col-lg-6 mb-5 mb-lg-0">
                     <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                        <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" id="detailImg" class="w-100 object-fit-cover" style="height: 500px;" alt="Product Image">
+                        <img src="{{ asset('assets/images/mini-trail-1.jpg') }}" id="detailImg" class="w-100 object-fit-cover" style="height: 500px;" alt="Product Image" loading="lazy">
                     </div>
                 </div>
                 
