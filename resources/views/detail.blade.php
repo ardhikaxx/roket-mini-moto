@@ -2,6 +2,8 @@
 
 @section('title', $product->name . ' - Roket Mini Moto')
 
+@section('meta_description', Str::limit($product->description ?? 'Detail produk ' . $product->name . ' di Roket Mini Moto.', 160))
+
 
 @section('content')
     <!-- Product Detail Section -->
@@ -81,3 +83,54 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@type": "Product",
+    "name": "{{ $product->name }}",
+    "description": "{{ strip_tags($product->description ?? '') }}",
+    "image": "{{ $product->image ? asset('storage/'.$product->image) : ($product->photo ? asset('storage/'.$product->photo) : asset('assets/images/no-image.png')) }}",
+    "category": "{{ $product->category->name ?? 'Kendaraan Mini' }}",
+    "offers": {
+        "@type": "Offer",
+        "priceCurrency": "IDR",
+        "price": "{{ $product->price }}",
+        "availability": "{{ $product->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock' }}",
+        "url": "{{ url()->current() }}",
+        "seller": {
+            "@type": "LocalBusiness",
+            "name": "Roket Mini Moto",
+            "url": "{{ url('/') }}"
+        }
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Beranda",
+            "item": "{{ route('home') }}"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Produk",
+            "item": "{{ route('home') }}#produk"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ $product->name }}",
+            "item": "{{ url()->current() }}"
+        }
+    ]
+}
+</script>
+@endpush

@@ -11,10 +11,18 @@
     <meta name="robots" content="index, follow">
     
     <!-- Open Graph Metadata -->
-    <meta property="og:title" content="Toko Sepeda Listrik, Mobil Aki & Trail Mini Bondowoso | Roket Mini Moto">
-    <meta property="og:description" content="Pusat penjualan sepeda listrik semua merk, mobil aki anak, trail mini, dan ATV termurah di Bondowoso. Kualitas terbaik dan full garansi!">
+    <meta property="og:title" content="@yield('title', 'Toko Sepeda Listrik, Mobil Aki & Trail Mini Bondowoso | Roket Mini Moto')">
+    <meta property="og:description" content="@yield('meta_description', 'Pusat penjualan sepeda listrik semua merk, mobil aki anak, trail mini, dan ATV termurah di Bondowoso. Kualitas terbaik dan full garansi!')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('assets/images/logo.png') }}">
+    <meta property="og:site_name" content="Roket Mini Moto">
+
+    <!-- Twitter Card Metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Roket Mini Moto')">
+    <meta name="twitter:description" content="@yield('meta_description', 'Pusat penjualan sepeda listrik semua merk, mobil aki anak, trail mini, dan ATV termurah di Bondowoso. Kualitas terbaik dan full garansi!')">
+    <meta name="twitter:image" content="{{ asset('assets/images/logo.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,6 +35,48 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <!-- WebSite Schema -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Roket Mini Moto",
+        "url": "{{ url('/') }}",
+        "description": "Pusat penjualan sepeda listrik, mobil aki anak, trail mini, dan ATV termurah di Bondowoso, Situbondo, dan Jember.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "{{ url('/') }}?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <!-- LocalBusiness Schema -->
+    <script type="application/ld+json">
+    {
+        "@@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Roket Mini Moto",
+        "image": "{{ asset('assets/images/logo.png') }}",
+        "url": "{{ url('/') }}",
+        "telephone": "+6282335465000",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. K.H. Asyari No.45",
+            "addressLocality": "Bondowoso",
+            "addressRegion": "Jawa Timur",
+            "postalCode": "68211",
+            "addressCountry": "ID"
+        },
+        "description": "Roket Mini Moto adalah dealer dan pusat penjualan sepeda listrik, mobil aki anak, trail mini, dan ATV dengan harga pabrik dan full garansi di Bondowoso."
+    }
+    </script>
 
     @stack('styles')
 </head>

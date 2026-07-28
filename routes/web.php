@@ -70,6 +70,11 @@ Route::get('/produk/{id}', function ($id) {
     return view('detail', compact('product'));
 })->name('produk.detail');
 
+Route::get('/sitemap.xml', function () {
+    $products = \App\Models\Product::where('is_active', true)->get();
+    return response()->view('sitemap', compact('products'))->header('Content-Type', 'text/xml');
+});
+
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
