@@ -157,7 +157,7 @@
             document.getElementById('detailSpecs').innerHTML = specsHTML;
 
             // Set WA link
-            const waMessage = encodeURIComponent(`Halo Roket Mini Moto, saya tertarik untuk membeli produk *${product.title}*. Apakah stoknya masih tersedia?`);
+            const waMessage = encodeURIComponent(`Halo Roket Mini Moto, saya mau tanya ketersediaan stok untuk produk *${product.title}* ini. Apakah masih ada?`);
             document.getElementById('btnWaBeli').href = `https://wa.me/6282335465000?text=${waMessage}`;
         } else {
             document.getElementById('detailTitle').innerText = "Produk tidak ditemukan";
