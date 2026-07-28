@@ -4,22 +4,18 @@
 
 
 @section('content')
-    <!-- Breadcrumb -->
-    <div class="bg-light-custom py-3 border-bottom mt-4">
+    <!-- Product Detail Section -->
+    <section class="section-padding" style="padding-top: 100px;">
         <div class="container">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">Beranda</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('home') }}#produk" class="text-decoration-none text-muted">Produk</a></li>
                     <li class="breadcrumb-item active fw-bold" aria-current="page">{{ $product->name }}</li>
                 </ol>
             </nav>
-        </div>
-    </div>
 
-    <!-- Product Detail Section -->
-    <section class="section-padding">
-        <div class="container">
             <div class="row gx-5">
                 <!-- Product Image -->
                 <div class="col-lg-6 mb-5 mb-lg-0">
