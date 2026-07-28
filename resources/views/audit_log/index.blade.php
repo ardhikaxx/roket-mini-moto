@@ -83,7 +83,7 @@
                                 elseif(str_contains(strtolower($log->action), 'approve')) { $color = 'success'; $icon = 'check-double'; }
                                 elseif(str_contains(strtolower($log->action), 'reject')) { $color = 'danger'; $icon = 'xmark'; }
                             @endphp
-                            <span class="badge bg-{{$color}}-50 text-{{$color}}-700 border border-{{$color}}-100 px-2 py-1" style="font-weight:700; letter-spacing:0.5px; font-size:10px;">
+                            <span class="badge badge-{{$color}} px-2 py-1" style="font-weight:700; letter-spacing:0.5px; font-size:10px;">
                                 <i class="fa-solid fa-{{$icon}} me-1"></i> {{ strtoupper(str_replace('_', ' ', $log->action)) }}
                             </span>
                         </td>
@@ -92,7 +92,7 @@
                         </td>
                         <td class="text-end">
                             @if($log->model)
-                                <span class="badge bg-neutral-100 text-neutral-600 border px-2 py-1" style="font-family:monospace; font-size:11px;">
+                                <span class="badge badge-neutral px-2 py-1" style="font-family:monospace; font-size:11px;">
                                     {{ class_basename($log->model) }}
                                 </span>
                             @else
