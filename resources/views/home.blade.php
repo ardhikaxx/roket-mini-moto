@@ -364,42 +364,55 @@
                 </div>
                 <div class="col-lg-7 reveal">
                     <div class="accordion" id="faqAccordion">
-                        <!-- FAQ 1 -->
+                        <!-- FAQ 1: COD -->
                         <div class="accordion-item border-0 mb-3 shadow-sm" style="border-radius: var(--border-radius); overflow: hidden;">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Bagaimana cara klaim garansi produk?
+                                    Apakah bisa bayar di tempat (COD)?
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body text-muted">
-                                    Sangat mudah! Jika terjadi kendala pada mesin atau kelistrikan (bukan <i>human error</i>) dalam masa garansi, Anda dapat membawa unit ke bengkel Roket Mini Moto beserta nota pembelian, dan mekanik kami akan menanganinya tanpa biaya servis.
+                                    Ya, tentu saja bisa! Kami melayani pembayaran di tempat (COD) khusus untuk pengiriman di wilayah tertentu menggunakan kurir pribadi kami. Anda bisa cek barang dulu di rumah, baru bayar!
                                 </div>
                             </div>
                         </div>
-                        <!-- FAQ 2 -->
+                        <!-- FAQ 2: Garansi Baterai -->
                         <div class="accordion-item border-0 mb-3 shadow-sm" style="border-radius: var(--border-radius); overflow: hidden;">
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Apakah bisa kirim ke luar kota?
+                                    Bagaimana cara klaim garansinya jika baterai rusak?
                                 </button>
                             </h2>
                             <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body text-muted">
-                                    Ya, kami melayani pengiriman ke seluruh daerah menggunakan jasa ekspedisi terpercaya dengan pengemasan super aman. Khusus area Bondowoso dan sekitarnya, tersedia penawaran pengiriman menarik.
+                                    Sangat mudah! Bawa unit kendaraan mini atau baterainya ke bengkel kami beserta nota pembelian. Jika kerusakan terjadi dalam masa garansi dan bukan karena kelalaian pengguna (human error), mekanik kami akan melakukan perbaikan atau penggantian baterai secara gratis.
                                 </div>
                             </div>
                         </div>
-                        <!-- FAQ 3 -->
+                        <!-- FAQ 3: Pengiriman Luar Kota -->
                         <div class="accordion-item border-0 mb-3 shadow-sm" style="border-radius: var(--border-radius); overflow: hidden;">
                             <h2 class="accordion-header" id="headingThree">
                                 <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    Apakah tersedia jaminan ketersediaan spare part?
+                                    Apakah melayani pengiriman ke luar kota (Situbondo/Jember)?
                                 </button>
                             </h2>
                             <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body text-muted">
-                                    Tentu saja. Sebagai komitmen toko, Roket Mini Moto menyediakan suku cadang <strong>(spare parts)</strong> lengkap, mulai dari aki, ban pacul, kampas rem, hingga karburator mini. Perawatan rutin jadi sangat mudah.
+                                    Ya, kami siap mengirim pesanan Anda ke seluruh Karesidenan Besuki (termasuk Situbondo dan Jember) hingga ke seluruh Jawa Timur. Pengiriman dijamin super aman menggunakan ekspedisi rekanan kami dengan proteksi ganda.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- FAQ 4: Sparepart -->
+                        <div class="accordion-item border-0 mb-3 shadow-sm" style="border-radius: var(--border-radius); overflow: hidden;">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    Apakah tersedia jaminan ketersediaan spare part?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body text-muted">
+                                    Tentu saja. Sebagai komitmen toko, Roket Mini Moto menyediakan suku cadang <strong>(spare parts)</strong> lengkap, mulai dari aki/baterai, ban, kampas rem, hingga dinamo kelistrikan.
                                 </div>
                             </div>
                         </div>
