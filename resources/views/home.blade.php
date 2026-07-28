@@ -82,15 +82,6 @@
                         <p class="text-muted small mb-0">E-Bike & Moped</p>
                     </div>
                 </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-card" onclick="document.querySelector('[data-filter=\'lainnya\']').click(); window.location.href='#produk';">
-                        <div class="category-icon">
-                            <i class="fa-solid fa-boxes-stacked"></i>
-                        </div>
-                        <h5 class="fw-bold mb-1">Lainnya</h5>
-                        <p class="text-muted small mb-0">Koleksi Lengkap</p>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
