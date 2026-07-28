@@ -6,7 +6,7 @@
 
 @section('content')
     <!-- Breadcrumb -->
-    <div class="bg-light-custom py-3 border-bottom">
+    <div class="bg-light-custom py-3 border-bottom mt-4">
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
