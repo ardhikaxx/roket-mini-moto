@@ -11,6 +11,14 @@
             <h1 class="page-title"><i class="fa-solid fa-coins text-primary me-2"></i>Laporan Laba Rugi</h1>
             <p class="page-subtitle">Analisa laba kotor dari penjualan (harga jual - harga modal)</p>
         </div>
+        <div class="page-header-actions d-flex gap-2">
+            <a href="{{ route('admin.profit-loss.export-excel', request()->query()) }}" class="btn btn-success fw-bold">
+                <i class="fa-solid fa-file-excel me-1"></i> Export Excel
+            </a>
+            <a href="{{ route('admin.profit-loss.export-pdf', request()->query()) }}" class="btn btn-danger fw-bold">
+                <i class="fa-solid fa-file-pdf me-1"></i> Export PDF
+            </a>
+        </div>
     </div>
 </div>
 

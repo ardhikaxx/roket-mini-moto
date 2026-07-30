@@ -154,6 +154,8 @@ Route::middleware('auth')->group(function () {
 
         // Laporan Laba/Rugi (admin only)
         Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss')->middleware('role:admin');
+        Route::get('/profit-loss/export-pdf', [ProfitLossController::class, 'exportPdf'])->name('profit-loss.export-pdf')->middleware('role:admin');
+        Route::get('/profit-loss/export-excel', [ProfitLossController::class, 'exportExcel'])->name('profit-loss.export-excel')->middleware('role:admin');
     });
 
     // Kepala Toko Dashboard (separate)
