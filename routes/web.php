@@ -11,7 +11,6 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\LoginHistoryController;
 use App\Http\Controllers\StockController;
-use App\Http\Controllers\SalesTargetController;
 use App\Http\Controllers\ProfitLossController;
 
 use Illuminate\Support\Facades\File;
@@ -152,11 +151,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/stock/transfer', [StockController::class, 'transferForm'])->name('stock.transfer')->middleware('role:admin');
         Route::post('/stock/transfer', [StockController::class, 'transfer'])->name('stock.transfer.store')->middleware('role:admin');
         Route::post('/stock/{product}/min-stock', [StockController::class, 'updateMinStock'])->name('stock.min-stock')->middleware('role:admin');
-
-        // Target Penjualan (admin only)
-        Route::get('/sales-targets', [SalesTargetController::class, 'index'])->name('sales-targets.index')->middleware('role:admin');
-        Route::post('/sales-targets', [SalesTargetController::class, 'store'])->name('sales-targets.store')->middleware('role:admin');
-        Route::delete('/sales-targets/{target}', [SalesTargetController::class, 'destroy'])->name('sales-targets.destroy')->middleware('role:admin');
 
         // Laporan Laba/Rugi (admin only)
         Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss')->middleware('role:admin');

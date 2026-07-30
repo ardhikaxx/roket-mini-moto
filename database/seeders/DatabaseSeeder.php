@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             AuditLogsSeeder::class,
             NotificationsSeeder::class,
             StockTransactionSeeder::class,
-            SalesTargetSeeder::class,
         ]);
     }
 }

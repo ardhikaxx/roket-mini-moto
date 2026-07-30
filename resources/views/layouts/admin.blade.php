@@ -74,10 +74,6 @@
                 <span class="nav-icon"><i class="fa-solid fa-warehouse"></i></span>
                 <span class="nav-text">Manajemen Stok</span>
             </a>
-            <a href="{{ route('admin.sales-targets.index') }}" class="nav-item {{ request()->routeIs('admin.sales-targets.*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span>
-                <span class="nav-text">Target Penjualan</span>
-            </a>
             <a href="{{ route('admin.profit-loss') }}" class="nav-item {{ request()->routeIs('admin.profit-loss') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fa-solid fa-coins"></i></span>
                 <span class="nav-text">Laba Rugi</span>
