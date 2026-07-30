@@ -63,7 +63,7 @@
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg);">
             <div class="card-body p-4">
                 <p class="text-muted mb-1 fw-bold" style="font-size:12px;text-transform:uppercase;">Total Omzet</p>
-                <h3 class="fw-bold text-dark mb-0">Rp {{ number_format($totalRevenue,0,',','.') }}</h3>
+                <h3 class="fw-bold mb-0" style="color:var(--primary);">Rp {{ number_format($totalRevenue,0,',','.') }}</h3>
             </div>
         </div>
     </div>
@@ -71,12 +71,12 @@
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg);">
             <div class="card-body p-4">
                 <p class="text-muted mb-1 fw-bold" style="font-size:12px;text-transform:uppercase;">Total Modal</p>
-                <h3 class="fw-bold text-danger mb-0">Rp {{ number_format($totalCost,0,',','.') }}</h3>
+                <h3 class="fw-bold mb-0" style="color:#e74c3c;">Rp {{ number_format($totalCost,0,',','.') }}</h3>
             </div>
         </div>
     </div>
     <div class="col-12 col-md-4">
-        <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg);background:linear-gradient(135deg,#059669,#10b981);">
+        <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--primary),var(--primary-600));">
             <div class="card-body p-4 text-white">
                 <p class="mb-1 fw-bold" style="font-size:12px;text-transform:uppercase;opacity:0.9;">Laba Kotor</p>
                 <h3 class="fw-bold mb-0">Rp {{ number_format($totalProfit,0,',','.') }}</h3>
@@ -129,12 +129,12 @@
                                 <td class="fw-bold" style="padding:16px 20px;">Rp {{ number_format($rp['revenue'],0,',','.') }}</td>
                                 <td style="padding:16px 20px;">Rp {{ number_format($rp['cost'],0,',','.') }}</td>
                                 <td style="padding:16px 20px;">
-                                    <span class="fw-bold {{ $rp['profit'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                    <span class="fw-bold" style="color:{{ $rp['profit'] >= 0 ? 'var(--primary)' : '#e74c3c' }};">
                                         Rp {{ number_format($rp['profit'],0,',','.') }}
                                     </span>
                                 </td>
                                 <td style="padding:16px 20px;">
-                                    <span class="badge {{ $rp['percent'] >= 50 ? 'bg-success' : ($rp['percent'] >= 25 ? 'bg-warning text-dark' : 'bg-danger') }} rounded-pill px-3 py-1">
+                                    <span class="badge rounded-pill px-3 py-1" style="background:{{ $rp['percent'] >= 50 ? 'var(--primary)' : ($rp['percent'] >= 25 ? 'var(--primary-200)' : 'var(--primary-50)') }}; color:{{ $rp['percent'] >= 50 ? '#fff' : ($rp['percent'] >= 25 ? 'var(--primary-700)' : 'var(--primary-700)') }};">
                                         {{ $rp['percent'] }}%
                                     </span>
                                 </td>
@@ -179,12 +179,12 @@
                                 <td class="fw-bold" style="padding:16px 20px;">Rp {{ number_format($pp['revenue'],0,',','.') }}</td>
                                 <td style="padding:16px 20px;">Rp {{ number_format($pp['cost'],0,',','.') }}</td>
                                 <td style="padding:16px 20px;">
-                                    <span class="fw-bold {{ $profit >= 0 ? 'text-success' : 'text-danger' }}">
+                                    <span class="fw-bold" style="color:{{ $profit >= 0 ? 'var(--primary)' : '#e74c3c' }};">
                                         Rp {{ number_format($profit,0,',','.') }}
                                     </span>
                                 </td>
                                 <td style="padding:16px 20px;">
-                                    <span class="badge {{ $percent >= 50 ? 'bg-success' : ($percent >= 25 ? 'bg-warning text-dark' : 'bg-danger') }} rounded-pill px-3 py-1">
+                                    <span class="badge rounded-pill px-3 py-1" style="background:{{ $percent >= 50 ? 'var(--primary)' : ($percent >= 25 ? 'var(--primary-200)' : 'var(--primary-50)') }}; color:{{ $percent >= 50 ? '#fff' : ($percent >= 25 ? 'var(--primary-700)' : 'var(--primary-700)') }};">
                                         {{ $percent }}%
                                     </span>
                                 </td>
