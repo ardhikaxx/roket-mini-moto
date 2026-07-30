@@ -122,15 +122,19 @@
                     
                     <div class="form-group mb-0">
                         <label class="form-label fw-semibold">Foto Produk</label>
-                        <div class="upload-zone" id="uploadZone" onclick="document.getElementById('photoInput').click()">
-                            <div class="upload-zone-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                            <div class="upload-zone-text text-dark fw-bold mb-1">Pilih atau letakkan gambar</div>
-                            <div class="upload-zone-text text-muted" style="font-size:12px;">Format JPG, PNG (Maks 2MB)</div>
-                            <input type="file" id="photoInput" name="photo" accept="image/*" style="display:none;" onchange="previewPhoto(event)">
+                        <div class="mb-3">
+                            <div id="imagePreview" style="width:100%; height:200px; border-radius:12px; background:var(--neutral-100); border:2px dashed var(--neutral-300); display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative;">
+                                <div class="text-muted text-center" id="imagePlaceholder">
+                                    <i class="fa-solid fa-image mb-2" style="font-size:32px;"></i>
+                                    <div style="font-size:13px;">Pratinjau Foto Produk</div>
+                                </div>
+                                <img id="previewImg" style="width:100%; height:100%; object-fit:cover; display:none; position:absolute; top:0; left:0;">
+                            </div>
                         </div>
-                        <div id="photoPreview" style="display:none;margin-top:16px;border-radius:12px;overflow:hidden;position:relative;border:1px solid var(--border-light);box-shadow:var(--shadow-sm);">
-                            <img id="previewImg" style="width:100%;height:220px;object-fit:cover;">
-                            <button type="button" class="btn btn-danger btn-sm" style="position:absolute;top:12px;right:12px;border-radius:50%;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.2);" onclick="removePhoto()" title="Hapus Foto"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="text-start">
+                            <label class="form-label fw-bold" style="font-size:13px;">Upload Foto</label>
+                            <input type="file" name="photo" class="form-control" accept="image/*" onchange="previewImage(this)">
+                            <small class="text-muted mt-2 d-block" style="font-size:11px;">Format disarankan: JPG/PNG. Maks 2MB.</small>
                         </div>
                         @error('photo') <div class="text-danger mt-2" style="font-size:13px;">{{ $message }}</div> @enderror
                     </div>
@@ -178,20 +182,22 @@
 </form>
 
 <script>
-function previewPhoto(e) {
-    const file = e.target.files[0];
-    if (file) {
+function previewImage(input) {
+    const preview = document.getElementById('previewImg');
+    const placeholder = document.getElementById('imagePlaceholder');
+    if (input.files && input.files[0]) {
         const reader = new FileReader();
-        reader.onload = function(ev) {
-            document.getElementById('photoPreview').style.display = 'block';
-            document.getElementById('previewImg').src = ev.target.result;
-        };
-        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            placeholder.style.display = 'none';
+        }
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
+        placeholder.style.display = 'block';
     }
-}
-function removePhoto() {
-    document.getElementById('photoInput').value = '';
-    document.getElementById('photoPreview').style.display = 'none';
 }
 </script>
 @endsection
