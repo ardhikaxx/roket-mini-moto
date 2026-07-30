@@ -150,9 +150,9 @@
             </div>
 
             {{-- Tab 2: Per Produk --}}
-            <div class="tab-pane fade" id="by-product" role="tabpanel">
+            <div class="tab-pane" id="by-product" role="tabpanel">
                 <div style="overflow-x: auto;">
-                    <table class="table table-hover align-middle m-0" id="productProfitTable">
+                    <table class="table table-hover align-middle m-0 datatable">
                         <thead>
                             <tr>
                                 <th style="padding:16px 20px;">#</th>
@@ -205,35 +205,13 @@
 
 @push('scripts')
 <script>
-var productTableInit = false;
 document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
-    tab.addEventListener('shown.bs.tab', function(e) {
-        var target = document.querySelector(e.target.getAttribute('data-bs-target'));
-        if (target && target.id === 'by-product') {
-            if (!productTableInit) {
-                productTableInit = true;
-                $('#productProfitTable').DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' },
-                    pageLength: 25,
-                    lengthMenu: [10, 25, 50, 100],
-                    order: [],
-                    autoWidth: false,
-                    scrollX: true,
-                    scrollCollapse: true,
-                    drawCallback: function() {
-                        $(this).closest('.dataTables_wrapper').find('.dataTables_filter input').attr('placeholder', 'Cari data...');
-                    },
-                    initComplete: function() {
-                        const wrapper = $(this).closest('.dataTables_wrapper');
-                        wrapper.find('.dataTables_filter input').addClass('form-control-sm');
-                        wrapper.find('.dataTables_length select').addClass('form-select-sm');
-                        wrapper.addClass('dt-premium');
-                    }
-                });
-            } else {
-                $('#productProfitTable').DataTable().columns.adjust();
+    tab.addEventListener('shown.bs.tab', function() {
+        $('.datatable').each(function() {
+            if ($.fn.DataTable.isDataTable(this)) {
+                $(this).DataTable().columns.adjust();
             }
-        }
+        });
     });
 });
 </script>
