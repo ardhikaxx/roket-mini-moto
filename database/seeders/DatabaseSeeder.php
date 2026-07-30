@@ -241,7 +241,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 8. Seed Sales Targets (2 bulan terakhir)
+        // 8. Seed Stock Transactions (riwayat stok)
+        $this->call(StockTransactionSeeder::class);
+
+        // 9. Seed Sales Targets (2 bulan terakhir)
         $this->call(SalesTargetSeeder::class);
 
         // 9. Generate Notifications for Admin
