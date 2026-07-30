@@ -178,23 +178,25 @@
             </div>
             <div class="card-body p-0">
                 <div class="table-container">
-                    <table class="table align-middle table-hover" style="margin:0;">
-                        <tbody>
-                            @foreach($topProducts as $tp)
-                            <tr>
-                                <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100); width:60px;">
-                                    <div class="fw-bold text-muted text-center" style="font-size:16px;">#{{ $loop->iteration }}</div>
-                                </td>
-                                <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
-                                    <span class="fw-bold text-dark">{{ $tp->product->name ?? 'Produk Tidak Ditemukan' }}</span>
-                                </td>
-                                <td class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
-                                    <span class="badge bg-light text-dark border px-3 py-2 fw-bold" style="font-size:13px;">{{ $tp->total_qty }} Unit Terjual</span>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                    <div style="overflow-x: auto;">
+                        <table class="table align-middle table-hover" style="margin:0;">
+                            <tbody>
+                                @foreach($topProducts as $tp)
+                                <tr>
+                                    <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100); width:60px;">
+                                        <div class="fw-bold text-muted text-center" style="font-size:16px;">#{{ $loop->iteration }}</div>
+                                    </td>
+                                    <td style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                                        <span class="fw-bold text-dark">{{ $tp->product->name ?? 'Produk Tidak Ditemukan' }}</span>
+                                    </td>
+                                    <td class="text-end" style="padding:16px 24px; border-bottom:1px solid var(--neutral-100);">
+                                        <span class="badge bg-light text-dark border px-3 py-2 fw-bold" style="font-size:13px;">{{ $tp->total_qty }} Unit Terjual</span>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

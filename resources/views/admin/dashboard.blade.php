@@ -194,42 +194,44 @@
                 <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-light" style="font-weight:600;">Lihat Katalog</a>
             </div>
             <div class="card-body p-0">
-                <table class="table table-hover align-middle m-0">
-                    <tbody>
-                        @forelse($topProducts as $tp)
-                        <tr>
-                            <td style="padding:16px; border-bottom:1px solid var(--border-light);">
-                                <div class="d-flex align-items-center gap-3">
-                                    <div style="width:48px;height:48px;border-radius:10px;background:var(--neutral-100);overflow:hidden;flex-shrink:0;">
-                                        @if($tp->product && $tp->product->photo)
-                                            <img src="{{ asset('storage/'.$tp->product->photo) }}" style="width:100%;height:100%;object-fit:cover;">
-                                        @else
-                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted"><i class="fa-solid fa-motorcycle"></i></div>
-                                        @endif
+                <div style="overflow-x: auto;">
+                    <table class="table table-hover align-middle m-0">
+                        <tbody>
+                            @forelse($topProducts as $tp)
+                            <tr>
+                                <td style="padding:16px; border-bottom:1px solid var(--border-light);">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div style="width:48px;height:48px;border-radius:10px;background:var(--neutral-100);overflow:hidden;flex-shrink:0;">
+                                            @if($tp->product && $tp->product->photo)
+                                                <img src="{{ asset('storage/'.$tp->product->photo) }}" style="width:100%;height:100%;object-fit:cover;">
+                                            @else
+                                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted"><i class="fa-solid fa-motorcycle"></i></div>
+                                            @endif
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark text-truncate mb-1" style="font-size:14px; max-width:200px;">{{ $tp->product->name ?? 'Produk Dihapus' }}</div>
+                                            <div class="text-muted" style="font-size:12px;">{{ $tp->product->category->name ?? '-' }}</div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <div class="fw-bold text-dark text-truncate mb-1" style="font-size:14px; max-width:200px;">{{ $tp->product->name ?? 'Produk Dihapus' }}</div>
-                                        <div class="text-muted" style="font-size:12px;">{{ $tp->product->category->name ?? '-' }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="text-center" style="padding:16px; border-bottom:1px solid var(--border-light);">
-                                <span class="badge badge-success rounded-pill px-3 py-1" style="font-weight:600;">{{ $tp->total_qty }} Unit</span>
-                            </td>
-                            <td class="text-end fw-bold text-dark" style="padding:16px; border-bottom:1px solid var(--border-light); font-size:14px;">
-                                Rp {{ number_format($tp->total_amount,0,',','.') }}
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="3" class="text-center py-5">
-                                <div style="width:64px;height:64px;border-radius:50%;background:var(--neutral-100);color:var(--neutral-400);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;"><i class="fa-solid fa-box-open"></i></div>
-                                <p class="text-muted fw-semibold m-0">Belum ada penjualan produk tercatat.</p>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                                </td>
+                                <td class="text-center" style="padding:16px; border-bottom:1px solid var(--border-light);">
+                                    <span class="badge badge-success rounded-pill px-3 py-1" style="font-weight:600;">{{ $tp->total_qty }} Unit</span>
+                                </td>
+                                <td class="text-end fw-bold text-dark" style="padding:16px; border-bottom:1px solid var(--border-light); font-size:14px;">
+                                    Rp {{ number_format($tp->total_amount,0,',','.') }}
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="3" class="text-center py-5">
+                                    <div style="width:64px;height:64px;border-radius:50%;background:var(--neutral-100);color:var(--neutral-400);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;"><i class="fa-solid fa-box-open"></i></div>
+                                    <p class="text-muted fw-semibold m-0">Belum ada penjualan produk tercatat.</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
