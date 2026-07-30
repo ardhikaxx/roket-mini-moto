@@ -528,7 +528,7 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 }
 
 .dataTables_wrapper .dataTables_paginate {
-  padding: 16px 0 24px;
+  padding: 16px 24px 24px;
 }
 .dataTables_wrapper .pagination {
   margin: 0;
