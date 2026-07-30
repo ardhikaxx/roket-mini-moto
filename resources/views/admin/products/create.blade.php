@@ -81,7 +81,7 @@
                             <label class="form-label fw-semibold">Harga Jual (Rp) <span class="text-danger">*</span></label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0">Rp</span>
-                                <input type="text" name="price" inputmode="numeric" class="form-control input-rupiah border-start-0 ps-0 @error('price') is-invalid @enderror" required value="{{ old('price') }}" placeholder="0">
+                                <input type="text" name="price" inputmode="numeric" class="form-control input-rupiah border-start-0 @error('price') is-invalid @enderror" required value="{{ old('price') }}" placeholder="0">
                             </div>
                             @error('price') <div class="invalid-feedback d-block">{{ $message }}</div> @enderror
                         </div>
@@ -89,7 +89,7 @@
                             <label class="form-label fw-semibold">Harga Modal (Rp)</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0">Rp</span>
-                                <input type="text" name="cost_price" inputmode="numeric" class="form-control input-rupiah border-start-0 ps-0 @error('cost_price') is-invalid @enderror" value="{{ old('cost_price') }}" placeholder="0">
+                                <input type="text" name="cost_price" inputmode="numeric" class="form-control input-rupiah border-start-0 @error('cost_price') is-invalid @enderror" value="{{ old('cost_price') }}" placeholder="0">
                             </div>
                             <div class="form-text">Opsional. Digunakan untuk menghitung profit.</div>
                         </div>
