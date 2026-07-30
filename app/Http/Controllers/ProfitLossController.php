@@ -115,8 +115,9 @@ class ProfitLossController extends Controller
             $sheet->getStyle('G' . $row)->getNumberFormat()->setFormatCode('"Rp "#,##0');
 
             if ($i % 2 == 0) {
-                $sheet->getStyle('A' . $row . ':H' . $row)
-                    ->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor(['rgb' => 'F8FAFC']);
+                $sheet->getStyle('A' . $row . ':H' . $row)->applyFromArray([
+                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F8FAFC']],
+                ]);
             }
             $row++;
         }
@@ -160,8 +161,9 @@ class ProfitLossController extends Controller
             $sheet->getStyle('G' . $row)->getNumberFormat()->setFormatCode('"Rp "#,##0');
 
             if ($i % 2 == 0) {
-                $sheet->getStyle('A' . $row . ':H' . $row)
-                    ->getFill()->setFillType(Fill::FILL_SOLID)->setStartColor(['rgb' => 'F8FAFC']);
+                $sheet->getStyle('A' . $row . ':H' . $row)->applyFromArray([
+                    'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'F8FAFC']],
+                ]);
             }
             $row++;
         }
