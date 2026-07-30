@@ -96,7 +96,7 @@
         <h5 class="fw-bold mb-0 text-dark d-flex align-items-center">
             <i class="fa-solid fa-filter text-primary me-2"></i> Filter & Ekspor Laporan
         </h5>
-        <div class="d-flex align-items-center gap-2 align-self-end align-self-md-auto ms-md-auto">
+        <div class="d-flex align-items-center gap-2 justify-content-end ms-md-auto w-100 w-md-auto">
             <button type="button" onclick="exportData('excel')" class="btn btn-success px-3 py-2 fw-bold text-white rounded-3 d-inline-flex align-items-center gap-2" style="font-size:13px; box-shadow:0 4px 10px rgba(40,167,69,0.2);">
                 <i class="fa-solid fa-file-excel"></i>
                 <span>Cetak Excel</span>
