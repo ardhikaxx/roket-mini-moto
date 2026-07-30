@@ -12,6 +12,7 @@ use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\LoginHistoryController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\ProfitLossController;
+use App\Http\Controllers\DashboardController;
 
 use Illuminate\Support\Facades\File;
 
@@ -100,11 +101,8 @@ Route::middleware('auth')->group(function () {
 
     // Admin Routes
     Route::prefix('admin')->name('admin.')->middleware('role:admin,kepala_toko')->group(function () {
-        Route::get('/dashboard', function() { 
-            $user = auth()->user();
-            if ($user->isKepalaToko()) return redirect()->route('kepalatoko.dashboard');
-            return view('admin.dashboard'); 
-        })->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard/data', [DashboardController::class, 'getData'])->name('dashboard.data');
 
         // Products (admin only)
         Route::resource('products', ProductController::class)->middleware('role:admin');
