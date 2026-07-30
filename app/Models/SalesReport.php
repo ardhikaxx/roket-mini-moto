@@ -8,6 +8,10 @@ class SalesReport extends Model {
         'transaction_date', 'status', 'notes', 'rejection_reason',
     ];
 
+    protected $casts = [
+        'transaction_date' => 'datetime',
+    ];
+
     public function user() { return $this->belongsTo(User::class); }
     public function store() { return $this->belongsTo(Store::class); }
     public function items() { return $this->hasMany(SalesReportItem::class); }
