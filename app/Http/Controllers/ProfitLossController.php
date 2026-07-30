@@ -35,15 +35,30 @@ class ProfitLossController extends Controller
         $totalProfit = 0;
         $totalProfitPercent = 0;
         $reportProfits = [];
+        $productProfits = [];
 
         foreach ($reports as $report) {
             $reportRevenue = $report->total_amount;
             $reportCost = 0;
 
             foreach ($report->items as $item) {
-                if ($item->product && $item->product->cost_price) {
-                    $reportCost += $item->product->cost_price * $item->quantity;
+                $costPrice = $item->product && $item->product->cost_price ? $item->product->cost_price : 0;
+                $itemCost = $costPrice * $item->quantity;
+                $reportCost += $itemCost;
+
+                $productId = $item->product_id;
+                if (!isset($productProfits[$productId])) {
+                    $productProfits[$productId] = [
+                        'product' => $item->product,
+                        'product_name' => $item->product_name,
+                        'qty' => 0,
+                        'revenue' => 0,
+                        'cost' => 0,
+                    ];
                 }
+                $productProfits[$productId]['qty'] += $item->quantity;
+                $productProfits[$productId]['revenue'] += $item->subtotal;
+                $productProfits[$productId]['cost'] += $itemCost;
             }
 
             $reportProfit = $reportRevenue - $reportCost;
@@ -64,8 +79,10 @@ class ProfitLossController extends Controller
 
         $totalProfitPercent = $totalRevenue > 0 ? round(($totalProfit / $totalRevenue) * 100, 1) : 0;
 
+        usort($productProfits, fn($a, $b) => $b['profit'] ?? ($b['revenue'] - $b['cost']) <=> $a['profit'] ?? ($a['revenue'] - $a['cost']));
+
         return view('admin.profit-loss.index', compact(
-            'reportProfits', 'stores',
+            'reportProfits', 'productProfits', 'stores',
             'totalRevenue', 'totalCost', 'totalProfit', 'totalProfitPercent'
         ));
     }

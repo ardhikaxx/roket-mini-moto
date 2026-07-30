@@ -11,7 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/admin/design-system.css') }}">
-    <style>.input-rupiah { padding-left: 12px; }</style>
+    <style>.input-rupiah { padding-left: 12px; }
+    .nav-tabs .nav-link { color: #64748b; border-radius: 0; margin-bottom: 0; border-bottom: 2px solid transparent; }
+    .nav-tabs .nav-link.active { color: #0d6efd; border-bottom-color: #0d6efd; background: none; }
+    .nav-tabs .nav-link:hover:not(.active) { color: #334155; border-bottom-color: #cbd5e1; }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('styles')
 </head>

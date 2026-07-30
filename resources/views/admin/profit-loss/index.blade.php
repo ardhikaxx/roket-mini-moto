@@ -79,52 +79,117 @@
 </div>
 
 <div class="card shadow-sm border-0" style="border-radius:var(--radius-lg); overflow:hidden;">
-    <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
-        <h5 class="fw-bold mb-0"><i class="fa-solid fa-list-ul text-primary me-2"></i> Rincian Laba per Transaksi</h5>
-        <span class="text-muted" style="font-size:13px;">{{ count($reportProfits) }} Transaksi</span>
+    <div class="card-header bg-white p-0 border-bottom border-light">
+        <ul class="nav nav-tabs border-0 mx-3" id="profitTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link border-0 fw-bold px-4 py-3 active" id="by-transaction-tab" data-bs-toggle="tab" data-bs-target="#by-transaction" type="button" role="tab">
+                    <i class="fa-solid fa-receipt me-1"></i> Per Transaksi
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link border-0 fw-bold px-4 py-3" id="by-product-tab" data-bs-toggle="tab" data-bs-target="#by-product" type="button" role="tab">
+                    <i class="fa-solid fa-cube me-1"></i> Per Produk
+                </button>
+            </li>
+        </ul>
     </div>
     <div class="card-body p-0">
-        <div style="overflow-x: auto;">
-            <table class="table table-hover align-middle m-0 datatable">
-                <thead>
-                    <tr>
-                        <th style="padding:16px 20px;">#</th>
-                        <th style="padding:16px 20px;">Tanggal</th>
-                        <th style="padding:16px 20px;">Toko</th>
-                        <th style="padding:16px 20px;">Kasir</th>
-                        <th style="padding:16px 20px;">Omzet (Rp)</th>
-                        <th style="padding:16px 20px;">Modal (Rp)</th>
-                        <th style="padding:16px 20px;">Laba (Rp)</th>
-                        <th style="padding:16px 20px;">Margin</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($reportProfits as $i => $rp)
-                    <tr>
-                        <td style="padding:16px 20px;">{{ $i + 1 }}</td>
-                        <td style="padding:16px 20px;">{{ $rp['report']->transaction_date->format('d/m/Y') }}</td>
-                        <td style="padding:16px 20px;">{{ $rp['report']->store->name ?? '-' }}</td>
-                        <td style="padding:16px 20px;">{{ $rp['report']->user->name ?? '-' }}</td>
-                        <td class="fw-bold" style="padding:16px 20px;">Rp {{ number_format($rp['revenue'],0,',','.') }}</td>
-                        <td style="padding:16px 20px;">Rp {{ number_format($rp['cost'],0,',','.') }}</td>
-                        <td style="padding:16px 20px;">
-                            <span class="fw-bold {{ $rp['profit'] >= 0 ? 'text-success' : 'text-danger' }}">
-                                Rp {{ number_format($rp['profit'],0,',','.') }}
-                            </span>
-                        </td>
-                        <td style="padding:16px 20px;">
-                            <span class="badge {{ $rp['percent'] >= 50 ? 'badge-success' : ($rp['percent'] >= 25 ? 'badge-warning' : 'badge-danger') }} rounded-pill px-3 py-1">
-                                {{ $rp['percent'] }}%
-                            </span>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="text-center py-5 text-muted">Belum ada data transaksi disetujui untuk ditampilkan.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <div class="tab-content">
+            {{-- Tab 1: Per Transaksi --}}
+            <div class="tab-pane fade show active" id="by-transaction" role="tabpanel">
+                <div style="overflow-x: auto;">
+                    <table class="table table-hover align-middle m-0 datatable">
+                        <thead>
+                            <tr>
+                                <th style="padding:16px 20px;">#</th>
+                                <th style="padding:16px 20px;">Tanggal</th>
+                                <th style="padding:16px 20px;">Toko</th>
+                                <th style="padding:16px 20px;">Kasir</th>
+                                <th style="padding:16px 20px;">Omzet (Rp)</th>
+                                <th style="padding:16px 20px;">Modal (Rp)</th>
+                                <th style="padding:16px 20px;">Laba (Rp)</th>
+                                <th style="padding:16px 20px;">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($reportProfits as $i => $rp)
+                            <tr>
+                                <td style="padding:16px 20px;">{{ $i + 1 }}</td>
+                                <td style="padding:16px 20px;">{{ $rp['report']->transaction_date->format('d/m/Y') }}</td>
+                                <td style="padding:16px 20px;">{{ $rp['report']->store->name ?? '-' }}</td>
+                                <td style="padding:16px 20px;">{{ $rp['report']->user->name ?? '-' }}</td>
+                                <td class="fw-bold" style="padding:16px 20px;">Rp {{ number_format($rp['revenue'],0,',','.') }}</td>
+                                <td style="padding:16px 20px;">Rp {{ number_format($rp['cost'],0,',','.') }}</td>
+                                <td style="padding:16px 20px;">
+                                    <span class="fw-bold {{ $rp['profit'] >= 0 ? 'text-success' : 'text-danger' }}">
+                                        Rp {{ number_format($rp['profit'],0,',','.') }}
+                                    </span>
+                                </td>
+                                <td style="padding:16px 20px;">
+                                    <span class="badge {{ $rp['percent'] >= 50 ? 'bg-success' : ($rp['percent'] >= 25 ? 'bg-warning text-dark' : 'bg-danger') }} rounded-pill px-3 py-1">
+                                        {{ $rp['percent'] }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="8" class="text-center py-5 text-muted">Belum ada data transaksi disetujui untuk ditampilkan.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- Tab 2: Per Produk --}}
+            <div class="tab-pane fade" id="by-product" role="tabpanel">
+                <div style="overflow-x: auto;">
+                    <table class="table table-hover align-middle m-0 datatable">
+                        <thead>
+                            <tr>
+                                <th style="padding:16px 20px;">#</th>
+                                <th style="padding:16px 20px;">Produk</th>
+                                <th style="padding:16px 20px;">SKU</th>
+                                <th style="padding:16px 20px;">Terjual</th>
+                                <th style="padding:16px 20px;">Omzet (Rp)</th>
+                                <th style="padding:16px 20px;">Modal (Rp)</th>
+                                <th style="padding:16px 20px;">Laba (Rp)</th>
+                                <th style="padding:16px 20px;">Margin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($productProfits as $i => $pp)
+                            @php
+                                $profit = $pp['revenue'] - $pp['cost'];
+                                $percent = $pp['revenue'] > 0 ? round(($profit / $pp['revenue']) * 100, 1) : 0;
+                            @endphp
+                            <tr>
+                                <td style="padding:16px 20px;">{{ $i + 1 }}</td>
+                                <td style="padding:16px 20px;">{{ $pp['product_name'] }}</td>
+                                <td style="padding:16px 20px;"><code>{{ $pp['product']->sku ?? '-' }}</code></td>
+                                <td style="padding:16px 20px;">{{ $pp['qty'] }} pcs</td>
+                                <td class="fw-bold" style="padding:16px 20px;">Rp {{ number_format($pp['revenue'],0,',','.') }}</td>
+                                <td style="padding:16px 20px;">Rp {{ number_format($pp['cost'],0,',','.') }}</td>
+                                <td style="padding:16px 20px;">
+                                    <span class="fw-bold {{ $profit >= 0 ? 'text-success' : 'text-danger' }}">
+                                        Rp {{ number_format($profit,0,',','.') }}
+                                    </span>
+                                </td>
+                                <td style="padding:16px 20px;">
+                                    <span class="badge {{ $percent >= 50 ? 'bg-success' : ($percent >= 25 ? 'bg-warning text-dark' : 'bg-danger') }} rounded-pill px-3 py-1">
+                                        {{ $percent }}%
+                                    </span>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="8" class="text-center py-5 text-muted">Belum ada data produk untuk ditampilkan.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
