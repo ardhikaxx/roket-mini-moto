@@ -177,5 +177,6 @@ Route::middleware('auth')->group(function () {
             $image->delete();
             return back()->with('success', 'Foto dihapus.');
         })->name('reports.delete-image');
+        Route::delete('/reports/{report}', [ReportController::class, 'destroy'])->name('reports.destroy');
     });
 });

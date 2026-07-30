@@ -617,7 +617,10 @@ class ReportController extends Controller
     }
 
     public function destroy(SalesReport $report) {
-        if (!Auth::user()->isAdmin()) abort(403);
+        $user = Auth::user();
+        if (!$user->isAdmin() && ($user->isKaryawan() && $report->user_id !== $user->id)) {
+            abort(403);
+        }
         try {
             DB::beginTransaction();
 
@@ -639,8 +642,9 @@ class ReportController extends Controller
             $report->delete();
 
             DB::commit();
-            AuditService::log('delete_report', 'Laporan #'.$report->id.' dihapus oleh '.Auth::user()->name, 'SalesReport', $report->id);
-            return redirect()->route('admin.reports.index')->with('success', 'Laporan berhasil dihapus.');
+            AuditService::log('delete_report', 'Laporan #'.$report->id.' dihapus oleh '.$user->name, 'SalesReport', $report->id);
+            $redirectRoute = $user->isAdmin() ? 'admin.reports.index' : 'karyawan.reports.index';
+            return redirect()->route($redirectRoute)->with('success', 'Laporan berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Gagal menghapus laporan: ' . $e->getMessage());
