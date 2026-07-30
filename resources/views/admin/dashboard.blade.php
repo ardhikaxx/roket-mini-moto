@@ -38,7 +38,7 @@
 <div class="row g-4 mb-5" id="kpiCards"></div>
 
 <div class="row g-4 mb-5">
-    <div class="col-12">
+    <div class="col-12 col-xl-8">
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
@@ -56,9 +56,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="row g-4 mb-5">
     <div class="col-12 col-xl-4">
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light">
@@ -69,7 +66,10 @@
             <div class="card-body p-4" id="topStoresBody"></div>
         </div>
     </div>
-    <div class="col-12 col-xl-4">
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-12 col-xl-6">
         <div class="card shadow-sm border-0" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-xl-4">
+    <div class="col-12 col-xl-6">
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
