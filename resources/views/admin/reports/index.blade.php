@@ -24,7 +24,7 @@
 <div class="page-header">
     <div class="page-header-row align-items-center">
         <div>
-            <h1 class="page-title"><i class="fa-solid fa-chart-line text-primary me-2"></i>Dashboard Laporan Penjualan</h1>
+            <h1 class="page-title"><i class="fa-solid fa-chart-line text-primary me-2"></i>Laporan Penjualan</h1>
             <p class="page-subtitle">Analitik transaksi, persetujuan setoran, dan omzet bisnis</p>
         </div>
         <div class="page-actions d-flex gap-2">
