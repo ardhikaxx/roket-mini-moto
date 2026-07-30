@@ -458,7 +458,7 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
   font-family: 'Font Awesome 6 Free';
   font-weight: 900;
   position: absolute;
-  left: 16px;
+  left: 18px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--neutral-400);
