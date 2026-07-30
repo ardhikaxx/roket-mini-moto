@@ -450,11 +450,8 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 .dataTables_wrapper .dataTables_filter label {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
   position: relative;
+  font-size: 0; /* Hide the default "Search:" text */
 }
 .dataTables_wrapper .dataTables_filter label::before {
   content: '\f002';
