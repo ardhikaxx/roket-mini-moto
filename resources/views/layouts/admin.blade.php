@@ -183,6 +183,48 @@
         </div>
     </header>
 
+    {{-- Mobile Bottom Navigation --}}
+    <nav class="bottom-nav" id="bottomNav">
+        <a href="{{ route($dashboardRoute) }}" class="bottom-nav-item {{ request()->routeIs('*.dashboard') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="bottom-nav-label">Dashboard</span>
+        </a>
+
+        @if($user->isAdmin() || $user->isKepalaToko())
+        <a href="{{ route('admin.reports.index') }}" class="bottom-nav-item {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-solid fa-file-invoice-dollar"></i></span>
+            <span class="bottom-nav-label">Laporan</span>
+        </a>
+        @elseif($user->isKaryawan())
+        <a href="{{ route('karyawan.reports.create') }}" class="bottom-nav-item {{ request()->routeIs('karyawan.reports.create') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-solid fa-plus-circle"></i></span>
+            <span class="bottom-nav-label">Buat</span>
+        </a>
+        @endif
+
+        @if($user->isAdmin())
+        <a href="{{ route('admin.products.index') }}" class="bottom-nav-item {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-solid fa-box-open"></i></span>
+            <span class="bottom-nav-label">Produk</span>
+        </a>
+        @elseif($user->isKaryawan())
+        <a href="{{ route('karyawan.reports.index') }}" class="bottom-nav-item {{ request()->routeIs('karyawan.reports.index') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+            <span class="bottom-nav-label">Histori</span>
+        </a>
+        @endif
+
+        <a href="{{ route('notifications') }}" class="bottom-nav-item {{ request()->routeIs('notifications') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-regular fa-bell"></i></span>
+            <span class="bottom-nav-label">Notif</span>
+        </a>
+
+        <a href="{{ route('profile') }}" class="bottom-nav-item {{ request()->routeIs('profile') ? 'active' : '' }}">
+            <span class="bottom-nav-icon"><i class="fa-regular fa-user"></i></span>
+            <span class="bottom-nav-label">Profil</span>
+        </a>
+    </nav>
+
     {{-- Main Content --}}
     <main class="main-content page-transition" id="mainContent">
         @if(session('success'))

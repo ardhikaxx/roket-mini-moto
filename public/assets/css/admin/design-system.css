@@ -287,7 +287,7 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 }
 .sidebar.collapsed ~ .main-content, .main-content.sidebar-collapsed { margin-left: var(--sidebar-collapsed-width); }
 @media (max-width: 991px) {
-  .main-content { margin-left: 0; padding: 20px; }
+  .main-content { margin-left: 0; padding: 20px 16px 88px; }
   .navbar-top { left: 0; padding: 0 16px; }
   .sidebar { transform: translateX(-100%); width: 280px; }
   .sidebar.show { transform: translateX(0); }
@@ -751,3 +751,66 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 .form-switch input:checked + .switch-track { background: var(--primary); }
 .form-switch input:checked + .switch-track::after { transform: translateX(20px); }
 .form-switch span:last-child { font-size: 14px; font-weight: 500; color: var(--text); }
+
+/* --- Mobile Bottom Navigation --- */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 72px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border-light);
+  z-index: 1030;
+  padding: 4px 0 env(safe-area-inset-bottom, 6px);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+}
+@media (max-width: 991px) {
+  .bottom-nav { display: flex; align-items: stretch; justify-content: space-around; }
+}
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 0 12px;
+  text-decoration: none;
+  color: var(--neutral-500);
+  transition: all var(--transition-fast);
+  position: relative;
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+.bottom-nav-item:active { transform: scale(0.92); }
+.bottom-nav-item .bottom-nav-icon {
+  font-size: 20px;
+  transition: transform var(--transition-bounce);
+  line-height: 1;
+}
+.bottom-nav-item .bottom-nav-label {
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  transition: color var(--transition-fast);
+}
+.bottom-nav-item:hover { color: var(--primary); }
+.bottom-nav-item:hover .bottom-nav-icon { transform: scale(1.1); }
+.bottom-nav-item.active { color: var(--primary); }
+.bottom-nav-item.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 0 0 4px 4px;
+}
+.bottom-nav-item.active .bottom-nav-icon { transform: scale(1.05); }
