@@ -69,7 +69,7 @@
             </div>
             <div class="col-12 col-md-3">
                 <label class="form-label fw-bold">Target Omzet (Rp)</label>
-                <input type="number" name="target_amount" class="form-control" placeholder="10000000" min="0" required>
+                <input type="text" name="target_amount" inputmode="numeric" class="form-control input-rupiah" placeholder="10.000.000" required>
             </div>
             <div class="col-12 col-md-1 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary fw-bold w-100"><i class="fa-solid fa-check"></i></button>

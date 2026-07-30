@@ -370,6 +370,36 @@
             }
         });
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.input-rupiah').forEach(function(input) {
+                function formatRupiah(val) {
+                    var num = val.replace(/[^0-9]/g, '');
+                    if (num === '') return '';
+                    return parseInt(num).toLocaleString('id-ID');
+                }
+                if (input.value) input.value = formatRupiah(input.value);
+                input.addEventListener('input', function(e) {
+                    var caret = this.selectionStart;
+                    var raw = this.value.replace(/[^0-9]/g, '');
+                    var before = this.value.length;
+                    this.value = formatRupiah(raw);
+                    var after = this.value.length;
+                    if (caret < before) {
+                        caret = Math.max(1, caret - (before - after));
+                        this.setSelectionRange(caret, caret);
+                    }
+                });
+                var form = input.closest('form');
+                if (form) {
+                    form.addEventListener('submit', function() {
+                        input.value = input.value.replace(/[^0-9]/g, '');
+                    });
+                }
+            });
+        });
+    </script>
     <!-- Global Image Error Fallback Script -->
     <script>
         document.addEventListener('error', function(event) {
