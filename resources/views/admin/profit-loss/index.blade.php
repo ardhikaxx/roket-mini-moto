@@ -105,8 +105,8 @@
         <div class="tab-content">
             {{-- Tab 1: Per Transaksi --}}
             <div class="tab-pane fade show active" id="by-transaction" role="tabpanel">
-                <div style="overflow-x: auto;">
-                    <table class="table table-hover align-middle m-0 datatable">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle m-0 profit-datatable" style="width: 100%; min-width: 800px;">
                         <thead>
                             <tr>
                                 <th style="padding:16px 20px;">#</th>
@@ -151,8 +151,8 @@
 
             {{-- Tab 2: Per Produk --}}
             <div class="tab-pane" id="by-product" role="tabpanel">
-                <div style="overflow-x: auto;">
-                    <table class="table table-hover align-middle m-0 datatable">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle m-0 profit-datatable" style="width: 100%; min-width: 800px;">
                         <thead>
                             <tr>
                                 <th style="padding:16px 20px;">#</th>
@@ -200,17 +200,38 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
+
+@push('styles')
+<style>
+    /* Force datatables header to stretch 100% when inside tabs */
+    .dataTables_wrapper {
+        width: 100%;
+    }
+</style>
+@endpush
 
 @push('scripts')
 <script>
-document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
-    tab.addEventListener('shown.bs.tab', function() {
-        $('.datatable').each(function() {
-            if ($.fn.DataTable.isDataTable(this)) {
-                $(this).DataTable().columns.adjust();
-            }
+$(document).ready(function() {
+    // Initialize without scrollX to avoid header misalignment in tabs
+    $('.profit-datatable').DataTable({
+        language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json' },
+        pageLength: 25,
+        lengthMenu: [10, 25, 50, 100],
+        order: [],
+        autoWidth: false,
+        initComplete: function() {
+            const wrapper = $(this).closest('.dataTables_wrapper');
+            wrapper.find('.dataTables_filter input').addClass('form-control-sm');
+            wrapper.find('.dataTables_length select').addClass('form-select-sm');
+        }
+    });
+
+    document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
+        tab.addEventListener('shown.bs.tab', function(e) {
+            // Because we don't use scrollX, a simple adjust is enough if needed, or none at all.
+            $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
         });
     });
 });
