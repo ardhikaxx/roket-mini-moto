@@ -241,7 +241,10 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // 7. Generate Notifications for Admin
+        // 8. Seed Sales Targets (2 bulan terakhir)
+        $this->call(SalesTargetSeeder::class);
+
+        // 9. Generate Notifications for Admin
         for ($i = 0; $i < 5; $i++) {
             Notification::create([
                 'user_id' => $admin->id,
