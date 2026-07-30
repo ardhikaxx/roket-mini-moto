@@ -92,11 +92,11 @@
 
 {{-- Card Filter & Ekspor Laporan --}}
 <div class="card shadow-sm border-0 mb-4 stagger-1" style="border-radius:var(--radius-lg);">
-    <div class="card-header bg-white p-4 border-bottom border-light d-flex align-items-center justify-content-between flex-wrap gap-2">
+    <div class="card-header bg-white p-4 border-bottom border-light d-flex flex-column flex-md-row align-items-md-center gap-2">
         <h5 class="fw-bold mb-0 text-dark d-flex align-items-center">
             <i class="fa-solid fa-filter text-primary me-2"></i> Filter & Ekspor Laporan
         </h5>
-        <div class="d-flex align-items-center gap-2 ms-auto">
+        <div class="d-flex align-items-center gap-2 align-self-end align-self-md-auto ms-md-auto">
             <button type="button" onclick="exportData('excel')" class="btn btn-success px-3 py-2 fw-bold text-white rounded-3 d-inline-flex align-items-center gap-2" style="font-size:13px; box-shadow:0 4px 10px rgba(40,167,69,0.2);">
                 <i class="fa-solid fa-file-excel"></i>
                 <span>Cetak Excel</span>
