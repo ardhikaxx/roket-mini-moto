@@ -68,7 +68,24 @@
                 <span class="nav-icon"><i class="fa-solid fa-chart-line"></i></span>
                 <span class="nav-text">Analitik Omzet</span>
             </a>
+            <div class="nav-group-label">Inventori & Target</div>
+            <a href="{{ route('admin.stock.index') }}" class="nav-item {{ request()->routeIs('admin.stock.*') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fa-solid fa-warehouse"></i></span>
+                <span class="nav-text">Manajemen Stok</span>
+            </a>
+            <a href="{{ route('admin.sales-targets.index') }}" class="nav-item {{ request()->routeIs('admin.sales-targets.*') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fa-solid fa-bullseye"></i></span>
+                <span class="nav-text">Target Penjualan</span>
+            </a>
+            <a href="{{ route('admin.profit-loss') }}" class="nav-item {{ request()->routeIs('admin.profit-loss') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fa-solid fa-coins"></i></span>
+                <span class="nav-text">Laba Rugi</span>
+            </a>
             <div class="nav-group-label">Sistem</div>
+            <a href="{{ route('admin.login-history') }}" class="nav-item {{ request()->routeIs('admin.login-history') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fa-solid fa-right-to-bracket"></i></span>
+                <span class="nav-text">Riwayat Login</span>
+            </a>
             <a href="{{ route('admin.audit-log') }}" class="nav-item {{ request()->routeIs('admin.audit-log') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fa-solid fa-shield-halved"></i></span>
                 <span class="nav-text">Audit Log</span>

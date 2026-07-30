@@ -9,6 +9,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\LoginHistoryController;
+use App\Http\Controllers\StockController;
+use App\Http\Controllers\SalesTargetController;
+use App\Http\Controllers\ProfitLossController;
 
 use Illuminate\Support\Facades\File;
 
@@ -136,6 +140,26 @@ Route::middleware('auth')->group(function () {
         Route::get('/audit-log', function() {
             return view('audit_log.index');
         })->name('audit-log')->middleware('role:admin');
+
+        // Riwayat Login (admin only)
+        Route::get('/login-history', [LoginHistoryController::class, 'index'])->name('login-history')->middleware('role:admin');
+
+        // Manajemen Stok (admin only)
+        Route::get('/stock', [StockController::class, 'index'])->name('stock.index')->middleware('role:admin');
+        Route::get('/stock/history', [StockController::class, 'history'])->name('stock.history')->middleware('role:admin');
+        Route::get('/stock/create', [StockController::class, 'create'])->name('stock.create')->middleware('role:admin');
+        Route::post('/stock', [StockController::class, 'store'])->name('stock.store')->middleware('role:admin');
+        Route::get('/stock/transfer', [StockController::class, 'transferForm'])->name('stock.transfer')->middleware('role:admin');
+        Route::post('/stock/transfer', [StockController::class, 'transfer'])->name('stock.transfer.store')->middleware('role:admin');
+        Route::post('/stock/{product}/min-stock', [StockController::class, 'updateMinStock'])->name('stock.min-stock')->middleware('role:admin');
+
+        // Target Penjualan (admin only)
+        Route::get('/sales-targets', [SalesTargetController::class, 'index'])->name('sales-targets.index')->middleware('role:admin');
+        Route::post('/sales-targets', [SalesTargetController::class, 'store'])->name('sales-targets.store')->middleware('role:admin');
+        Route::delete('/sales-targets/{target}', [SalesTargetController::class, 'destroy'])->name('sales-targets.destroy')->middleware('role:admin');
+
+        // Laporan Laba/Rugi (admin only)
+        Route::get('/profit-loss', [ProfitLossController::class, 'index'])->name('profit-loss')->middleware('role:admin');
     });
 
     // Kepala Toko Dashboard (separate)

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\LoginHistory;
 use App\Services\AuditService;
 
 class AuthController extends Controller
@@ -50,6 +51,12 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
             Auth::user()->update(['last_login_at' => now()]);
+            LoginHistory::create([
+                'user_id' => Auth::id(),
+                'action' => 'login',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ]);
             AuditService::log('login', 'Pengguna ' . Auth::user()->name . ' login ke sistem.');
 
             if (Auth::user()->isAdmin()) {
@@ -69,6 +76,12 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        LoginHistory::create([
+            'user_id' => Auth::id(),
+            'action' => 'logout',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+        ]);
         AuditService::log('logout', 'Pengguna ' . Auth::user()->name . ' logout dari sistem.');
         Auth::logout();
         $request->session()->invalidate();
