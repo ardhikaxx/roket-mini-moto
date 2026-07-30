@@ -545,7 +545,7 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 .dataTables_wrapper .page-item .page-link {
   border: none !important;
   background: transparent !important;
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--radius-full) !important;
   padding: 4px 10px !important;
   font-weight: 600 !important;
   font-size: 13px !important;
