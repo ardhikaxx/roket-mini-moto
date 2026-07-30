@@ -363,6 +363,19 @@
                 padding: 36px 28px;
             }
         }
+
+        @media (max-width: 575.98px) {
+            .login-hero-panel {
+                display: none;
+            }
+            .login-card-container {
+                max-width: 100%;
+                margin: 0 12px;
+            }
+            .login-form-panel {
+                padding: 32px 24px;
+            }
+        }
     </style>
 </head>
 <body>
