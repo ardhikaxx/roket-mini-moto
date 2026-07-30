@@ -42,9 +42,21 @@
             <p class="page-subtitle text-muted" style="font-size:14px;">Ringkasan performa bisnis Anda hari ini, <strong class="text-dark">{{ $today->translatedFormat('d F Y') }}</strong>.</p>
         </div>
         <div class="page-actions d-flex gap-2">
-            <a href="{{ route('admin.products.create') }}" class="btn btn-light px-3 py-2" style="font-weight:600; border:1px solid var(--border-light);"><i class="fa-solid fa-box-open text-primary me-2"></i> Tambah Produk</a>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-light px-3 py-2" style="font-weight:600; border:1px solid var(--border-light);"><i class="fa-solid fa-user-plus text-primary me-2"></i> Tambah Karyawan</a>
-            <a href="{{ route('admin.reports.index') }}" class="btn btn-primary px-4 py-2" style="font-weight:600; box-shadow:0 4px 12px rgba(230,57,70,0.25);"><i class="fa-solid fa-file-invoice me-2"></i> Review Laporan</a>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-light px-3 py-2" style="font-weight:600; border:1px solid var(--border-light);">
+                <i class="fa-solid fa-box-open text-primary me-1 me-lg-2"></i>
+                <span class="d-none d-lg-inline">Tambah Produk</span>
+                <span class="d-inline d-lg-none">Produk</span>
+            </a>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-light px-3 py-2" style="font-weight:600; border:1px solid var(--border-light);">
+                <i class="fa-solid fa-user-plus text-primary me-1 me-lg-2"></i>
+                <span class="d-none d-lg-inline">Tambah Karyawan</span>
+                <span class="d-inline d-lg-none">Karyawan</span>
+            </a>
+            <a href="{{ route('admin.reports.index') }}" class="btn btn-primary px-3 px-lg-4 py-2" style="font-weight:600; box-shadow:0 4px 12px rgba(230,57,70,0.25);">
+                <i class="fa-solid fa-file-invoice me-1 me-lg-2"></i>
+                <span class="d-none d-lg-inline">Review Laporan</span>
+                <span class="d-inline d-lg-none">Laporan</span>
+            </a>
         </div>
     </div>
 </div>
