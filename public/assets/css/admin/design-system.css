@@ -528,47 +528,57 @@ h1, h2, h3, h4, h5, h6, .page-title, .stat-value {
 }
 
 .dataTables_wrapper .dataTables_paginate {
-  padding: 16px 24px;
-  text-align: right;
-  float: right;
+  padding: 16px 0 0;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button {
+.dataTables_wrapper .pagination {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+@media (min-width: 768px) {
+  .dataTables_wrapper .pagination {
+    justify-content: flex-end;
+  }
+}
+.dataTables_wrapper .page-item .page-link {
   border: none !important;
   background: transparent !important;
-  border-radius: var(--radius-md) !important;
-  padding: 8px 14px !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 4px 10px !important;
   font-weight: 600 !important;
   font-size: 13px !important;
   color: var(--text-secondary) !important;
-  margin: 0 2px !important;
+  margin: 0 !important;
   transition: all var(--transition-fast) !important;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+.dataTables_wrapper .page-item:not(.active) .page-link:hover {
   background: var(--neutral-100) !important;
   color: var(--text) !important;
-  border: none !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+.dataTables_wrapper .page-item.active .page-link {
   background: var(--primary) !important;
   color: #fff !important;
   box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3) !important;
-  border: none !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+.dataTables_wrapper .page-item.active .page-link:hover {
   background: var(--primary-hover) !important;
-  color: #fff !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+.dataTables_wrapper .page-item.disabled .page-link {
   opacity: 0.4 !important;
-  cursor: default !important;
+  background: transparent !important;
   pointer-events: none !important;
 }
-.dataTables_wrapper .dataTables_paginate .paginate_button.previous,
-.dataTables_wrapper .dataTables_paginate .paginate_button.next {
-  font-weight: 700 !important;
-  font-size: 14px !important;
+/* Hide Previous and Next buttons */
+.dataTables_wrapper .page-item.previous,
+.dataTables_wrapper .page-item.next {
+  display: none !important;
 }
 
 .dataTables_wrapper .dataTables_processing {
