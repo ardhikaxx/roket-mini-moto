@@ -38,7 +38,7 @@
 <div class="row g-4 mb-5" id="kpiCards"></div>
 
 <div class="row g-4 mb-5">
-    <div class="col-12 col-xl-8">
+    <div class="col-12">
         <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
             <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
                 <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
@@ -53,27 +53,6 @@
             <div class="card-body p-4">
                 <div id="chartSkeleton" class="skeleton w-100" style="height:280px; border-radius:12px;"></div>
                 <canvas id="omzetChart" height="280" style="display:none;"></canvas>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-xl-4">
-        <div class="card shadow-sm border-0 h-100" style="border-radius:var(--radius-lg); overflow:hidden;">
-            <div class="card-header bg-white p-4 border-bottom border-light">
-                <h5 class="fw-bold mb-0 d-flex align-items-center" style="font-size:16px;">
-                    <i class="fa-solid fa-chart-pie text-primary me-2"></i> Omzet per Kategori
-                </h5>
-            </div>
-            <div class="card-body p-4 d-flex flex-column align-items-center justify-content-center">
-                <div id="categoryEmpty" class="text-center py-4">
-                    <div style="width:64px;height:64px;border-radius:50%;background:var(--neutral-100);color:var(--neutral-400);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px;"><i class="fa-solid fa-chart-pie"></i></div>
-                    <p class="text-muted fw-semibold m-0" style="font-size:13px;">Belum ada data kategori</p>
-                </div>
-                <div id="categoryChartWrapper" style="display:none; width:100%;">
-                    <div style="position:relative; width:100%; max-width:220px; margin:0 auto;">
-                        <canvas id="categoryChart" height="220"></canvas>
-                        <div id="categoryTotal" style="position:absolute; top:0; left:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none;"></div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -162,7 +141,6 @@
 @push('scripts')
 <script>
 let omzetChartInstance = null;
-let categoryChartInstance = null;
 let refreshInterval = null;
 let isLoading = false;
 
@@ -212,7 +190,6 @@ function renderDashboard(data) {
 
     renderKPICards(kpi);
     renderOmzetChart(data.omzetTrend);
-    renderCategoryChart(data.categoryDist);
     renderTopStores(data.topStores);
     renderTopProducts(data.topProducts);
     renderActivities(data.activities);
@@ -302,48 +279,6 @@ function renderOmzetChart(trend) {
             }
         }
     });
-}
-
-function renderCategoryChart(categoryDist) {
-    const ctx = document.getElementById('categoryChart');
-    if (!ctx) return;
-
-    if (categoryChartInstance) categoryChartInstance.destroy();
-
-    const labels = Object.keys(categoryDist || {});
-    const values = Object.values(categoryDist || {});
-    const colors = ['#e63946', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
-
-    if (labels.length === 0) {
-        document.getElementById('categoryEmpty').style.display = 'block';
-        document.getElementById('categoryChartWrapper').style.display = 'none';
-        return;
-    }
-
-    document.getElementById('categoryEmpty').style.display = 'none';
-    document.getElementById('categoryChartWrapper').style.display = 'block';
-
-    const total = values.reduce((a, b) => a + b, 0);
-
-    categoryChartInstance = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: labels,
-            datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length), borderWidth: 2, borderColor: '#fff', hoverOffset: 6 }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false, cutout: '72%',
-            plugins: {
-                legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle', font: { family: 'Inter', size: 11 }, color: '#64748b' } },
-                tooltip: {
-                    backgroundColor: 'rgba(15, 23, 42, 0.9)', padding: 12, cornerRadius: 8,
-                    callbacks: { label: (context) => { const pct = total > 0 ? ((context.parsed / total) * 100).toFixed(1) : 0; return context.label + ': ' + formatRupiah(context.parsed) + ' (' + pct + '%)'; } }
-                }
-            }
-        }
-    });
-
-    document.getElementById('categoryTotal').innerHTML = '<span style="font-size:12px;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px;">Total</span><span style="font-size:22px;font-weight:800;color:var(--text);line-height:1.2;">' + formatCompact(total) + '</span>';
 }
 
 function renderTopStores(stores) {
