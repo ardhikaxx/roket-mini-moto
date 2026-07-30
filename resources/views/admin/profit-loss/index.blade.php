@@ -202,3 +202,19 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(function(tab) {
+    tab.addEventListener('shown.bs.tab', function(e) {
+        var target = document.querySelector(e.target.getAttribute('data-bs-target'));
+        if (target) {
+            var table = target.querySelector('.datatable');
+            if (table && $.fn.DataTable.isDataTable(table)) {
+                $(table).DataTable().columns.adjust();
+            }
+        }
+    });
+});
+</script>
+@endpush
